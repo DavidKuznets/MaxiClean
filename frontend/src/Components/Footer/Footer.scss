@@ -1,0 +1,195 @@
+.footer {
+  background: #fff;
+  padding: 20px 20px 20px;
+  margin-top: 100px;
+  border-radius: 16px;
+  margin-bottom: 20px;
+
+  &__top {
+    max-width: 1200px;
+    margin: 0 auto 20px auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; 
+  }
+
+    &__left {
+    display: flex;
+    flex-direction: column; 
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+   &__right {
+
+    p {
+      color: #0050ff;
+      margin-bottom: 15px;
+      font-size: 12px;
+    }
+  }
+
+  &__logoSite {
+    display: flex;
+    gap: 20px;
+  }
+
+  &__info {
+    .footer__city {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1b1b1b;
+      margin-bottom: 4px;
+    }
+
+    .footer__schedule {
+      font-size: 14px;
+      color: #666;
+    }
+  }
+
+  &__hotline-container {
+    text-align: left;
+    
+
+    .footer__hotline-number {
+      margin-bottom: 4px;
+
+      .footer__hotline {
+        font-size: 16px;
+        font-weight: 600;
+        color: black;
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .footer__hotline-text {
+      font-size: 14px;
+      color: #666;
+    }
+  }
+
+  &__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+  }
+
+  &__logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 45px 0 0;
+
+    img {
+      height: 40px;
+    }
+  }
+
+  &__nav {
+    display: flex;
+    gap: 25px;
+  }
+
+  &__link {
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    color: #1b1b1b;
+    position: relative;
+
+    &:hover,
+    &.active {
+      color: #0050ff;
+    }
+  }
+
+  &__contact {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+
+    .footer__call-text {
+      font-size: 14px;
+      color: #1b1b1b;
+      margin-right: 5px;
+    }
+
+    .footer__phone {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-weight: bold;
+      font-size: 15px;
+      color: #0050ff;
+      text-decoration: none;
+
+      img {
+        width: 18px;
+        height: 18px;
+      }
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  &__form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 12px;
+
+    input {
+      padding: 12px;
+      border: 1px solid #0050ff;
+      border-radius: 20px;
+      background: #fff;
+      color: #1b1b1b;
+      font-size: 14px;
+
+      &::placeholder {
+        color: #888;
+      }
+    }
+
+    button {
+      border: none;
+      background: #0050ff;
+      color: #fff;
+      font-weight: 600;
+      border-radius: 20px;
+      padding: 12px 20px;
+      cursor: pointer;
+      transition: 0.2s ease;
+
+      display: flex;
+      gap: 8px; 
+      justify-content: center;
+      align-items: center;
+
+      img {
+        width: 15px;
+        height: 15px;
+      }
+
+      &:hover {
+        background: #003bbd;
+      }
+    }
+  }
+
+  &__checkbox {
+    font-size: 14px;
+    color: #003399;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+}

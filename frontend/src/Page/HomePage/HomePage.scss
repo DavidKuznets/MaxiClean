@@ -1,0 +1,311 @@
+@import '../../Style/Mixins.scss';
+// Hero section
+.hero {
+  display: flex;
+  overflow: hidden; 
+  color: #fff;
+
+  &__content {
+    flex: 1;
+    color: #fff;
+    padding: 40px;
+    background: #0044cc; 
+    border-radius: 16px;
+
+
+
+    h1 {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    p {
+      font-size: 18px;
+      margin-bottom: 24px;
+      color: #fff;
+    }
+  }
+
+  &__image {
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+
+    img {
+      max-width: 100%;
+      border-radius: 0;
+    }
+  }
+
+  &__form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 12px;
+
+    input {
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 20px;
+      flex: 1;
+      background: #0044cc; 
+      color: #fff;
+
+        &::placeholder {
+        color: #fff;  
+      }
+    }
+
+    button {
+      border: 1px solid #ccc;
+      background: #fff;
+      color: #0044cc;
+      border-radius: 20px;
+      padding: 12px 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      &:hover {
+        background: #003399;
+      }
+    }
+  }
+
+  &__checkbox {
+    font-size: 14px;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__image img {
+    max-width: 400px;
+    border-radius: 16px;
+  }
+}
+
+
+// Features
+.features {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  margin-top: 40px;
+
+  // ліва частина з картками
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .feature-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    width: 120px;
+    height: 120px;
+
+    p {
+      margin: -5px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #333;
+    }
+  }
+
+  // права частина з фото
+  &__image {
+    flex: 1;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+
+    img {
+      height: 350px;
+      max-width: 100%;
+      border-radius: 16px;
+    }
+  }
+
+  // Адаптиви
+  @media (max-width: 1024px) {
+    flex-direction: column;
+
+    &__grid {
+      grid-template-columns: repeat(2, 1fr);
+      order: 1;
+    }
+
+    &__image {
+      order: 2;
+      margin-top: 20px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    &__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+
+// Services section
+.services {
+
+  h2 {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+  }
+}
+
+.service-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+
+  img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 12px;
+  }
+
+  h3 {
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+
+  p {
+    font-size: 16px;
+    color: #0044cc;
+    font-weight: 600;
+  }
+}
+
+// Contact Form Section
+.contact-form {
+  display: flex;
+  align-items: center;
+  margin-top: 60px;
+  overflow: hidden;
+  height: 330px;
+
+  &__image {
+    flex: 1;
+    display: flex;
+    align-items: center;
+
+    img {
+      max-width: 450px;
+      border-radius: 16px;
+    }
+  }
+
+  &__content {
+    flex: 1;
+    color: #fff;
+    padding: 0 60px;
+    background: #0044cc;
+    border-radius: 16px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    h2 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    p {
+      font-size: 16px;
+      margin-bottom: 24px;
+    }
+  }
+
+  &__form {
+    display: flex;
+    gap: 10px;
+
+    margin-top: auto;
+
+    input {
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 20px;
+      flex: 1;
+      background: #0044cc;
+      color: #fff;
+
+      &::placeholder {
+        color: #fff;
+        opacity: 0.8;
+      }
+    }
+
+    button {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid #ccc;
+      background: #fff;
+      color: #0044cc;
+      font-weight: 600;
+      border-radius: 20px;
+      padding: 12px 20px;
+      cursor: pointer;
+      transition: 0.2s ease;
+
+      img {
+        width: 16px;
+        height: 16px;
+      }
+
+      &:hover {
+        background: #003bbd;
+        color: #fff;
+      }
+    }
+  }
+
+  &__checkbox {
+    font-size: 14px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    margin-bottom: 20px;
+  }
+
+  // адаптив
+  @media (max-width: 1024px) {
+    flex-direction: column;
+
+    &__image {
+      order: 1;
+      margin-bottom: 20px;
+    }
+
+    &__content {
+      order: 2;
+    }
+  }
+}

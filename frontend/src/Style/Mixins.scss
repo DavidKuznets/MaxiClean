@@ -1,0 +1,19 @@
+$breakpoint-laptop: 1024px;
+$breakpoint-tablet: 768px;
+$breakpoint-phone: 480px;
+
+@mixin responsive-padding {
+  padding: 0 50px;
+
+  @media (max-width: $breakpoint-laptop) {
+    padding: 0 50px;
+  }
+
+  @media (max-width: $breakpoint-tablet) {
+    padding: 0 30px;
+  }
+
+  @media (max-width: $breakpoint-phone) {
+    padding: 0 20px;
+  }
+}

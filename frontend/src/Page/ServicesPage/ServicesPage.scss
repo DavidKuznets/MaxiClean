@@ -1,0 +1,50 @@
+.services {
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; // заголовок зліва, текст справа
+    margin-bottom: 20px;
+
+    h2 {
+      font-size: 28px;
+      font-weight: 600;
+    }
+
+    .services__subtitle {
+      font-size: 13px;
+      font-weight: 500;
+      max-width: 500px;
+    }
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+  }
+}
+
+.service-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+  img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 12px;
+  }
+
+  h3 {
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+
+  p {
+    font-size: 16px;
+    color: #0044cc;
+    font-weight: 600;
+  }
+}
