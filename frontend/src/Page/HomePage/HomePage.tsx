@@ -1,10 +1,10 @@
+import { WorksSection } from "../../Components/BeforeAfterSlider/WorksSection";
 import { FAQ } from "../../Components/Question/FAQ";
 import "./HomePage.scss";
 
 export const HomePage = () => {
   return (
     <div className="home-page">
-      {/* Hero Section */}
       <section className="hero">
         <div className="hero__content">
           <h1>Хімчистка MaxiClean</h1>
@@ -83,6 +83,7 @@ export const HomePage = () => {
           </div>
         </div>
       </section>
+      <WorksSection />
       <section className="contact-form">
         <div className="contact-form__image">
           <img src="/HomePageLogo-3.png" alt="cleaning sofa" />

@@ -3,40 +3,246 @@ import "./ServicesPage.scss";
 
 export const ServicesPage = () => {
   return (
-    <div className="services-page">
-      <section className="services">
-        <div className="services__header">
-          <h2>Наші послуги</h2>
-          <p className="services__subtitle">
-            Ми надаємо комплекс професійних рішень, створених для того, щоб ваша
-            оселя чи офіс завжди були чистими, затишними та безпечними.
+    <>
+      <section className="hero-services">
+        <div className="hero-services__content">
+          <h1>Хімчистка MaxiClean</h1>
+          <p>
+            Професійна хімчистка за доступними цінами. Якість і чистота, яких ви
+            гідні — дбайливо, швидко та з гарантією результату.
           </p>
+
+          <form className="hero-services__form">
+            <input type="text" placeholder="Ваше ім’я" />
+            <input type="tel" placeholder="Номер телефону" />
+            <button type="submit">
+              <img src="Phone-blue.png" alt="phone-icon" /> Передзвоніть мені
+            </button>
+          </form>
+
+          <label className="hero-services__checkbox">
+            <input type="checkbox" /> Даю згоду на обробку своїх персональних
+            даних
+          </label>
         </div>
 
-        <div className="services__grid">
-          <div className="service-card">
-            <img src="/MaxiClean-1.png" alt="М’які меблі" />
-            <h3>М’яких меблів</h3>
-            <p>від 600₴</p>
+        <div className="hero-services__image">
+          <img src="/AboutUsPage.png" alt="cleaning sofa" />
+        </div>
+      </section>
+
+      <section className="ServicesDryCleaners">
+        <div className="ServicesDryCleaners__header">
+          <h2>Хімчистка м'яких меблів — це</h2>
+        </div>
+        <div className="ServicesDryCleaners__section">
+          <div className="ServicesDryCleaners__item">
+            <img src="/deepCleaning.png" alt="deep-cleaning" />
+            <div className="ServicesDryCleaners__item__text">
+              <p className="title">Глибоке очищення меблів</p>
+              <p>
+                Видалення пилу, плям та неприємних запахів з тканини та оббивки.
+              </p>
+            </div>
           </div>
-          <div className="service-card">
-            <img src="/MaxiClean-2.png" alt="Килимові покриття" />
-            <h3>Килимові покриття</h3>
-            <p>від 150₴ за 1 м²</p>
+          <div className="ServicesDryCleaners__item">
+            <img src="/chemistry.png" alt="chemistry" />
+            <div className="ServicesDryCleaners__item__text">
+              <p className="title">Використання безпечних засобів</p>
+              <p>
+                Сертифіковані екологічні матеріали, безпечні для дітей і тварин.
+              </p>
+            </div>
           </div>
-          <div className="service-card">
-            <img src="/MaxiClean-3.png" alt="Матраци" />
-            <h3>Матраци</h3>
-            <p>від 800₴</p>
-          </div>
-          <div className="service-card">
-            <img src="/MaxiClean-4.png" alt="Салони авто" />
-            <h3>Салони авто</h3>
-            <p>від 4500₴</p>
+          <div className="ServicesDryCleaners__item">
+            <img src="/equipment.png" alt="equipment" />
+            <div className="ServicesDryCleaners__item__text">
+              <p className="title">Сучасне обладнання</p>
+              <p>Професійні апарати для глибокого і ефективного очищення.</p>
+            </div>
           </div>
         </div>
       </section>
+
+      <section className="ServicesSteps">
+        <h2>6 етапів професійної хімчистки м'яких меблів</h2>
+        <div className="ServicesSteps__list">
+          <div className="step">
+            <div className="step__header">
+              <span>1</span>
+              <p className="step__title">Огляд та аналіз</p>
+            </div>
+            <p className="step__desc">
+              Наші спеціалісти оцінюють стан меблів, визначають тип тканини та
+              рівень забруднення. Це дозволяє підібрати оптимальні засоби та
+              методи очищення.
+            </p>
+          </div>
+
+          <div className="step">
+            <div className="step__header">
+              <span>2</span>
+              <p className="step__title">Попереднє сухе очищення</p>
+            </div>
+            <p className="step__desc">
+              Видаляємо пил, крихти та сухі забруднення за допомогою
+              професійного пилососа — готуємо меблі до глибшої обробки.
+            </p>
+          </div>
+
+          <div className="step">
+            <div className="step__header">
+              <span>3</span>
+              <p className="step__title">Обробка складних плям</p>
+            </div>
+            <p className="step__desc">
+              Застосовуємо спеціалізовані засоби для делікатного та ефективного
+              видалення плям від їжі, напоїв, жирних та інших забруднень.
+            </p>
+          </div>
+
+          <div className="step">
+            <div className="step__header">
+              <span>4</span>
+              <p className="step__title">Глибоке очищення</p>
+            </div>
+            <p className="step__desc">
+              Потужним екстрактором виводимо глибокі забруднення, пилові кліщі,
+              алергени та залишки плям із усіх шарів оббивки.
+            </p>
+          </div>
+
+          <div className="step">
+            <div className="step__header">
+              <span>5</span>
+              <p className="step__title">Нейтралізація запахів</p>
+            </div>
+            <p className="step__desc">
+              Використовуємо спеціальні засоби, які усувають причини неприємних
+              запахів, замість їх маскування. Ваші меблі пахнуть свіжістю.
+            </p>
+          </div>
+
+          <div className="step">
+            <div className="step__header">
+              <span>6</span>
+              <p className="step__title">Ополіскування та сушка</p>
+            </div>
+            <p className="step__desc">
+              Ретельно видаляємо залишки засобів і зайву вологу, що скорочує час
+              висихання і запобігає появі розводів або плісняви.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="ServicesPrices">
+        <h2>Ціни на послуги</h2>
+        <div className="ServicesPrices__grid">
+          <div className="price-card">
+            <img src="/Price&Services-1.png" alt="Маленький диван" />
+            <p className="subtitle">Хімчистка</p>
+
+            <p>Маленький диван</p>
+            <span>
+              <em>Від</em> 1000 ₴
+            </span>
+          </div>
+          <div className="price-card">
+            <img src="/Price&Services-2.png" alt="Малий диван" />
+            <p className="subtitle">Хімчистка</p>
+
+            <p>Малий диван</p>
+            <span>
+              <em>Від</em> 1200 ₴
+            </span>
+          </div>
+          <div className="price-card">
+            <img src="/Price&Services-3.png" alt="Великий диван" />
+            <p className="subtitle">Хімчистка</p>
+
+            <p>Великий диван</p>
+            <span>
+              <em>Від</em> 1600 ₴
+            </span>
+          </div>
+          <div className="price-card">
+            <img src="/Price&Services-4.png" alt="Кутовий диван малий" />
+            <p className="subtitle">Хімчистка</p>
+
+            <p>Кутовий диван малий</p>
+            <span>
+              <em>Від</em> 2000 ₴
+            </span>
+          </div>
+          <div className="price-card">
+            <img src="/Price&Services-5.png" alt="Кутовий диван великий" />
+            <p className="subtitle">Хімчистка</p>
+
+            <p>Кутовий диван великий</p>
+            <span>
+              <em>Від</em> 2500 ₴
+            </span>
+          </div>
+          <div className="price-card">
+            <img
+              src="/Price&Services-6.png"
+              alt="Кутовий диван з подовженням"
+            />
+            <p className="subtitle">Хімчистка</p>
+
+            <p>Кутовий диван з подовженням</p>
+            <span>
+              <em>Від</em> 3000 ₴
+            </span>
+          </div>
+          <div className="price-card">
+            <img src="/Price&Services-7.png" alt="Шкіряний диван" />
+            <p className="subtitle">Хімчистка</p>
+
+            <p>Шкіряний диван</p>
+            <span>
+              <em>Від</em> 2000 ₴
+            </span>
+          </div>
+          <div className="price-card">
+            <img src="/Price&Services-8.png" alt="Крісло" />
+            <p className="subtitle">Хімчистка</p>
+
+            <p>Крісло</p>
+            <span>
+              <em>Від</em> 500 ₴
+            </span>
+          </div>
+          <div className="price-card">
+            <img src="/Price&Services-9.png" alt="Пуф" />
+            <p className="subtitle">Хімчистка</p>
+
+            <p>Пуф</p>
+            <span>
+              <em>Від</em> 150 ₴
+            </span>
+          </div>
+          <div className="price-card">
+            <img src="/Price&Services-10.png" alt="Стілець" />
+            <p className="subtitle">Хімчистка</p>
+            <p>Стілець</p>
+            <span>
+              <em>Від</em> 150 ₴
+            </span>
+          </div>
+          <div className="price-card">
+            <img src="/Price&Services-11.png" alt="Барний стілець" />
+            <p className="subtitle">Хімчистка</p>
+            <p>Барний стілець</p>
+            <span>
+              <em>Від</em> 200 ₴
+            </span>
+          </div>
+        </div>
+      </section>
+
       <FAQ />
-    </div>
+    </>
   );
 };

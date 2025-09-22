@@ -67,3 +67,47 @@
     color: #444;
   }
 }
+
+@media (max-width: 600px) {
+  .faq {
+    padding: 20px 16px;
+
+    &__container {
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    &__right {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    &__item {
+      border-radius: 12px;
+      padding: 14px 16px;
+
+      &--open {
+        background: #eef3ff;
+      }
+    }
+
+    &__question {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+
+      button {
+        font-size: 20px;
+      }
+    }
+
+    &__answer {
+      margin-top: 8px;
+      font-size: 0.95rem;
+      color: #444;
+    }
+  }
+}
+

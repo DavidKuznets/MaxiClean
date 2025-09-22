@@ -1,20 +1,205 @@
-.services {
-  &__header {
+.hero-services {
+  display: flex;
+  overflow: hidden; 
+  color: #fff;
+
+  &__content {
+    flex: 1;
+    color: #fff;
+    padding: 40px;
+    background: #0044cc; 
+    border-radius: 16px;
+
+    h1 {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    p {
+      font-size: 18px;
+      margin-bottom: 24px;
+      color: #fff;
+    }
+  }
+
+  &__image {
+    margin-left: 20px;
     display: flex;
     align-items: center;
-    justify-content: space-between; // заголовок зліва, текст справа
-    margin-bottom: 20px;
+    justify-content: right;
 
+    img {
+      max-width: 400px;
+      border-radius: 16px;
+    }
+  }
+
+  &__form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 12px;
+
+    input {
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 20px;
+      flex: 1;
+      background: #0044cc; 
+      color: #fff;
+
+      &::placeholder {
+        color: #fff;  
+      }
+    }
+
+    button {
+      border: 1px solid #ccc;
+      background: #fff;
+      color: #0044cc;
+      border-radius: 20px;
+      padding: 12px 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      &:hover {
+        background: #003399;
+      }
+    }
+  }
+
+  &__checkbox {
+    font-size: 14px;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+}
+
+
+.ServicesDryCleaners {
+  padding: 50px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__header {
+    width: 100%;
+    text-align: left;
+    display: block;
     h2 {
-      font-size: 28px;
-      font-weight: 600;
+      font-size: 2rem;
+      font-weight: 700;
+      color: #0044cc;
+    }
+  }
+
+  &__section {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+    justify-content: space-between;
+    border-radius: 50px;
+    padding: 20px;
+    background-color: #fff;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex: 1;
+    min-width: 250px;
+    padding: 10px;
+
+    img {
+      max-width: 80px;
     }
 
-    .services__subtitle {
-      font-size: 13px;
-      font-weight: 500;
-      max-width: 500px;
+    &__text {
+      display: flex;
+      flex-direction: column;
+
+      .title {
+        font-weight: 600;
+        font-size: 16px;
+        margin-bottom: 5px;
+      }
+
+      p:not(.title) {
+        font-weight: 400;
+        font-size: 14px;
+        margin: 0;
+      }
     }
+  }
+}
+
+.ServicesSteps {
+  padding: 60px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  h2 {
+    font-size: 28px;
+    font-weight: 800;
+    color: #0050d0;
+    margin-bottom: 40px;
+    text-align: left;
+  }
+
+  &__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+  }
+
+  .step {
+    .step__header {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+
+      span {
+        font-size: 24px;
+        font-weight: 900;
+        color: #0050d0;
+      }
+
+      .step__title {
+        font-size: 20px;
+        font-weight: 800; 
+        margin: 0;
+        color: #000;
+      }
+    }
+
+    .step__desc {
+      font-size: 15px;
+      line-height: 1.5;
+      color: #333;
+      margin-top: 8px;
+    }
+  }
+}
+
+
+
+.ServicesPrices {
+  padding: 60px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #0044cc;
+    margin-bottom: 40px;
+    text-align: left;
   }
 
   &__grid {
@@ -22,29 +207,137 @@
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 20px;
   }
+
+  .price-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: #999;
+      margin-bottom: 6px;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      margin-bottom: 12px;
+      border-radius: 8px;
+    }
+
+    p {
+      font-size: 16px;
+      font-weight: 500;
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    span {
+      font-size: 18px;
+      font-weight: 700;
+      color: #0044cc;
+
+      em {
+        font-style: normal;
+        font-weight: 400;
+        color: #555;
+        margin-right: 4px;
+      }
+    }
+  }
 }
 
-.service-card {
-  background: #fff;
-  border-radius: 16px;
-  padding: 20px;
-  text-align: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+@media (max-width: 768px) {
+  .ServicesDryCleaners {
+    &__section {
+      flex-direction: column;  
+      align-items: center;      
+      gap: 30px;             
+    }
 
-  img {
-    max-width: 100%;
-    height: auto;
-    margin-bottom: 12px;
+    &__item {
+      flex-direction: column; 
+      text-align: center;    
+      align-items: center;
+
+      img {
+        max-width: 100px;    
+      }
+    }
   }
+}
 
-  h3 {
-    font-size: 18px;
-    margin-bottom: 8px;
-  }
+@media (max-width: 768px) {
+  .hero-services {
+    flex-direction: column; 
+    padding: 20px 16px;
+    gap: 16px;
+    background-color: #0042DB;
+    border-radius: 30px;
 
-  p {
-    font-size: 16px;
-    color: #0044cc;
-    font-weight: 600;
+    &__content {
+      order: 1;
+      padding: 18px;
+      border-radius: 12px;
+      width: 100%;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+
+      h1 {
+        font-size: 24px;
+        margin-bottom: 12px;
+      }
+
+      p {
+        font-size: 16px;
+        margin-bottom: 20px;
+      }
+    }
+
+    &__image {
+      order: 2;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      width: 100%;
+
+      img {
+        max-width: none;
+        width: 100%;
+        height: auto;
+        border-radius: 20px;
+      }
+    }
+
+    &__form {
+      order: 3;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 12px;
+      margin-bottom: 8px;
+      width: 100%;
+
+      button {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    &__checkbox {
+      order: 4;
+      margin-top: 8px;
+      font-size: 12px;
+    }
   }
 }

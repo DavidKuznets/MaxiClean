@@ -1,35 +1,51 @@
 import "./Header.scss";
 import { NavLink } from "react-router-dom";
-
+import { useState } from "react";
 
 export const Header = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
   return (
     <header className="header">
       <div className="header__container">
+        {/* Logo */}
         <div className="header__logo">
           <img src="/Logo.svg" alt="logo-MaxiClean" />
         </div>
 
-        <nav className="header__nav">
-          <NavLink to="/" className="header__link">
+        {/* Burger */}
+        <button
+          className={`header__burger ${isMenuOpen ? "active" : ""}`}
+          onClick={toggleMenu}
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        {/* Nav */}
+        <nav className={`header__nav ${isMenuOpen ? "open" : ""}`}>
+          <NavLink to="/" className="header__link" onClick={toggleMenu}>
             Головна сторінка
           </NavLink>
-          <NavLink to="/services" className="header__link">
+          <NavLink to="/services" className="header__link" onClick={toggleMenu}>
             Послуги
           </NavLink>
-          <NavLink to="/about" className="header__link">
+          <NavLink to="/about" className="header__link" onClick={toggleMenu}>
             Про нас
           </NavLink>
-          <NavLink to="/reviews" className="header__link">
+          <NavLink to="/reviews" className="header__link" onClick={toggleMenu}>
             Відгуки
           </NavLink>
-          <NavLink to="/contacts" className="header__link">
+          <NavLink to="/contacts" className="header__link" onClick={toggleMenu}>
             Контакти
           </NavLink>
         </nav>
 
+        {/* Phone */}
         <div className="header__contact">
-          <span className="header__call-text">Дзвоніть зараз:</span>
           <a href="tel:0733883898" className="header__phone">
             <img src="/life-number.svg" alt="phone" />
             (073) 388-38-98
