@@ -1,0 +1,30 @@
+services:
+  db:
+    image: postgres:15
+    container_name: maxiclean_db
+    restart: always
+    environment:
+      POSTGRES_DB: maxiclean
+      POSTGRES_USER: MCadmin
+      POSTGRES_PASSWORD: MCpass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  api:
+    build: .
+    container_name: maxiclean_api
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - DEBUG=1
+
+volumes:
+  postgres_data:
+
