@@ -1,5 +1,3 @@
-import os
-
 from django.db import models
 from django.core.files.storage import FileSystemStorage
 
@@ -25,7 +23,7 @@ class Occupation(models.Model):
 
     class Meta:
         verbose_name = "Вид діяльності"
-        verbose_name_plural = "Види діяльності кліентів"
+        verbose_name_plural = "Види діяльності клієнтів"
         ordering = ("name",)
 
 
@@ -57,7 +55,7 @@ class OverwriteStorage(FileSystemStorage):
 ## end IMAGES
 
 
-## model Service - це  категорії послуг, що надаються
+## model Service - це категорії послуг, що надаються
 class ServiceCategory(models.Model):
     """
     ServiceCategory: це категорії послуг, що надаються
@@ -80,7 +78,7 @@ class ServiceCategory(models.Model):
     def save(self, *args, **kwargs):
         """
         Перевизначення self.save(): Спочатку зберігаємо об’єкт ServiceCategory без файлу, щоб отримати pk.
-        Потім додаємо файл і зберігаємо вдруге (щоб зробитиб 1.png, 2.jpg і т.д. де 1,2,.. це ID)
+        Потім додаємо файл і зберігаємо вдруге (щоб зробити: 1.png, 2.jpg і т.д. де 1,2,.. це ID)
         """
         if not self.pk and self.service_image:
             image = self.service_image
@@ -130,7 +128,7 @@ class ServiceWork(models.Model):
     def save(self, *args, **kwargs):
         """
         Перевизначення self.save(): Спочатку зберігаємо об’єкт ServiceWork без файлу, щоб отримати pk.
-        Потім додаємо файл і зберігаємо вдруге (щоб зробитиб 1.png, 2.jpg і т.д. де 1,2,.. це ID)
+        Потім додаємо файл і зберігаємо вдруге (щоб зробити_ 1.png, 2.jpg і т.д. де 1,2,.. це ID)
         """
         if not self.pk and self.work_image:
             image = self.work_image
@@ -146,4 +144,52 @@ class ServiceWork(models.Model):
     class Meta:
         verbose_name = "Вид роботи"
         verbose_name_plural = "Види робіт"
-        ordering = ("service_category", "name")
+        ordering = ("name", )
+
+
+## model CallbackRequest
+class StatusCallbackRequest(models.TextChoices):
+    NEW = "NEW", "Нове"
+    PROCESSED = "PROCESSED", "Оброблено"
+    FAILED = "FAILED", "Невдало"
+
+
+class CallbackRequest(models.Model):
+    full_name = models.CharField(
+        max_length=100,
+        verbose_name="Ім’я та прізвище"
+    )
+    phone_number = models.CharField(
+        max_length=20,
+        verbose_name="Телефон"
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name="Дата запиту"
+    )
+    status = models.CharField(
+        max_length=10, choices=StatusCallbackRequest, default=StatusCallbackRequest.NEW, verbose_name = "Статус запиту"
+    )
+    ## 3аповнює працівник компанії після розмови
+    service_interest = models.ForeignKey(
+        ServiceCategory,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name="Цікавить послуга"
+    )
+    ## 3аповнює працівник компанії після розмови / або якщо вона не здійснилася: чому?
+    comment = models.CharField(
+        max_length=200,
+        null=True,
+        blank=True,
+        verbose_name="Коментар / уточнення"
+    )
+
+    def __str__(self):
+        return f"{self.full_name} ({self.phone_number})"
+
+    class Meta:
+        verbose_name = "Запит на дзвінок"
+        verbose_name_plural = "Всі запити на дзвінок"
+        ordering = ("-created_at", )
