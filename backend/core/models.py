@@ -193,3 +193,18 @@ class CallbackRequest(models.Model):
         verbose_name = "Запит на дзвінок"
         verbose_name_plural = "Всі запити на дзвінок"
         ordering = ("-created_at", )
+
+
+## model  Question
+class Question(models.Model):
+    asked = models.CharField(max_length=150)
+    answer = models.TextField()
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"{self.asked[:30]}..? -> {self.answer[:50]}.."
+
+    class Meta:
+        verbose_name = "Питання-відповідь"
+        verbose_name_plural = "Всі питання з відповідями"
+        ordering = ("asked", )

@@ -8,7 +8,7 @@ from .models import (
 	Occupation,
 	ServiceCategory,
 	ServiceWork,
-	CallbackRequest,
+	CallbackRequest, Question,
 )
 
 
@@ -109,5 +109,27 @@ class CallbackRequestAdmin(admin.ModelAdmin):
 	## виключаємо вбудовану дію delete_selected
 	actions = None
 
+	## 3абороняємо видалення
+	def has_delete_permission(self, request, obj=None):
+		return False
+
+
+@admin.register(Question)
+class QuestionAdmin(admin.ModelAdmin):
+	list_display = (
+		"id",
+		"asked",
+		"answer",
+		"is_active",
+	)
+	list_filter = ("is_active", )
+	search_fields = ("asked", )
+	list_editable = ("is_active", )
+	list_display_links = ("asked", )
+
+	## виключаємо вбудовану дію delete_selected
+	actions = None
+
+	## 3абороняємо видалення
 	def has_delete_permission(self, request, obj=None):
 		return False
