@@ -1,0 +1,129 @@
+.header {
+  padding: 15px 20px;
+  background: #fff;
+  position: relative;
+  z-index: 100;
+
+  &__container {
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__logo img {
+    height: 40px;
+  }
+
+  /* Nav */
+  &__nav {
+    display: flex;
+    gap: 25px;
+
+    @media (max-width: 768px) {
+      position: absolute;
+      top: 60px;
+      left: 0;
+      width: 100%;
+      background: #fff;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      padding: 20px 0;
+      transform: translateY(-120%);
+      transition: transform 0.3s ease-in-out;
+    }
+
+    &.open {
+      transform: translateY(0);
+    }
+  }
+
+  .header__link {
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    color: #1b1b1b;
+    position: relative;
+    padding-bottom: 5px;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #0050ff;
+      border-radius: 2px;
+      transition: width 0.3s ease;
+    }
+
+    &:hover::after,
+    &.active::after {
+      width: 100%;
+    }
+
+    &:hover,
+    &.active {
+      color: #0050ff;
+    }
+  }
+
+  /* Phone */
+  &__contact {
+    .header__phone {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-weight: bold;
+      font-size: 15px;
+      color: #0050ff;
+      text-decoration: none;
+
+      img {
+        width: 18px;
+        height: 18px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+
+  /* Burger */
+  &__burger {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 24px;
+    height: 18px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 101;
+
+    span {
+      height: 2px;
+      width: 100%;
+      background: #1b1b1b;
+      transition: 0.3s;
+    }
+
+    &.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    &.active span:nth-child(2) {
+      opacity: 0;
+    }
+    &.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+
+    @media (max-width: 768px) {
+      display: flex;
+    }
+  }
+}

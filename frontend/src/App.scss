@@ -1,0 +1,19 @@
+@import './Style/Mixins.scss';
+
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  background-color: #F6F6F6;
+
+  @include responsive-padding;
+}
+
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-content {
+  flex: 1;
+}
