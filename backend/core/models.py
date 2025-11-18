@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.files.storage import FileSystemStorage
+from django.utils import timezone
 
 from config import settings
 
@@ -43,6 +44,10 @@ def work_image_path(instance, filename):
     return image_file_path(instance, filename, "works")
 
 
+def staff_photo_path(instance, filename):
+    return image_file_path(instance, filename, "staff")
+
+
 class OverwriteStorage(FileSystemStorage):
     """
     Клас сховища, який дозволяє перезапис.
@@ -73,7 +78,7 @@ class ServiceCategory(models.Model):
         verbose_name = "Додайте зображення (дозволені формати файлу: .jpg, .png)",
         storage=OverwriteStorage(),
     )
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=True,  verbose_name = "Увімкнено")
 
     def save(self, *args, **kwargs):
         """
@@ -114,16 +119,20 @@ class ServiceWork(models.Model):
         ServiceCategory,
         ## не можна видалити категорію, якщо є хоча б одна робота в цій категорії
         on_delete=models.PROTECT,
-        related_name="works"
+        related_name="works",
+        verbose_name = "Вид послуги"
     )
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    discount = models.IntegerField(default=0)
+    price = models.DecimalField(
+        max_digits=10, decimal_places=2,
+        verbose_name = "Мінімальна ціна"
+    )
+    discount = models.IntegerField(default=0, verbose_name = "Знижка")
     work_image = models.ImageField(
         upload_to=work_image_path,
         verbose_name = "Додайте зображення (дозволені формати файлу: .jpg, .png)",
         storage=OverwriteStorage(),
     )
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=True, verbose_name = "Увімкнено")
 
     def save(self, *args, **kwargs):
         """
@@ -197,9 +206,12 @@ class CallbackRequest(models.Model):
 
 ## model  Question
 class Question(models.Model):
-    asked = models.CharField(max_length=150)
-    answer = models.TextField()
-    is_active = models.BooleanField(default=True)
+    """
+    Question Це відображення на вебсайті питань у вигляді: Запитання - Відповідь
+    """
+    asked = models.CharField(max_length=150, verbose_name = "Питання")
+    answer = models.TextField(verbose_name = "Відповідь")
+    is_active = models.BooleanField(default=True, verbose_name = "Увімкнено")
 
     def __str__(self):
         return f"{self.asked[:30]}..? -> {self.answer[:50]}.."
@@ -208,3 +220,56 @@ class Question(models.Model):
         verbose_name = "Питання-відповідь"
         verbose_name_plural = "Всі питання з відповідями"
         ordering = ("asked", )
+
+
+## model  OurStaff
+class OurStaff(models.Model):
+    """
+    OurStaff - Це люди, які працюють у нашій команді.
+    Загальний досвід, який буде відображено на вебсайті,
+    розраховується на основі попереднього досвіду + досвід з моменту працевлаштування в компанію.
+    """
+    full_name = models.CharField(
+        max_length = 100,
+        verbose_name = "Ім’я та прізвище"
+    )
+    responsibility = models.CharField(
+        max_length = 150,
+        verbose_name = "Роль у команді"
+    )
+    ## Попередній досвід, скільки має років досвіду до працевлаштування у MaxiClean
+    prev_experience = models.PositiveIntegerField(
+        default=0,
+        verbose_name="Пре-досвід"
+    )
+    photo = models.ImageField(
+        upload_to = staff_photo_path,
+        verbose_name = "Додайте фото (дозволені формати файлу: .jpg, .png)",
+        storage = OverwriteStorage(),
+    )
+    hired_at = models.DateField(
+        default = timezone.now,
+        verbose_name = "Дата працевлаштування"
+    )
+    is_active = models.BooleanField(default=True, verbose_name="Увімкнено")
+
+    def save(self, *args, **kwargs):
+        """
+        Перевизначення self.save(): Спочатку зберігаємо об’єкт OurStaff без файлу, щоб отримати pk.
+        Потім додаємо файл і зберігаємо вдруге (щоб зробити_ 1.png, 2.jpg і т.д. де 1,2,.. це ID)
+        """
+        if not self.pk and self.photo:
+            image = self.photo
+            self.photo = None
+            super().save(*args, **kwargs)
+
+            self.photo = image
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.full_name
+
+    class Meta:
+        verbose_name = "Працівник"
+        verbose_name_plural = "Наша команда"
+        ordering = ("full_name", )

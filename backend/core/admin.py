@@ -8,7 +8,7 @@ from .models import (
 	Occupation,
 	ServiceCategory,
 	ServiceWork,
-	CallbackRequest, Question,
+	CallbackRequest, Question, OurStaff,
 )
 
 
@@ -133,3 +133,39 @@ class QuestionAdmin(admin.ModelAdmin):
 	## 3абороняємо видалення
 	def has_delete_permission(self, request, obj=None):
 		return False
+
+
+@admin.register(OurStaff)
+class OurStaffAdmin(admin.ModelAdmin):
+	list_display = (
+		"id",
+		"full_name",
+		"responsibility",
+		"prev_experience",
+		"short_hired_at",
+		"is_active",
+		"photo_display",
+	)
+	list_filter = ("is_active", )
+	search_fields = ("full_name", "responsibility", )
+	list_editable = ("is_active", )
+	list_display_links = ("full_name", )
+
+	## виключаємо вбудовану дію delete_selected
+	actions = None
+
+	## 3абороняємо видалення
+	def has_delete_permission(self, request, obj=None):
+		return False
+
+	## 3аголовок у таблиці hired_at
+	def short_hired_at(self, obj):
+		return obj.hired_at.strftime("%Y-%m-%d")
+	short_hired_at.short_description = "Прийнято"
+
+	## 3аголовок у таблиці photo
+	def photo_display(self, obj):
+		if obj.photo:
+			return format_html('<a href="{}" target="_blank">{}</a>', obj.photo.url, "Переглянути")
+		return "-"  # посилання на Зображення
+	photo_display.short_description = "Зображення"
