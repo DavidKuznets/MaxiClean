@@ -1,18 +1,16 @@
-@import '../../Style/Mixins.scss';
+@import "../../Style/Mixins.scss";
 // Hero section
 .hero {
   display: flex;
-  overflow: hidden; 
+  overflow: hidden;
   color: #fff;
 
   &__content {
     flex: 1;
     color: #fff;
     padding: 40px;
-    background: #0044cc; 
+    background: #0044cc;
     border-radius: 16px;
-
-
 
     h1 {
       font-size: 36px;
@@ -49,11 +47,11 @@
       border: 1px solid #ccc;
       border-radius: 20px;
       flex: 1;
-      background: #0044cc; 
+      background: #0044cc;
       color: #fff;
 
-        &::placeholder {
-        color: #fff;  
+      &::placeholder {
+        color: #fff;
       }
     }
 
@@ -87,7 +85,6 @@
     border-radius: 16px;
   }
 }
-
 
 // Features
 .features {
@@ -157,48 +154,6 @@
   }
 }
 
-
-// Services section
-.services {
-
-  h2 {
-    font-size: 28px;
-    font-weight: 600;
-    margin-bottom: 20px;
-  }
-
-  &__grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 20px;
-  }
-}
-
-.service-card {
-  background: #fff;
-  border-radius: 16px;
-  padding: 20px;
-  text-align: center;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-
-  img {
-    max-width: 100%;
-    height: auto;
-    margin-bottom: 12px;
-  }
-
-  h3 {
-    font-size: 18px;
-    margin-bottom: 8px;
-  }
-
-  p {
-    font-size: 16px;
-    color: #0044cc;
-    font-weight: 600;
-  }
-}
-
 // Contact Form Section
 .contact-form {
   display: flex;
@@ -207,7 +162,6 @@
   overflow: hidden;
   height: 330px;
   gap: 20px;
-
 
   &__image {
     display: flex;
@@ -315,7 +269,7 @@
    Mobile overrides (phones)
    Paste at the end of HomePage.scss
 =========================== */
-@media (max-width: 600px) {
+@media (max-width: 710px) {
   // ===========================
   // Hero Section
   // ===========================
@@ -323,7 +277,7 @@
     flex-direction: column;
     padding: 20px 16px;
     gap: 16px;
-    background-color: #0042DB;
+    background-color: #0042db;
     border-radius: 30px;
 
     &__content {
@@ -367,10 +321,10 @@
   }
 
   // ===========================
-  // Features Section 
+  // Features Section
   // ===========================
 
-    .features {
+  .features {
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -388,7 +342,7 @@
       padding: 16px;
       border-radius: 12px;
       background: #fff;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
       aspect-ratio: 1 / 1;
       display: flex;
       flex-direction: column;
@@ -446,10 +400,10 @@
     gap: 16px;
     height: auto;
     border-radius: 30px;
-    background-color: #0042DB;
+    background-color: #0042db;
 
     &__image {
-     display: none;
+      display: none;
     }
 
     &__content {
@@ -530,5 +484,29 @@
   body,
   .home-page {
     font-size: 14px;
+  }
+}
+
+// ===========================
+// Tablet overrides
+// ===========================
+@media (max-width: 1050px) and (min-width: 756px) {
+  .features__image {
+    display: none;
+  }
+  .features__grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 1035px) {
+  .hero__image img {
+    display: none;
+  }
+}
+
+@media (max-width: 1160px) {
+  .contact-form__form {
+    flex-direction: column;
   }
 }

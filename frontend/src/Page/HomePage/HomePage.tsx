@@ -1,5 +1,6 @@
 import { WorksSection } from "../../Components/BeforeAfterSlider/WorksSection";
 import { FAQ } from "../../Components/Question/FAQ";
+import { ServiceCards } from "../../Components/ServiceCards/ServiceCards";
 import "./HomePage.scss";
 
 export const HomePage = () => {
@@ -56,33 +57,7 @@ export const HomePage = () => {
           <img src="/HomePageLogo-2.png" alt="cleaning sofa" />
         </div>
       </section>
-
-      {/* Services Section */}
-      <section className="services">
-        <h2>Наші послуги</h2>
-        <div className="services__grid">
-          <div className="service-card">
-            <img src="/MaxiClean-1.png" alt="М’які меблі" />
-            <h3>М’яких меблів</h3>
-            <p>від 600₴</p>
-          </div>
-          <div className="service-card">
-            <img src="/MaxiClean-2.png" alt="Килимові покриття" />
-            <h3>Килимові покриття</h3>
-            <p>від 150₴ за 1 м²</p>
-          </div>
-          <div className="service-card">
-            <img src="/MaxiClean-3.png" alt="Матраци" />
-            <h3>Матраци</h3>
-            <p>від 800₴</p>
-          </div>
-          <div className="service-card">
-            <img src="/MaxiClean-4.png" alt="Салони авто" />
-            <h3>Салони авто</h3>
-            <p>від 4500₴</p>
-          </div>
-        </div>
-      </section>
+      <ServiceCards />
       <WorksSection />
       <section className="contact-form">
         <div className="contact-form__image">

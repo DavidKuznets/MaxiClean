@@ -6,6 +6,7 @@ import { Footer } from "./Components/Footer/Footer";
 import { ServicesPage } from "./Page/ServicesPage/ServicesPage";
 import { AboutUsPage } from "./Page/AboutUsPage/AboutUsPage";
 import { ContactsPage } from "./Page/ContactsPage/ContactsPage";
+import { ServiceCards } from "./Components/ServiceCards/ServiceCards";
 
 function App() {
   return (
@@ -14,7 +15,11 @@ function App() {
       <main className="app-content">
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/services" element={<ServicesPage />} />
+          <Route path="/services" element={<ServiceCards />} />
+          <Route path="/services/soft-furniture" element={<ServicesPage />} />
+          <Route path="/services/carpets" element={<ServicesPage />} />
+          <Route path="/services/mattresses" element={<ServicesPage />} />
+          <Route path="/services/car-interior" element={<ServicesPage />} />
           <Route path="/about" element={<AboutUsPage />} />
           <Route path="/reviews" element={<h1>Відгуки</h1>} />
           <Route path="/contacts" element={<ContactsPage />} />
