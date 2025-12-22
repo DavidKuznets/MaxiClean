@@ -325,6 +325,8 @@ class Review(models.Model):
         upload_to=client_photo_path,
         verbose_name="Додайте фото (дозволені формати файлу: .jpg, .png)",
         storage=OverwriteStorage(),
+        null=True,
+        blank=True,
     )
     rating = models.CharField(
         max_length=1, choices=Rating, default=Rating.FIVE, verbose_name="Ваша оцінка сервісу"
@@ -337,3 +339,25 @@ class Review(models.Model):
     status = models.CharField(
         max_length=10, choices=StatusReview, default=StatusReview.NEW, verbose_name="Статус відгуку"
     )
+
+    def __str__(self):
+        return f"{self.full_name}: {self.rating}"
+
+    class Meta:
+        verbose_name = "Відгук"
+        verbose_name_plural = "_Відгуки кліентів"
+        ordering = ("-created_at",)
+
+    def save(self, *args, **kwargs):
+        """
+        Перевизначення self.save(): Спочатку зберігаємо об’єкт Review без файлу, щоб отримати pk.
+        Потім додаємо файл і зберігаємо вдруге (щоб зробити: 1.png, 2.jpg і т.д. де 1,2,.. це ID)
+        """
+        if not self.pk and self.avatar:
+            image = self.avatar
+            self.avatar = None
+            super().save(*args, **kwargs)  # створюємо запис, отримуємо pk
+            self.avatar = image
+            super().save(update_fields=["avatar"])  # оновлюємо тільки аватар
+        else:
+            super().save(*args, **kwargs)

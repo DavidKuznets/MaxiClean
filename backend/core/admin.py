@@ -179,15 +179,14 @@ class ReviewAdmin(admin.ModelAdmin):
 		"full_name",
 		"gender",
 		"occupation",
-		"rating",
-		"content",
+		"rating_display",
 		"formatted_created_date",
 		"status",
-		"client_avatar_display",
+		"client_avatar_display"
 	)
 	list_filter = ("status",)
 	search_fields = ("content", "full_name", )
-	list_editable = ("status", "occupation", )
+	list_editable = ("status", )
 	list_display_links = ("full_name", )
 
 	## виключаємо вбудовану дію delete_selected
@@ -197,6 +196,11 @@ class ReviewAdmin(admin.ModelAdmin):
 	def has_delete_permission(self, request, obj=None):
 		return False
 
+	## відображення короткоі назви у таблиці
+	def rating_display(self, obj):
+		return obj.rating
+	rating_display.short_description = "Оцінка"
+
 	## відображення дати створення відгуку у зручному форматі
 	def formatted_created_date(self, obj):
 		return timezone.localtime(obj.created_at).strftime("%d-%m-%y, %H:%M")
@@ -205,6 +209,6 @@ class ReviewAdmin(admin.ModelAdmin):
 	## 3аголовок у таблиці photo
 	def client_avatar_display(self, obj):
 		if obj.avatar:
-			return format_html('<a href="{}" target="_blank">{}</a>', obj.avatar.url, "Переглянути")
+			return format_html('<a href="{}" target="_blank">{}</a>', obj.avatar.url, "Фото")
 		return "-"  # посилання на Зображення
-	client_avatar_display.short_description = "Зображення"
+	client_avatar_display.short_description = "Фото"
