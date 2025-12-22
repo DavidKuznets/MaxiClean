@@ -47,6 +47,9 @@ def work_image_path(instance, filename):
 def staff_photo_path(instance, filename):
     return image_file_path(instance, filename, "staff")
 
+def client_photo_path(instance, filename):
+    return image_file_path(instance, filename, "clients")
+
 
 class OverwriteStorage(FileSystemStorage):
     """
@@ -273,3 +276,64 @@ class OurStaff(models.Model):
         verbose_name = "Працівник"
         verbose_name_plural = "Наша команда"
         ordering = ("full_name", )
+
+
+## model  Review
+class Gender(models.TextChoices):
+    MALE = "MALE", "Чоловік"
+    FEMALE = "FEMALE", "Жінка"
+    UNSPEC = "UNSPEC", "Невизначено"
+
+
+class Rating(models.TextChoices):
+    ONE = "1", "1"
+    TWO = "2", "2"
+    THREE = "3", "3"
+    FOUR = "4", "4"
+    FIVE = "5", "5"  ## abo "⭐️⭐️⭐️⭐️⭐️"
+
+
+class StatusReview(models.TextChoices):
+    NEW = "NEW", "Новий"
+    APPROVED = "APPROVED", "Схвалений"
+    REJECTED = "REJECTED", "Відхилений"
+
+
+class Review(models.Model):
+    """
+    Review - "Відгуки кліентів": це відгуки людей, які вже скористалися нашими послугами.
+    """
+    service = models.ForeignKey(
+        ServiceCategory,
+        on_delete=models.PROTECT,
+        related_name="reviews",
+        verbose_name="Вид послуги"
+    )
+    full_name = models.CharField(
+        max_length=100,
+        verbose_name="Ім’я та прізвище"
+    )
+    gender = models.CharField(
+        max_length=12, choices=Gender, default=Gender.UNSPEC, verbose_name="Стать"
+    )
+    occupation = models.ForeignKey(
+        Occupation,
+        on_delete=models.PROTECT,
+        verbose_name="Вид діяльності"
+    )
+    avatar = models.ImageField(
+        upload_to=client_photo_path,
+        verbose_name="Додайте фото (дозволені формати файлу: .jpg, .png)",
+        storage=OverwriteStorage(),
+    )
+    rating = models.CharField(
+        max_length=1, choices=Rating, default=Rating.FIVE, verbose_name="Ваша оцінка сервісу"
+    )
+    content = models.TextField(max_length=500, verbose_name="Додайте коментар")
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name="Дата відгуку"
+    )
+    status = models.CharField(
+        max_length=10, choices=StatusReview, default=StatusReview.NEW, verbose_name="Статус відгуку"
+    )
