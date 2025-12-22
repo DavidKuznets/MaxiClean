@@ -1,7 +1,8 @@
 // WorksSection.tsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BeforeAfterSlider } from "./BeforeAfterSlider";
 import "./WorksSection.scss";
+import { useLocation } from "react-router-dom";
 
 const works = {
   Матраци: {
@@ -12,7 +13,7 @@ const works = {
     before: "/before-6.png",
     after: "/after-6.png",
   },
-  "Дивани": {
+  Дивани: {
     before: "/before-2.png",
     after: "/after-2.png",
   },
@@ -24,6 +25,30 @@ const works = {
 
 export const WorksSection: React.FC = () => {
   const [active, setActive] = useState<keyof typeof works>("Матраци");
+  const location = useLocation();
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const pathToKey: Record<string, keyof typeof works> = {
+    "/services/soft-furniture": "Дивани",
+    "/services/carpets": "Килимові покриття",
+    "/services/mattresses": "Матраци",
+    "/services/car-interior": "Стільці",
+  };
+
+  useEffect(() => {
+    // 1) Если при переходе передали state через Link: <Link to="/..." state={{ key: "Дивани" }}>
+    const state =
+      (location.state as { key?: keyof typeof works } | null) ?? null;
+    const stateKey = state?.key;
+    if (stateKey && works[stateKey]) {
+      setActive(stateKey);
+      return;
+    }
+
+    // 2) Иначе — по pathname
+    const byPath = pathToKey[location.pathname];
+    if (byPath) setActive(byPath);
+  }, [location.pathname, location.state, pathToKey]);
 
   return (
     <section className="works">

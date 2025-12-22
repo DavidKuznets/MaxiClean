@@ -42,11 +42,19 @@ export const Header = () => {
           <NavLink to="/contacts" className="header__link" onClick={toggleMenu}>
             Контакти
           </NavLink>
+          <div className="header__nav-phone">
+            <a href="tel:0733883898" className="header__phone">
+              Дзвоніть зараз:
+              <img src="/life-number.svg" alt="phone" />
+              (073) 388-38-98
+            </a>
+          </div>
         </nav>
 
         {/* Phone */}
         <div className="header__contact">
           <a href="tel:0733883898" className="header__phone">
+            Дзвоніть зараз:
             <img src="/life-number.svg" alt="phone" />
             (073) 388-38-98
           </a>

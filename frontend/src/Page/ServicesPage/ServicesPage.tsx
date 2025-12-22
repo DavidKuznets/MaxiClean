@@ -1,5 +1,7 @@
 import { FAQ } from "../../Components/Question/FAQ";
 import "./ServicesPage.scss";
+import phoneBlue from "../../../public/Phone-blue.png";
+import { WorksSection } from "../../Components/BeforeAfterSlider/WorksSection";
 
 export const ServicesPage = () => {
   return (
@@ -16,7 +18,7 @@ export const ServicesPage = () => {
             <input type="text" placeholder="Ваше ім’я" />
             <input type="tel" placeholder="Номер телефону" />
             <button type="submit">
-              <img src="Phone-blue.png" alt="phone-icon" /> Передзвоніть мені
+              <img src={phoneBlue} alt="phone-icon" /> Передзвоніть мені
             </button>
           </form>
 
@@ -62,6 +64,10 @@ export const ServicesPage = () => {
             </div>
           </div>
         </div>
+      </section>
+
+      <section>
+        <WorksSection />
       </section>
 
       <section className="ServicesSteps">
