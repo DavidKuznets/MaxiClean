@@ -1,7 +1,12 @@
-from django.urls import path
-from . import views
+from django.urls import path, include
+from rest_framework import routers
 
 
-urlpatterns = [
-    path('', views.home, name='home'),
-]
+from .views import ReviewViewSet
+
+
+router = routers.DefaultRouter()
+
+router.register("reviews", ReviewViewSet)
+
+urlpatterns = [ path("", include(router.urls)), ]

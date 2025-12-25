@@ -47,6 +47,9 @@ def work_image_path(instance, filename):
 def staff_photo_path(instance, filename):
     return image_file_path(instance, filename, "staff")
 
+def client_photo_path(instance, filename):
+    return image_file_path(instance, filename, "clients")
+
 
 class OverwriteStorage(FileSystemStorage):
     """
@@ -273,3 +276,88 @@ class OurStaff(models.Model):
         verbose_name = "Працівник"
         verbose_name_plural = "Наша команда"
         ordering = ("full_name", )
+
+
+## model  Review
+class Gender(models.TextChoices):
+    MALE = "MALE", "Чоловік"
+    FEMALE = "FEMALE", "Жінка"
+    UNSPEC = "UNSPEC", "Невизначено"
+
+
+class Rating(models.TextChoices):
+    ONE = "1", "1"
+    TWO = "2", "2"
+    THREE = "3", "3"
+    FOUR = "4", "4"
+    FIVE = "5", "5"  ## abo "⭐️⭐️⭐️⭐️⭐️"
+
+
+class StatusReview(models.TextChoices):
+    NEW = "NEW", "Новий"
+    APPROVED = "APPROVED", "Схвалений"
+    REJECTED = "REJECTED", "Відхилений"
+
+
+class Review(models.Model):
+    """
+    Review - "Відгуки кліентів": це відгуки людей, які вже скористалися нашими послугами.
+    """
+    service = models.ForeignKey(
+        ServiceCategory,
+        on_delete=models.PROTECT,
+        related_name="reviews",
+        verbose_name="Вид послуги"
+    )
+    full_name = models.CharField(
+        max_length=100,
+        verbose_name="Ім’я та прізвище"
+    )
+    gender = models.CharField(
+        max_length=12, choices=Gender, default=Gender.UNSPEC, verbose_name="Стать"
+    )
+    occupation = models.ForeignKey(
+        Occupation,
+        on_delete=models.PROTECT,
+        verbose_name="Вид діяльності"
+    )
+    avatar = models.ImageField(
+        upload_to=client_photo_path,
+        verbose_name="Додайте фото (дозволені формати файлу: .jpg, .png)",
+        storage=OverwriteStorage(),
+        null=True,
+        blank=True,
+    )
+    rating = models.CharField(
+        max_length=1, choices=Rating, default=Rating.FIVE, verbose_name="Ваша оцінка сервісу"
+    )
+    content = models.TextField(max_length=500, verbose_name="Додайте коментар")
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name="Дата відгуку"
+    )
+    status = models.CharField(
+        max_length=10, choices=StatusReview, default=StatusReview.NEW, verbose_name="Статус відгуку"
+    )
+
+    def __str__(self):
+        return f"{self.full_name}: {self.rating}"
+
+    class Meta:
+        verbose_name = "Відгук"
+        verbose_name_plural = "_Відгуки кліентів"
+        ordering = ("-created_at",)
+
+    def save(self, *args, **kwargs):
+        """
+        Перевизначення self.save(): Спочатку зберігаємо об’єкт Review без файлу, щоб отримати pk.
+        Потім додаємо файл і зберігаємо вдруге (щоб зробити: 1.png, 2.jpg і т.д. де 1,2,.. це ID)
+        """
+        if not self.pk and self.avatar:
+            image = self.avatar
+            self.avatar = None
+            super().save(*args, **kwargs)  # створюємо запис, отримуємо pk
+            self.avatar = image
+            super().save(update_fields=["avatar"])  # оновлюємо тільки аватар
+        else:
+            super().save(*args, **kwargs)
