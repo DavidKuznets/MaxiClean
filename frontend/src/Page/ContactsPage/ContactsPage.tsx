@@ -37,9 +37,9 @@ export const ContactsPage = () => {
       </div>
 
       <section className="service-areas">
-        <h2 className="service-areas__title">
+        <p className="service-areas__title">
           Райони міста Київ, в яких ми працюємо
-        </h2>
+        </p>
 
         <div className="service-areas__card">
           <div className="service-areas__column">
@@ -124,9 +124,9 @@ export const ContactsPage = () => {
           </div>
         </div>
 
-        <h2 className="service-areas__title">
+        <p className="service-areas__title">
           Ми також працюємо за межами Києва
-        </h2>
+        </p>
 
         <div className="service-areas__card">
           <div className="service-areas__column">
