@@ -34,6 +34,8 @@ DEBUG = os.getenv("DEBUG")
 
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost").split(",")
 
+# CORS
+CORS_ALLOWED_ORIGINS = [ "http://localhost:3000", ]  ## port???
 
 # Application definition
 INSTALLED_APPS = [
