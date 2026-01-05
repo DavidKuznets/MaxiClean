@@ -3,7 +3,8 @@ from rest_framework import serializers
 from .models import Review, ServiceCategory, Occupation
 
 
-class ServiceCategoryReviewSerializer(serializers.ModelSerializer):
+
+class ServiceCategoryBaseSerializer(serializers.ModelSerializer):
     class Meta:
         model = ServiceCategory
         fields = (
@@ -12,7 +13,16 @@ class ServiceCategoryReviewSerializer(serializers.ModelSerializer):
         )
 
 
-class OccupationReviewSerializer(serializers.ModelSerializer):
+class ServiceCategoryListSerializer(ServiceCategoryBaseSerializer):
+    class Meta:
+        model = ServiceCategory
+        fields = ServiceCategoryBaseSerializer.Meta.fields + (
+            "description",
+            "service_image",
+        )
+
+
+class OccupationBaseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Occupation
         fields = (
@@ -22,8 +32,8 @@ class OccupationReviewSerializer(serializers.ModelSerializer):
 
 
 class ReviewBaseSerializer(serializers.ModelSerializer):
-    service = ServiceCategoryReviewSerializer(read_only=True)
-    occupation = OccupationReviewSerializer(read_only=True)
+    service = ServiceCategoryBaseSerializer(read_only=True)
+    occupation = OccupationBaseSerializer(read_only=True)
 
     class Meta:
         model = Review
