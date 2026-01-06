@@ -1,9 +1,9 @@
 import { FAQ } from "../../Components/Question/FAQ";
-import "./ServicesPage.scss";
 import phoneBlue from "../../../public/Phone-blue.png";
 import { WorksSection } from "../../Components/BeforeAfterSlider/WorksSection";
+import "./ServicesBlock.scss";
 
-export const ServicesPage = () => {
+export const ServicesBlock = () => {
   return (
     <>
       <section className="hero-services">

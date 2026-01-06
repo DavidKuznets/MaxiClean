@@ -1,9 +1,10 @@
 @import './Style/Mixins.scss';
 
 body {
-  margin: 0;
+  margin: 0 auto;
   font-family: "Inter", sans-serif;
   background-color: #F6F6F6;
+  max-width: 1500px;
 
   @include responsive-padding;
 }

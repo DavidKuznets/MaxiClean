@@ -1,21 +1,20 @@
 .faq {
-  padding: 50px 20px;
+  padding: 50px 0;
 
 
   &__container {
     display: flex;
+    justify-content: space-between;
     gap: 40px;
-    max-width: 1200px;
-    margin: 0 auto;
   }
 
+
   &__left {
-    flex: 1;
 
     h2 {
       font-size: 2rem;
       font-weight: 700;
-      color: #0044cc;
+      color: #0042DB;
       margin-bottom: 20px;
       text-align: left;
     }
@@ -39,6 +38,7 @@
     padding: 15px 20px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     transition: 0.3s;
+    min-width: 500px;
 
     &--open {
       background: #eef3ff;
@@ -68,7 +68,7 @@
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 900px) {
   .faq {
     padding: 20px 16px;
 
@@ -87,6 +87,7 @@
     &__item {
       border-radius: 12px;
       padding: 14px 16px;
+      min-width: 200px;
 
       &--open {
         background: #eef3ff;
