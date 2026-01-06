@@ -30,9 +30,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG")
+# Default DEBUG to True for local development when env var is not set.
+DEBUG = os.getenv("DEBUG", "1") == "1"
 
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost").split(",")
+# Allow common local hostnames by default (can be overridden with env var)
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1,::1").split(",")
 
 # CORS
 CORS_ALLOWED_ORIGINS = [ "http://localhost:3000", ]  ## port???

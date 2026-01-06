@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "react-icons": "^5.5.0"
+  },
+  "devDependencies": {
+    "concurrently": "^8.0.0"
+  },
+  "scripts": {
+    "dev": "concurrently \"cd backend && python manage.py runserver\" \"cd frontend && npm run dev\""
+  }
+}
