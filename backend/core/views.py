@@ -1,24 +1,18 @@
-from django.db import models
-
 from rest_framework import viewsets, mixins
 
-from .models import Review, StatusReview, ServiceCategory, Occupation, StatusOccupation
+from .models import (
+    Review,
+    StatusReview,
+    ServiceCategory,
+    Occupation,
+    StatusOccupation, ServiceWork,
+)
 from .serializers import (
     ReviewSerializer,
     ReviewCreateSerializer,
-    ServiceCategoryListSerializer, OccupationBaseSerializer,
+    ServiceCategoryListSerializer,
+    OccupationBaseSerializer, ServiceWorkListSerializer,
 )
-
-
-# class ServiceCategoryViewSet(
-#     # mixins.ListModelMixin,
-#     # mixins.CreateModelMixin,
-#     # mixins.UpdateModelMixin,
-#     mixins.RetrieveModelMixin,
-#     viewsets.GenericViewSet
-# ):
-#     queryset = ServiceCategory.objects.filter(is_active=True)
-#     serializer_class = ServiceCategoryReviewSerializer
 
 
 class ReviewViewSet(
@@ -53,3 +47,14 @@ class OccupationViewSet(
 ):
     queryset = Occupation.objects.filter(status=StatusOccupation.APPROVED)
     serializer_class = OccupationBaseSerializer
+
+
+class ServiceWorkViewSet(
+    mixins.ListModelMixin,
+    # mixins.CreateModelMixin,
+    # mixins.UpdateModelMixin,
+    viewsets.GenericViewSet
+):
+    queryset = ServiceWork.objects.filter(is_active=True)
+    serializer_class = ServiceWorkListSerializer
+

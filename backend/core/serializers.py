@@ -1,7 +1,6 @@
 from rest_framework import serializers
 
-from .models import Review, ServiceCategory, Occupation
-
+from .models import Review, ServiceCategory, Occupation, ServiceWork
 
 
 class ServiceCategoryBaseSerializer(serializers.ModelSerializer):
@@ -68,3 +67,20 @@ class ReviewCreateSerializer(serializers.ModelSerializer):
 
 class ReviewSerializer(ReviewBaseSerializer):
     pass
+
+
+class ServiceWorkListSerializer(serializers.ModelSerializer):
+    service_category = ServiceCategoryBaseSerializer(read_only=True)
+
+    class Meta:
+        model = ServiceWork
+        fields = (
+            "id",
+            "name",
+            "description",
+            "service_category",
+            "price",
+            "discount",
+            "work_image",
+            "is_active"
+        )

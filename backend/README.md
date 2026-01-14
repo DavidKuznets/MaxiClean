@@ -8,13 +8,12 @@ python manage.py createsuperuser
 ### admin panel
 localhost:8000/admin/
 
+MCadmin
+MCpass
+
 ### API page
 localhost:8000/api/v1/
 
-
-
-MCadmin
-MCpass
 
 
 ### Run in Docker
