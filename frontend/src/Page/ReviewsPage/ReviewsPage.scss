@@ -84,9 +84,43 @@
   gap: 12px;
 }
 
+.review-card__header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.review-card__avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #f2f2f2;
+}
+
+.review-card__avatar--placeholder {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #0044cc;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.review-card__meta {
+  display: flex;
+  flex-direction: column;
+  font-size: 13px;
+}
+
 .review-card__rating {
   color: #ffd700;
   font-size: 16px;
+  margin-left: auto;
 }
 
 .review-card__text {
