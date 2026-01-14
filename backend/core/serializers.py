@@ -1,6 +1,10 @@
+from datetime import date
+from math import ceil
+from symtable import Function
+
 from rest_framework import serializers
 
-from .models import Review, ServiceCategory, Occupation, ServiceWork, Question
+from .models import Review, ServiceCategory, Occupation, ServiceWork, Question, OurStaff
 
 
 class ServiceCategoryBaseSerializer(serializers.ModelSerializer):
@@ -95,3 +99,27 @@ class QuestionListSerializer(serializers.ModelSerializer):
             "answer",
             "is_active"
         )
+
+
+class OurStaffSerializer(serializers.ModelSerializer):
+    experience = serializers.SerializerMethodField()
+
+    class Meta:
+        model = OurStaff
+        fields = (
+            "id",
+            "full_name",
+            "responsibility",
+            "experience",
+            "photo",
+            "prev_experience",
+            "hired_at",
+            "is_active"
+        )
+
+    def get_experience(self, obj):
+        today = date.today()
+        delta_days = (today - obj.hired_at).days
+        # переводимо у роки (365 днів ~ 1 рік) і округлюємо вгору
+        years = ceil(delta_days / 365)
+        return years + obj.prev_experience

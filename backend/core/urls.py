@@ -1,7 +1,8 @@
 from django.urls import path, include
 from rest_framework import routers
 
-from .views import ReviewViewSet, ServiceCategoryViewSet, OccupationViewSet, ServiceWorkViewSet, QuestionViewSet
+from .views import ReviewViewSet, ServiceCategoryViewSet, OccupationViewSet, ServiceWorkViewSet, QuestionViewSet, \
+	OurStaffViewSet
 
 router = routers.DefaultRouter()
 
