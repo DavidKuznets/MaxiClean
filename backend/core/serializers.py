@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Review, ServiceCategory, Occupation, ServiceWork
+from .models import Review, ServiceCategory, Occupation, ServiceWork, Question
 
 
 class ServiceCategoryBaseSerializer(serializers.ModelSerializer):
@@ -82,5 +82,16 @@ class ServiceWorkListSerializer(serializers.ModelSerializer):
             "price",
             "discount",
             "work_image",
+            "is_active"
+        )
+
+
+class QuestionListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Question
+        fields = (
+            "id",
+            "asked",
+            "answer",
             "is_active"
         )

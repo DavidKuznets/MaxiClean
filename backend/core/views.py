@@ -5,13 +5,13 @@ from .models import (
     StatusReview,
     ServiceCategory,
     Occupation,
-    StatusOccupation, ServiceWork,
+    StatusOccupation, ServiceWork, Question,
 )
 from .serializers import (
     ReviewSerializer,
     ReviewCreateSerializer,
     ServiceCategoryListSerializer,
-    OccupationBaseSerializer, ServiceWorkListSerializer,
+    OccupationBaseSerializer, ServiceWorkListSerializer, QuestionListSerializer,
 )
 
 
@@ -57,4 +57,12 @@ class ServiceWorkViewSet(
 ):
     queryset = ServiceWork.objects.filter(is_active=True)
     serializer_class = ServiceWorkListSerializer
+
+
+class QuestionViewSet(
+    mixins.ListModelMixin,
+    viewsets.GenericViewSet
+):
+    queryset = Question.objects.filter(is_active=True)
+    serializer_class = QuestionListSerializer
 
