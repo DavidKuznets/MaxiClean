@@ -5,8 +5,23 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 99999;
+  animation: fadeIn 0.2s ease-out;
 }
+
+.modal {
+  background: #fff;
+  width: 360px;
+  padding: 20px;
+  border-radius: 12px;
+  position: relative;
+  z-index: 100000;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transform-origin: center;
+}
+
 
 .text {
   margin: 0;
@@ -44,15 +59,6 @@
   &:active {
     background-color: rgba(0, 0, 0, 0.1);
   }
-}
-
-
-.modal-overlay {
-  animation: fadeIn 0.2s ease-out;
-}
-
-.modal {
-  animation: scaleIn 0.25s ease-out;
 }
 
 @keyframes fadeIn {

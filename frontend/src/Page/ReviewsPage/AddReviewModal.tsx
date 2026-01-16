@@ -3,7 +3,7 @@ import "./AddReviewModal.scss";
 
 interface Props {
   onClose: () => void;
-  onReviewAdded?: () => void; // для оновлення списку відгуків
+  onReviewAdded?: () => void;
 }
 
 interface Service {
@@ -33,17 +33,38 @@ export const AddReviewModal: React.FC<Props> = ({ onClose, onReviewAdded }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Завантаження селектів
   useEffect(() => {
-    fetch("/api/v1/services/")
-      .then((res) => res.json())
-      .then(setServices)
-      .catch(() => setError("Не вдалося завантажити категорії"));
+    const loadData = async () => {
+      try {
+        const s = await fetch("/api/v1/services/", {
+          credentials: "include",
+        });
 
-    fetch("/api/v1/occupations/")
-      .then((res) => res.json())
-      .then(setOccupations)
-      .catch(() => setError("Не вдалося завантажити види занять"));
+        if (!s.ok) {
+          throw new Error(`Services HTTP ${s.status}`);
+        }
+
+        const servicesData = await s.json();
+
+        const o = await fetch("/api/v1/occupations/", {
+          credentials: "include",
+        });
+
+        if (!o.ok) {
+          throw new Error(`Occupations HTTP ${o.status}`);
+        }
+
+        const occupationsData = await o.json();
+
+        setServices(servicesData);
+        setOccupations(occupationsData);
+      } catch (err) {
+        console.error("API ERROR:", err);
+        setError("Не вдалося завантажити дані");
+      }
+    };
+
+    loadData();
   }, []);
 
   // Закриття по ESC
@@ -205,7 +226,7 @@ export const AddReviewModal: React.FC<Props> = ({ onClose, onReviewAdded }) => {
         {/* Upload */}
         <label className="upload">
           <img
-            src="/public/ReviewModalImage.png"
+            src="/ReviewModalImage.png"
             alt="image"
             className="imageReview"
           />
@@ -227,7 +248,7 @@ export const AddReviewModal: React.FC<Props> = ({ onClose, onReviewAdded }) => {
           disabled={loading}
         >
           <img
-            src="/public/AddResponse.png"
+            src="/AddResponse.png"
             alt="addResponseImage"
             className="addResponseImage"
           />
