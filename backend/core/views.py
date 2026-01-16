@@ -6,13 +6,15 @@ from .models import (
     StatusReview,
     ServiceCategory,
     Occupation,
-    StatusOccupation,
+
+    StatusOccupation, ServiceWork, Question, OurStaff,
 )
 from .serializers import (
     ReviewSerializer,
     ReviewCreateSerializer,
     ServiceCategoryListSerializer,
-    OccupationBaseSerializer,
+
+    OccupationBaseSerializer, ServiceWorkListSerializer, QuestionListSerializer, OurStaffSerializer,
 )
 
 
@@ -55,4 +57,30 @@ class OccupationViewSet(
     """
     queryset = Occupation.objects.filter(status=StatusOccupation.APPROVED)
     serializer_class = OccupationBaseSerializer
-    permission_classes = [AllowAny]
+
+
+
+class ServiceWorkViewSet(
+    mixins.ListModelMixin,
+    # mixins.CreateModelMixin,
+    # mixins.UpdateModelMixin,
+    viewsets.GenericViewSet
+):
+    queryset = ServiceWork.objects.filter(is_active=True)
+    serializer_class = ServiceWorkListSerializer
+
+
+class QuestionViewSet(
+    mixins.ListModelMixin,
+    viewsets.GenericViewSet
+):
+    queryset = Question.objects.filter(is_active=True)
+    serializer_class = QuestionListSerializer
+
+
+class OurStaffViewSet(
+    mixins.ListModelMixin,
+    viewsets.GenericViewSet
+):
+    queryset = OurStaff.objects.filter(is_active=True)
+    serializer_class = OurStaffSerializer

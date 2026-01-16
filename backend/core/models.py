@@ -47,6 +47,7 @@ def work_image_path(instance, filename):
 def staff_photo_path(instance, filename):
     return image_file_path(instance, filename, "staff")
 
+
 def client_photo_path(instance, filename):
     return image_file_path(instance, filename, "clients")
 
