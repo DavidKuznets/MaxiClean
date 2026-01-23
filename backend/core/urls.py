@@ -1,8 +1,15 @@
 from django.urls import path, include
 from rest_framework import routers
 
-from .views import ReviewViewSet, ServiceCategoryViewSet, OccupationViewSet, ServiceWorkViewSet, QuestionViewSet, \
-	OurStaffViewSet
+from .views import (
+	ReviewViewSet,
+	ServiceCategoryViewSet,
+	OccupationViewSet,
+	ServiceWorkViewSet,
+	QuestionViewSet,
+	OurStaffViewSet,
+	CallbackRequestViewSet
+)
 
 router = routers.DefaultRouter()
 
@@ -12,5 +19,9 @@ router.register("occupations", OccupationViewSet)
 router.register("works", ServiceWorkViewSet)
 router.register("questions", QuestionViewSet)
 router.register("staff", OurStaffViewSet)
+router.register("callbackrequests", CallbackRequestViewSet)
 
-urlpatterns = [ path("", include(router.urls)), ]
+
+urlpatterns = [
+	path("", include(router.urls)),
+]

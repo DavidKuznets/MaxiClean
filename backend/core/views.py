@@ -5,13 +5,14 @@ from .models import (
     StatusReview,
     ServiceCategory,
     Occupation,
-    StatusOccupation, ServiceWork, Question, OurStaff,
+    StatusOccupation, ServiceWork, Question, OurStaff, CallbackRequest,
 )
 from .serializers import (
     ReviewSerializer,
     ReviewCreateSerializer,
     ServiceCategoryListSerializer,
     OccupationBaseSerializer, ServiceWorkListSerializer, QuestionListSerializer, OurStaffSerializer,
+    CallbackRequestSerializer,
 )
 
 
@@ -73,3 +74,11 @@ class OurStaffViewSet(
 ):
     queryset = OurStaff.objects.filter(is_active=True)
     serializer_class = OurStaffSerializer
+
+
+class CallbackRequestViewSet(
+    mixins.CreateModelMixin,
+    viewsets.GenericViewSet
+):
+    queryset = CallbackRequest.objects.all()
+    serializer_class = CallbackRequestSerializer

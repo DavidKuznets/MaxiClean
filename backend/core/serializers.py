@@ -4,7 +4,7 @@ from symtable import Function
 
 from rest_framework import serializers
 
-from .models import Review, ServiceCategory, Occupation, ServiceWork, Question, OurStaff
+from .models import Review, ServiceCategory, Occupation, ServiceWork, Question, OurStaff, CallbackRequest
 
 
 class ServiceCategoryBaseSerializer(serializers.ModelSerializer):
@@ -123,3 +123,12 @@ class OurStaffSerializer(serializers.ModelSerializer):
         # переводимо у роки (365 днів ~ 1 рік) і округлюємо вгору
         years = ceil(delta_days / 365)
         return years + obj.prev_experience
+
+
+class CallbackRequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CallbackRequest
+        fields = (
+            "full_name",
+            "phone_number"
+        )
