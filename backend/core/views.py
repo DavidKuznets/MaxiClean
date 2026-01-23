@@ -1,4 +1,5 @@
 from rest_framework import viewsets, mixins
+from rest_framework.permissions import AllowAny
 
 from .models import (
     Review,
@@ -19,10 +20,14 @@ from .serializers import (
 class ReviewViewSet(
     mixins.ListModelMixin,
     mixins.CreateModelMixin,
-    # mixins.UpdateModelMixin,
     viewsets.GenericViewSet
 ):
+    """
+    GET  /api/v1/reviews/   — публічний список відгуків
+    POST /api/v1/reviews/   — публічне створення відгуку
+    """
     queryset = Review.objects.filter(status=StatusReview.APPROVED)
+    permission_classes = [AllowAny]
 
     def get_serializer_class(self):
         if self.action == "create":
@@ -32,22 +37,26 @@ class ReviewViewSet(
 
 class ServiceCategoryViewSet(
     mixins.ListModelMixin,
-    # mixins.CreateModelMixin,
-    # mixins.UpdateModelMixin,
     viewsets.GenericViewSet
 ):
+    """
+    GET /api/v1/services/ — публічний список категорій
+    """
     queryset = ServiceCategory.objects.filter(is_active=True)
     serializer_class = ServiceCategoryListSerializer
+    permission_classes = [AllowAny]
 
 
 class OccupationViewSet(
     mixins.ListModelMixin,
-    # mixins.CreateModelMixin,
-    # mixins.UpdateModelMixin,
     viewsets.GenericViewSet
 ):
+    """
+    GET /api/v1/occupations/ — публічний список видів діяльності
+    """
     queryset = Occupation.objects.filter(status=StatusOccupation.APPROVED)
     serializer_class = OccupationBaseSerializer
+
 
 
 class ServiceWorkViewSet(

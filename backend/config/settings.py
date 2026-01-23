@@ -31,8 +31,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # Default DEBUG to True for local development when env var is not set.
-# DEBUG = os.getenv("DEBUG", "1") == "1"
-DEBUG = os.getenv("DEBUG", "True").lower() in ("true", "1", "yes")
+DEBUG = os.getenv("DEBUG", "1") == "1"
 
 # Allow common local hostnames by default (can be overridden with env var)
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1,::1").split(",")
