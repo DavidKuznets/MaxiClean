@@ -90,7 +90,8 @@ class CallbackRequestAdmin(admin.ModelAdmin):
 		"formatted_created_date",
 		"status",
 		"service_interest",
-		"comment"
+		"comment",
+		"photo_display"
 	)
 	list_filter = ("status", )
 	search_fields = ("full_name", "phone_number", )
@@ -112,6 +113,13 @@ class CallbackRequestAdmin(admin.ModelAdmin):
 	## 3абороняємо видалення
 	def has_delete_permission(self, request, obj=None):
 		return False
+
+	## 3аголовок у таблиці photo
+	def photo_display(self, obj):
+		if obj.photo:
+			return format_html('<a href="{}" target="_blank">{}</a>', obj.photo.url, "Фото")
+		return "-"  # посилання на Зображення
+	photo_display.short_description = "Фото"
 
 
 @admin.register(Question)

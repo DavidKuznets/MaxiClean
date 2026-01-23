@@ -52,6 +52,10 @@ def client_photo_path(instance, filename):
     return image_file_path(instance, filename, "clients")
 
 
+def callback_photo_path(instance, filename):
+    return image_file_path(instance, filename, "callbacks")
+
+
 class OverwriteStorage(FileSystemStorage):
     """
     Клас сховища, який дозволяє перезапис.
@@ -176,6 +180,13 @@ class CallbackRequest(models.Model):
         max_length=20,
         verbose_name="Телефон"
     )
+    photo = models.ImageField(
+        upload_to=callback_photo_path,
+        verbose_name="Додайте фото (.jpg, .png)",
+        storage=OverwriteStorage(),
+        null=True,
+        blank=True,
+    )
     created_at = models.DateTimeField(
         auto_now_add=True,
         verbose_name="Дата запиту"
@@ -201,6 +212,20 @@ class CallbackRequest(models.Model):
 
     def __str__(self):
         return f"{self.full_name} ({self.phone_number})"
+
+    def save(self, *args, **kwargs):
+        """
+        Перевизначення self.save(): Спочатку зберігаємо об’єкт CallbackRequest без файлу, щоб отримати pk.
+        Потім додаємо файл і зберігаємо вдруге (щоб зробити: 1.png, 2.jpg і т.д. де 1,2,.. це ID)
+        """
+        if not self.pk and self.photo:
+            image = self.photo
+            self.photo = None
+            super().save(*args, **kwargs)  # створюємо запис, отримуємо pk
+            self.photo = image
+            super().save(update_fields=["photo"])  # оновлюємо тільки photo
+        else:
+            super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = "Запит на дзвінок"

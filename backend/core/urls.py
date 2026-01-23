@@ -19,7 +19,7 @@ router.register("occupations", OccupationViewSet)
 router.register("works", ServiceWorkViewSet)
 router.register("questions", QuestionViewSet)
 router.register("staff", OurStaffViewSet)
-router.register("callbackrequests", CallbackRequestViewSet)
+router.register("callbacks", CallbackRequestViewSet)
 
 
 urlpatterns = [
