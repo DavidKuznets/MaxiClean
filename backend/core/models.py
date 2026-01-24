@@ -4,6 +4,8 @@ from django.utils import timezone
 
 from config import settings
 
+from .utils import send_telegram_message
+
 
 ## model Occupation
 class StatusOccupation(models.TextChoices):
@@ -218,14 +220,20 @@ class CallbackRequest(models.Model):
         Перевизначення self.save(): Спочатку зберігаємо об’єкт CallbackRequest без файлу, щоб отримати pk.
         Потім додаємо файл і зберігаємо вдруге (щоб зробити: 1.png, 2.jpg і т.д. де 1,2,.. це ID)
         """
+        text = ("<b>**MaxiClean** Новий запит на дзвінок</b>: "
+                f"від {self.full_name}, "
+                f"телефон {self.phone_number}")  # for Telegram
         if not self.pk and self.photo:
             image = self.photo
             self.photo = None
             super().save(*args, **kwargs)  # створюємо запис, отримуємо pk
             self.photo = image
             super().save(update_fields=["photo"])  # оновлюємо тільки photo
+            text += " <i>(фото збережено у базі)</i>"
         else:
             super().save(*args, **kwargs)
+        # Telegram-message
+        send_telegram_message(text=text)
 
     class Meta:
         verbose_name = "Запит на дзвінок"
@@ -387,3 +395,9 @@ class Review(models.Model):
             super().save(update_fields=["avatar"])  # оновлюємо тільки аватар
         else:
             super().save(*args, **kwargs)
+        # Telegram message
+        text = (f"<b>**MaxiClean** Новий відгук:</b> <code>{self.content}</code> "
+                f" Від: {self.full_name} * Оцінка: <b>{self.rating}</b>"
+                f"* <i>змінить статус у базі даних, "
+                f"щоб відгук було опубліковано на сторінці</i>")
+        send_telegram_message(text=text)

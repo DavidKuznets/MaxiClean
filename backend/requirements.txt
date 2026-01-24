@@ -3,3 +3,4 @@ djangorestframework>=3.14
 python-dotenv>=1.0
 Pillow
 python-multipart>=0.0.5
+requests==2.32.5
