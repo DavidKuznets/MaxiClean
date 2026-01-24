@@ -397,7 +397,7 @@ class Review(models.Model):
             super().save(*args, **kwargs)
         # Telegram message
         text = (f"<b>**MaxiClean** Новий відгук:</b> <code>{self.content}</code> "
-                f" Від: {self.full_name} * Оцінка: <b>{self.rating}</b>"
-                f"* <i>змінить статус у базі даних, "
+                f" Від: {self.full_name} * Оцінка: <b>{self.rating}</b> "
+                f"* <i>змініть статус у базі, "
                 f"щоб відгук було опубліковано на сторінці</i>")
         send_telegram_message(text=text)
