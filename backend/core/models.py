@@ -182,6 +182,12 @@ class CallbackRequest(models.Model):
         max_length=20,
         verbose_name="Телефон"
     )
+    addition = models.CharField(
+        max_length=60,
+        verbose_name="Додатковий контакт (за бажанням)",
+        null=True,
+        blank=True,
+    )
     photo = models.ImageField(
         upload_to=callback_photo_path,
         verbose_name="Додайте фото (.jpg, .png)",
@@ -215,14 +221,16 @@ class CallbackRequest(models.Model):
     def __str__(self):
         return f"{self.full_name} ({self.phone_number})"
 
-    def save(self, *args, **kwargs):
+    def save(self, *args, notify=True, **kwargs):
         """
         Перевизначення self.save(): Спочатку зберігаємо об’єкт CallbackRequest без файлу, щоб отримати pk.
         Потім додаємо файл і зберігаємо вдруге (щоб зробити: 1.png, 2.jpg і т.д. де 1,2,.. це ID)
         """
         text = ("<b>**MaxiClean** Новий запит на дзвінок</b>: "
                 f"від {self.full_name}, "
-                f"телефон {self.phone_number}")  # for Telegram
+                f"телефон {self.phone_number} ")  # for Telegram
+        if self.addition:
+            text += f"додатковий контакт {self.addition} "
         if not self.pk and self.photo:
             image = self.photo
             self.photo = None
@@ -232,8 +240,9 @@ class CallbackRequest(models.Model):
             text += " <i>(фото збережено у базі)</i>"
         else:
             super().save(*args, **kwargs)
-        # Telegram-message
-        send_telegram_message(text=text)
+        if notify:
+            # Telegram-message
+            send_telegram_message(text=text)
 
     class Meta:
         verbose_name = "Запит на дзвінок"
@@ -382,7 +391,7 @@ class Review(models.Model):
         verbose_name_plural = "_Відгуки кліентів"
         ordering = ("-created_at",)
 
-    def save(self, *args, **kwargs):
+    def save(self, *args, notify=True, **kwargs):
         """
         Перевизначення self.save(): Спочатку зберігаємо об’єкт Review без файлу, щоб отримати pk.
         Потім додаємо файл і зберігаємо вдруге (щоб зробити: 1.png, 2.jpg і т.д. де 1,2,.. це ID)
@@ -395,9 +404,10 @@ class Review(models.Model):
             super().save(update_fields=["avatar"])  # оновлюємо тільки аватар
         else:
             super().save(*args, **kwargs)
-        # Telegram message
-        text = (f"<b>**MaxiClean** Новий відгук:</b> <code>{self.content}</code> "
-                f" Від: {self.full_name} * Оцінка: <b>{self.rating}</b> "
-                f"* <i>змініть статус у базі, "
-                f"щоб відгук було опубліковано на сторінці</i>")
-        send_telegram_message(text=text)
+        if notify:
+            # Telegram message
+            text = (f"<b>**MaxiClean** Новий відгук:</b> <code>{self.content}</code> "
+                    f" Від: {self.full_name} * Оцінка: <b>{self.rating}</b> "
+                    f"* <i>змініть статус у базі, "
+                    f"щоб відгук було опубліковано на сторінці</i>")
+            send_telegram_message(text=text)

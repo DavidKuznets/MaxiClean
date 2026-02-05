@@ -131,5 +131,6 @@ class CallbackRequestSerializer(serializers.ModelSerializer):
         fields = (
             "full_name",
             "phone_number",
+            "addition",
             "photo"
         )

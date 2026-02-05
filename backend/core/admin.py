@@ -87,6 +87,7 @@ class CallbackRequestAdmin(admin.ModelAdmin):
 		"id",
 		"full_name",
 		"phone_number",
+		"addition_display",
 		"formatted_created_date",
 		"status",
 		"service_interest",
@@ -97,6 +98,16 @@ class CallbackRequestAdmin(admin.ModelAdmin):
 	search_fields = ("full_name", "phone_number", )
 	list_editable = ("status", "service_interest", "comment", )
 	list_display_links = ("full_name", )
+
+	def save_model(self, request, obj, form, change):
+		# тут ми явно вимикаємо notify
+		obj.save(notify=False)
+
+	def addition_display(self, obj):
+		if obj.addition:
+			return obj.addition
+		return "-/-"  #
+	addition_display.short_description = "Інший контакт"
 
 	## відображення дати створення запиту у зручному форматі
 	def formatted_created_date(self, obj):
@@ -196,6 +207,10 @@ class ReviewAdmin(admin.ModelAdmin):
 	search_fields = ("content", "full_name", )
 	list_editable = ("status", )
 	list_display_links = ("full_name", )
+
+	def save_model(self, request, obj, form, change):
+		# тут ми явно вимикаємо notify
+		obj.save(notify=False)
 
 	## виключаємо вбудовану дію delete_selected
 	actions = None
