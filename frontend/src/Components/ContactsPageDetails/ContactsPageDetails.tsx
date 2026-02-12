@@ -38,7 +38,7 @@ export const ContactsPageDetails = () => {
           </span>
           <div>
             <div className="contacts__label">Графік роботи</div>
-            <div className="contacts__value"><b>Пн–Пт з 09:00 до 20:00</b></div>
+            <div className="contacts__value"><b>Пн–Пт з 08:00 до 21:00</b></div>
           </div>
         </div>
 

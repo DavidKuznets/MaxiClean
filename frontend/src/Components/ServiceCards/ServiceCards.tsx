@@ -12,25 +12,25 @@ export const ServiceCards = () => {
       </p>
       <div className="services__grid">
         <div className="service-card">
-          <img src="/MaxiClean-1.png" alt="М’які меблі" />
+          <img src="/MaxiClean-1.png" alt="М’які меблі" className="service-card__image" />
           <div className="service-card__info">
             <div>
               <h5>Хімчистка</h5>
-              <h3>М’яких меблів</h3>
-              <p>від 600₴</p>
+              <h3>Диванів</h3>
+              <p>від 1800₴</p>
             </div>
-            <Link to={"/services/soft-furniture"} className="service-card__arrow">
+            <Link to={"/services/sofa"} className="service-card__arrow">
               <img src={BlueArrow} alt="Детальніше" />
-            </Link>
+            </Link> 
           </div>
         </div>
         <div className="service-card">
-          <img src="/MaxiClean-2.png" alt="Килимові покриття" />
+          <img src="/MaxiClean-2.png" alt="Килимові покриття" className="service-card__image" />
           <div className="service-card__info">
             <div>
               <h5>Хімчистка</h5>
               <h3>Килимові покриття</h3>
-              <p>від 150₴ за 1 м²</p>
+              <p>від 200₴ за 1 м²</p>
             </div>
             <Link to={"/services/carpets"} className="service-card__arrow">
               <img src={BlueArrow} alt="Детальніше" />
@@ -38,12 +38,12 @@ export const ServiceCards = () => {
           </div>
         </div>
         <div className="service-card">
-          <img src="/MaxiClean-3.png" alt="Матраци" />
+          <img src="/MaxiClean-3.png" alt="Матраци" className="service-card__image" />
           <div className="service-card__info">
             <div>
               <h5>Хімчистка</h5>
               <h3>Матраци</h3>
-              <p>від 800₴</p>
+              <p>від 900₴</p>
             </div>
             <Link to={"/services/mattresses"} className="service-card__arrow">
               <img src={BlueArrow} alt="Детальніше" />
@@ -51,14 +51,14 @@ export const ServiceCards = () => {
           </div>
         </div>
         <div className="service-card">
-          <img src="/MaxiClean-4.png" alt="Салони авто" />
+          <img src="/Chair.webp" alt="Стільці" className="service-card__image" />
           <div className="service-card__info">
             <div>
               <h5>Хімчистка</h5>
-              <h3>Салони авто</h3>
-              <p>від 4500₴</p>
+              <h3>Стільці</h3>
+              <p>від 350₴</p>
             </div>
-            <Link to={"/services/car-interior"} className="service-card__arrow">
+            <Link to={"/services/chair"} className="service-card__arrow">
               <img src={BlueArrow} alt="Детальніше" />
             </Link>
           </div>

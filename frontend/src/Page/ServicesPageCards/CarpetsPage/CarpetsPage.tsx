@@ -1,9 +1,8 @@
-import { FAQ } from "../../Components/Question/FAQ";
-import phoneBlue from "../../../public/Phone-blue.png";
-import { WorksSection } from "../../Components/BeforeAfterSlider/WorksSection";
-import "./ServicesBlock.scss";
+import phoneBlue from "../../../../public/Phone-blue.png";
+import { WorksSection } from "../../../Components/BeforeAfterSlider/WorksSection";
+import "../DefaultServicesStyle.scss";
 
-export const ServicesBlock = () => {
+export const CarpetsPage = () => {
   return (
     <>
       <section className="hero-services">
@@ -247,8 +246,6 @@ export const ServicesBlock = () => {
           </div>
         </div>
       </section>
-
-      <FAQ />
     </>
   );
 };

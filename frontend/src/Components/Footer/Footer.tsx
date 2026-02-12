@@ -9,35 +9,13 @@ export const Footer = () => {
           <div className="footer__info">
             <p className="footer__city">м. Київ</p>
             <p className="footer__schedule">
-              Графік роботи: Пн-Пт з 09:00 до 18:00
+              Графік роботи: Пн-Пт з 08:00 до 21:00
             </p>
-          </div>
-
-          <div className="footer__hotline-container">
-            <p className="footer__hotline-number">
-              <a href="tel:0733883898" className="footer__hotline">
-                (073) 388-38-98
-              </a>
-            </p>
-            <p className="footer__hotline-text">телефон гарячої лінії</p>
-          </div>
-          <div className="footer__logoSite">
-            <img src="/instagram.png" alt="instagram" />
-            <img src="/facebook.png" alt="facebook" />
           </div>
         </div>
-        <div className="footer__right">
-          <p>Зв’яжемося з вами протягом 15 хвилин, щоб відповісти на всі запитання та розрахувати вартість.</p>
-          <form className="footer__form">
-            <input type="text" placeholder="Ваше ім’я" />
-            <input type="tel" placeholder="Номер телефону" />
-            <button type="submit"><img src="/Phone.png" alt="phone-icon" />Передзвоніть мені</button>
-          </form>
-
-          <label className="footer__checkbox">
-            <input type="checkbox" /> Даю згоду на обробку своїх персональних
-            даних
-          </label>
+        <div className="footer__logoSite">
+          <img src="/instagram.png" alt="instagram" />
+          <img src="/facebook.png" alt="facebook" />
         </div>
       </div>
 

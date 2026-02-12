@@ -40,9 +40,7 @@ export const AddReviewModal: React.FC<Props> = ({ onClose, onReviewAdded }) => {
           credentials: "include",
         });
 
-        if (!s.ok) {
-          throw new Error(`Services HTTP ${s.status}`);
-        }
+        if (!s.ok) throw new Error(`Services HTTP ${s.status}`);
 
         const servicesData = await s.json();
 
@@ -50,14 +48,12 @@ export const AddReviewModal: React.FC<Props> = ({ onClose, onReviewAdded }) => {
           credentials: "include",
         });
 
-        if (!o.ok) {
-          throw new Error(`Occupations HTTP ${o.status}`);
-        }
+        if (!o.ok) throw new Error(`Occupations HTTP ${o.status}`);
 
         const occupationsData = await o.json();
 
-        setServices(servicesData);
-        setOccupations(occupationsData);
+        setServices(servicesData.results ?? servicesData);
+        setOccupations(occupationsData.results ?? occupationsData);
       } catch (err) {
         console.error("API ERROR:", err);
         setError("Не вдалося завантажити дані");
@@ -78,8 +74,8 @@ export const AddReviewModal: React.FC<Props> = ({ onClose, onReviewAdded }) => {
 
   const handleSubmit = async () => {
     if (
-      !serviceId ||
-      !occupationId ||
+      serviceId === "" ||
+      occupationId === "" ||
       !rating ||
       !content ||
       !fullName ||
@@ -105,14 +101,22 @@ export const AddReviewModal: React.FC<Props> = ({ onClose, onReviewAdded }) => {
       const res = await fetch("/api/v1/reviews/", {
         method: "POST",
         body: formData,
+        credentials: "include",
       });
 
-      if (!res.ok) throw new Error("Failed to submit review");
+      if (!res.ok) {
+        const errData = await res.json().catch(() => null);
+        const msg = errData
+          ? JSON.stringify(errData)
+          : "Failed to submit review";
+        throw new Error(msg);
+      }
 
       onClose();
-      if (onReviewAdded) onReviewAdded(); // рефетч списку відгуків
-    } catch {
-      setError("Помилка при відправці відгуку");
+      if (onReviewAdded) onReviewAdded(); 
+    } catch (err: unknown) {
+      if (err instanceof Error) setError(err.message);
+      else setError("Помилка при відправці відгуку");
     } finally {
       setLoading(false);
     }

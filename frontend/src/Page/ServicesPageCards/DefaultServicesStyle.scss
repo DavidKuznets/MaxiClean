@@ -81,7 +81,7 @@
 
 
 .ServicesDryCleaners {
-  padding: 50px 20px;
+  padding: 50px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -100,8 +100,6 @@
   &__section {
     display: flex;
     gap: 20px;
-    width: 100%;
-    max-width: 1200px;
     justify-content: space-between;
     border-radius: 50px;
     padding: 20px;
@@ -141,7 +139,6 @@
 
 .ServicesSteps {
   padding: 60px 20px;
-  max-width: 1200px;
   margin: 0 auto;
 
   h2 {
@@ -155,23 +152,23 @@
   &__list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 30px;
+    gap: 50px;
   }
 
   .step {
     .step__header {
       display: flex;
-      align-items: baseline;
+      align-items: center;
       gap: 10px;
 
       span {
-        font-size: 24px;
+        font-size: 48px;
         font-weight: 900;
         color: #0050d0;
       }
 
       .step__title {
-        font-size: 20px;
+        font-size: 24px;
         font-weight: 800; 
         margin: 0;
         color: #000;
@@ -179,7 +176,7 @@
     }
 
     .step__desc {
-      font-size: 15px;
+      font-size: 16px;
       line-height: 1.5;
       color: #333;
       margin-top: 8px;
@@ -190,8 +187,7 @@
 
 
 .ServicesPrices {
-  padding: 60px 20px;
-  max-width: 1200px;
+  padding: 60px 0;
   margin: 0 auto;
 
   h2 {

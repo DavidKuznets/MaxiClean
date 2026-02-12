@@ -7,6 +7,7 @@ interface Service {
   id: number;
   name: string;
 }
+
 interface Occupation {
   id: number;
   name: string;
@@ -30,6 +31,11 @@ export const ReviewsPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [expandedId, setExpandedId] = useState<number | null>(null);
+  const [sortBy, setSortBy] = useState<"" | "rating" | "date" | "service">("");
+  const [serviceFilter, setServiceFilter] = useState<
+    "all" | "sofas" | "chairs" | "mattresses" | "carpets"
+  >("all");
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -38,14 +44,13 @@ export const ReviewsPage = () => {
         const res = await fetch("/api/v1/reviews/");
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
-        // DRF pagination: results array
         const items: Review[] = data.results ?? data;
         setReviews(items);
       } catch (err: unknown) {
         if (err instanceof Error) {
           setError(err.message);
         } else {
-          setError(String(err) || "Failed to load reviews");
+          setError("Failed to load reviews");
         }
       } finally {
         setLoading(false);
@@ -54,6 +59,29 @@ export const ReviewsPage = () => {
 
     fetchReviews();
   }, []);
+
+  const filteredAndSortedReviews = [...reviews]
+    .filter((r) => {
+      if (serviceFilter === "all") return true;
+      return r.service?.name === serviceMap[serviceFilter];
+    })
+    .sort((a, b) => {
+      if (sortBy === "rating") {
+        return Number(b.rating) - Number(a.rating);
+      }
+
+      if (sortBy === "date") {
+        return (
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+        );
+      }
+
+      if (sortBy === "service") {
+        return a.service?.name.localeCompare(b.service?.name);
+      }
+
+      return 0;
+    });
 
   const averageRating =
     reviews.length > 0
@@ -64,17 +92,20 @@ export const ReviewsPage = () => {
 
   const formatDate = (iso?: string) => {
     if (!iso) return "";
-    try {
-      const d = new Date(iso);
-      return d.toLocaleDateString("uk-UA", {
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-      });
-    } catch {
-      return iso;
-    }
+    const d = new Date(iso);
+    return d.toLocaleDateString("uk-UA", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
   };
+
+  const serviceMap = {
+    sofas: "Дивани",
+    chairs: "Стільці",
+    mattresses: "Матраси",
+    carpets: "Килими",
+  } as const;
 
   return (
     <section className="reviews">
@@ -93,10 +124,39 @@ export const ReviewsPage = () => {
 
       {/* Фільтри */}
       <div className="reviews__filters">
-        <button>Всі</button>
-        <button>5 ⭐</button>
-        <button>4 ⭐</button>
-        <button>З фото</button>
+        <select
+          value={sortBy}
+          onChange={(e) =>
+            setSortBy(e.target.value as "" | "rating" | "date" | "service")
+          }
+          className="reviews__service-style"
+        >
+          <option value="">Без сортування</option>
+          <option value="rating">За рейтингом</option>
+          <option value="date">За датою</option>
+        </select>
+
+        <select
+          value={serviceFilter}
+          onChange={(e) =>
+            setServiceFilter(
+              e.target.value as
+                | "all"
+                | "sofas"
+                | "chairs"
+                | "mattresses"
+                | "carpets",
+            )
+          }
+          className="reviews__service-style"
+        >
+          <option value="all">Всі сервіси</option>
+          <option value="sofas">Дивани</option>
+          <option value="chairs">Стільці</option>
+          <option value="mattresses">Матраци</option>
+          <option value="carpets">Килими</option>
+        </select>
+
         <button className="primary" onClick={() => setIsModalOpen(true)}>
           Додати відгук
         </button>
@@ -107,22 +167,18 @@ export const ReviewsPage = () => {
 
       {/* Список відгуків */}
       <div className="reviews__grid">
-        {reviews.map((review) => (
+        {filteredAndSortedReviews.map((review) => (
           <div key={review.id} className="review-card">
             <div className="review-card__header">
               {review.avatar ? (
                 <img
-                  src={
-                    review.avatar.startsWith("http")
-                      ? review.avatar
-                      : review.avatar
-                  }
+                  src={review.avatar}
                   alt={review.full_name}
                   className="review-card__avatar"
                 />
               ) : (
                 <div className="review-card__avatar--placeholder">
-                  {review.full_name.split(" ")[0][0] ?? "?"}
+                  {review.full_name.charAt(0)}
                 </div>
               )}
 
@@ -136,7 +192,24 @@ export const ReviewsPage = () => {
               </div>
             </div>
 
-            <p className="review-card__text">{review.content}</p>
+            <p
+              className={`review-card__text ${
+                expandedId !== review.id ? "review-card__text--collapsed" : ""
+              }`}
+            >
+              {review.content}
+            </p>
+
+            {review.content.length > 300 && (
+              <button
+                className="read-more"
+                onClick={() =>
+                  setExpandedId(expandedId === review.id ? null : review.id)
+                }
+              >
+                {expandedId === review.id ? "Згорнути" : "Читати повністю"}
+              </button>
+            )}
 
             <div className="review-card__footer">
               <span className="service-name">{review.service?.name}</span>
@@ -145,7 +218,9 @@ export const ReviewsPage = () => {
           </div>
         ))}
       </div>
+
       <FAQ />
+
       {isModalOpen && <AddReviewModal onClose={() => setIsModalOpen(false)} />}
     </section>
   );

@@ -36,7 +36,6 @@ export const WorksSection: React.FC = () => {
   };
 
   useEffect(() => {
-    // 1) Если при переходе передали state через Link: <Link to="/..." state={{ key: "Дивани" }}>
     const state =
       (location.state as { key?: keyof typeof works } | null) ?? null;
     const stateKey = state?.key;

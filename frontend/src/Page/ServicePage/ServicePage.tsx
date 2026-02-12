@@ -1,11 +1,11 @@
 import { FAQ } from "../../Components/Question/FAQ";
-import { ServicesBlock } from "../ServicesBlock/ServicesBlock";
+import { ServiceCards } from "../../Components/ServiceCards/ServiceCards";
 import "./ServicePage.scss";
 
 export const ServicePage = () => {
   return (
     <div className="servicePage">
-      <ServicesBlock />
+      <ServiceCards />
       <FAQ />
     </div>
   );
