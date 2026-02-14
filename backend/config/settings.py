@@ -38,7 +38,7 @@ DEBUG=os.getenv("DEBUG")
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1,::1").split(",")
 
 # CORS
-CORS_ALLOWED_ORIGINS = [ "http://localhost:3000", ]  ## port???
+CORS_ALLOWED_ORIGINS = [ "http://localhost:5173",]  ## port 5173
 
 # Application definition
 INSTALLED_APPS = [
@@ -50,9 +50,11 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "core",
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
