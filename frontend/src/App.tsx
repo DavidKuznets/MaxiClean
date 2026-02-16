@@ -1,5 +1,6 @@
 import "./App.scss";
 import { Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
 import { Header } from "./Components/Header/Header";
 import { HomePage } from "./Page/HomePage/HomePage";
 import { Footer } from "./Components/Footer/Footer";
@@ -11,8 +12,18 @@ import { ChairPage } from "./Page/ServicesPageCards/ChairPage/ChairPage";
 import { CarpetsPage } from "./Page/ServicesPageCards/CarpetsPage/CarpetsPage";
 import { SofaPage } from "./Page/ServicesPageCards/SofaPage/SofaPage";
 import { ServicePage } from "./Page/ServicePage/ServicePage";
+import { testBackendConnection } from "./utils/testBackend";
 
 function App() {
+  useEffect(() => {
+    // Запускаємо тест при розробці
+    if (import.meta.env.DEV) {
+      console.log(
+        "🧪 Для тестування бекенду введіть у консолі: __testBackend()",
+      );
+    }
+  }, []);
+
   return (
     <div className="app-wrapper">
       <Header />

@@ -9,13 +9,14 @@ type Props = {
 
 export const BeforeAfterSlider: React.FC<Props> = ({ beforeImg, afterImg }) => {
   return (
-    <div className="before-after">
+    <div className="before-after fade-switch">
       <div className="before-after__item">
-        <img src={beforeImg} alt="Before" className="before-after__img" />
+        <img key={beforeImg} src={beforeImg} alt="Before" />
         <span className="before-after__label">До</span>
       </div>
+
       <div className="before-after__item">
-        <img src={afterImg} alt="After" className="before-after__img" />
+        <img key={afterImg} src={afterImg} alt="After" />
         <span className="before-after__label">Після</span>
       </div>
     </div>

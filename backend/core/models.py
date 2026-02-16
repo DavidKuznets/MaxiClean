@@ -241,8 +241,14 @@ class CallbackRequest(models.Model):
         else:
             super().save(*args, **kwargs)
         if notify:
-            # Telegram-message
-            send_telegram_message(text=text)
+            try:
+                # Telegram-message
+                send_telegram_message(text=text)
+            except Exception as e:
+                # Логуємо помилку, але не зупиняємо зберігання запиту
+                import logging
+                logger = logging.getLogger(__name__)
+                logger.error(f"Помилка при відправці Telegram повідомлення: {e}")
 
     class Meta:
         verbose_name = "Запит на дзвінок"

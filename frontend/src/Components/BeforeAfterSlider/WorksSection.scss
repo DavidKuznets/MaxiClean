@@ -128,3 +128,16 @@
     }
   }
 }
+
+/* початковий стан */
+.fade-up {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.9s ease;
+}
+
+/* коли з’явилась */
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}

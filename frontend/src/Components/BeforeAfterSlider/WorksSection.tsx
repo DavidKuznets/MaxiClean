@@ -1,5 +1,5 @@
 // WorksSection.tsx
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { BeforeAfterSlider } from "./BeforeAfterSlider";
 import "./WorksSection.scss";
 import { useLocation } from "react-router-dom";
@@ -26,6 +26,25 @@ const works = {
 export const WorksSection: React.FC = () => {
   const [active, setActive] = useState<keyof typeof works>("Матраци");
   const location = useLocation();
+  const sectionRef = useRef<HTMLElement | null>(null);
+
+  // 👇 анімація появи
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.classList.add("visible");
+        }
+      },
+      { threshold: 0.2 },
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const pathToKey: Record<string, keyof typeof works> = {
@@ -50,7 +69,7 @@ export const WorksSection: React.FC = () => {
   }, [location.pathname, location.state, pathToKey]);
 
   return (
-    <section className="works">
+    <section ref={sectionRef} className="works fade-up">
       <div className="works__content">
         <h2 className="works__title">Наші роботи</h2>
         <p className="works__text">

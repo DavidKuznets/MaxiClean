@@ -4,3 +4,4 @@ python-dotenv>=1.0
 Pillow
 python-multipart>=0.0.5
 requests==2.32.5
+django-cors-headers>=4.3.0

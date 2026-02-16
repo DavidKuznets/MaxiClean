@@ -89,5 +89,9 @@ class CallbackRequestViewSet(
     mixins.CreateModelMixin,
     viewsets.GenericViewSet
 ):
+    """
+    POST /api/v1/callbacks/ — створення запиту
+    """
     queryset = CallbackRequest.objects.all()
     serializer_class = CallbackRequestSerializer
+    permission_classes = [AllowAny]

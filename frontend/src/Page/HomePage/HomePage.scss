@@ -44,14 +44,17 @@
     gap: 10px;
     margin-top: auto;
     margin-bottom: 12px;
+    flex-wrap: wrap;
 
     input {
       padding: 12px;
       border: 1px solid #ccc;
       border-radius: 20px;
       flex: 1;
+      min-width: 120px;
       background: #0044cc;
       color: #fff;
+      font-size: 14px;
 
       &::placeholder {
         color: #fff;
@@ -68,9 +71,10 @@
       display: flex;
       align-items: center;
       gap: 8px;
+      white-space: nowrap;
 
       &:hover {
-        background: #003399;
+        background: #cccccc;
       }
     }
   }
@@ -211,14 +215,17 @@
     gap: 10px;
 
     margin-top: auto;
+    flex-wrap: wrap;
 
     input {
       padding: 12px;
       border: 1px solid #ccc;
       border-radius: 20px;
       flex: 1;
+      min-width: 140px;
       background: #0044cc;
       color: #fff;
+      font-size: 14px;
 
       &::placeholder {
         color: #fff;
@@ -238,6 +245,7 @@
       padding: 12px 20px;
       cursor: pointer;
       transition: 0.2s ease;
+      white-space: nowrap;
 
       img {
         width: 16px;
@@ -245,8 +253,8 @@
       }
 
       &:hover {
-        background: #003bbd;
-        color: #fff;
+        background: #cccccc;
+        color: #0044cc;
       }
     }
   }
@@ -481,6 +489,185 @@
   }
 }
 
+
+// ===========================
+// Mobile overrides (850px - center content)
+// ===========================
+
+@media (max-width: 850px) {
+  .contact-form {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+    gap: 16px;
+    height: auto;
+
+    &__content {
+      width: 100%;
+      max-width: 400px;
+      box-sizing: border-box;
+      text-align: center;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    &__image {
+      display: none;
+    }
+
+    &__h2 {
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+
+    &__description {
+      font-size: 15px;
+      margin-bottom: 16px;
+      line-height: 1.4;
+    }
+
+    &__form {
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+      max-width: 400px;
+
+      input,
+      button {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 12px 14px;
+        border-radius: 14px;
+      }
+
+      input {
+        background: rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+
+        &::placeholder {
+          color: rgba(255, 255, 255, 0.7);
+        }
+      }
+
+      button {
+        background: #fff;
+        color: #0044cc;
+        border: none;
+        font-weight: 600;
+        display: inline-flex;
+        justify-content: center;
+
+        &:hover {
+          background: #f0f0f0;
+        }
+      }
+    }
+
+    &__photo-upload {
+      width: 100%;
+      max-width: 400px;
+      box-sizing: border-box;
+      margin: 0 auto;
+    }
+
+    &__checkbox {
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto;
+      justify-content: center;
+      font-size: 13px;
+    }
+  }
+}
+
+// ===========================
+// Tablet overrides (920px)
+// ===========================
+
+@media (max-width: 920px) {
+  .hero {
+    flex-direction: column;
+    padding: 24px 16px;
+    gap: 16px;
+
+    &__content {
+      padding: 20px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    &__form {
+      flex-direction: column;
+      width: 100%;
+
+      input,
+      button {
+        width: 100%;
+        box-sizing: border-box;
+      }
+    }
+
+    &__image {
+      margin: 0;
+      width: 100%;
+
+      img {
+        width: 100%;
+        height: auto;
+      }
+    }
+  }
+
+  .contact-form {
+    flex-direction: column;
+    padding: 24px 16px;
+    gap: 16px;
+
+    &__content {
+      order: 1;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: left;
+      padding: 16px;
+    }
+
+    &__image {
+      display: none;
+    }
+
+    &__form {
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+
+      input,
+      button {
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      button {
+        margin-top: auto;
+      }
+    }
+
+    &__photo-upload {
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    &__checkbox {
+      width: 100%;
+    }
+  }
+
+  .hero__checkbox {
+    font-size: 13px;
+  }
+}
 
 // ===========================
 // Tablet overrides
