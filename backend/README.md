@@ -9,7 +9,7 @@ python manage.py createsuperuser
 localhost:8000/admin/
 
 MCadmin
-MCpass
+MCpassss
 
 ### API page
 localhost:8000/api/v1/

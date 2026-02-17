@@ -17,6 +17,7 @@ interface Occupation {
 }
 
 export const AddReviewModal: React.FC<Props> = ({ onClose, onReviewAdded }) => {
+  const API_BASE_URL = import.meta.env.VITE_API_URL || "";
   const [rating, setRating] = useState(0);
   const [content, setContent] = useState("");
   const [file, setFile] = useState<File | null>(null);
@@ -36,24 +37,24 @@ export const AddReviewModal: React.FC<Props> = ({ onClose, onReviewAdded }) => {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const s = await fetch("/api/v1/services/", {
+        const servicesRes = await fetch(`${API_BASE_URL}/api/v1/services/`, {
           credentials: "include",
         });
+        if (!servicesRes.ok)
+          throw new Error(`Services HTTP ${servicesRes.status}`);
+        const servicesJson = await servicesRes.json();
+        setServices(servicesJson.results ?? servicesJson);
 
-        if (!s.ok) throw new Error(`Services HTTP ${s.status}`);
-
-        const servicesData = await s.json();
-
-        const o = await fetch("/api/v1/occupations/", {
-          credentials: "include",
-        });
-
-        if (!o.ok) throw new Error(`Occupations HTTP ${o.status}`);
-
-        const occupationsData = await o.json();
-
-        setServices(servicesData.results ?? servicesData);
-        setOccupations(occupationsData.results ?? occupationsData);
+        const occupationsRes = await fetch(
+          `${API_BASE_URL}/api/v1/occupations/`,
+          {
+            credentials: "include",
+          },
+        );
+        if (!occupationsRes.ok)
+          throw new Error(`Occupations HTTP ${occupationsRes.status}`);
+        const occupationsJson = await occupationsRes.json();
+        setOccupations(occupationsJson.results ?? occupationsJson);
       } catch (err) {
         console.error("API ERROR:", err);
         setError("Не вдалося завантажити дані");
@@ -73,14 +74,7 @@ export const AddReviewModal: React.FC<Props> = ({ onClose, onReviewAdded }) => {
   }, [onClose]);
 
   const handleSubmit = async () => {
-    if (
-      serviceId === "" ||
-      occupationId === "" ||
-      !rating ||
-      !content ||
-      !fullName ||
-      !gender
-    ) {
+    if (!rating || !content || !fullName || !gender) {
       setError("Заповніть усі обовʼязкові поля");
       return;
     }
@@ -89,8 +83,9 @@ export const AddReviewModal: React.FC<Props> = ({ onClose, onReviewAdded }) => {
     setError(null);
 
     const formData = new FormData();
-    formData.append("service", String(serviceId));
-    formData.append("occupation", String(occupationId));
+    if (serviceId !== "") formData.append("service", String(serviceId));
+    if (occupationId !== "")
+      formData.append("occupation", String(occupationId));
     formData.append("full_name", fullName);
     formData.append("gender", gender);
     formData.append("rating", String(rating));
@@ -98,7 +93,7 @@ export const AddReviewModal: React.FC<Props> = ({ onClose, onReviewAdded }) => {
     if (file) formData.append("avatar", file);
 
     try {
-      const res = await fetch("/api/v1/reviews/", {
+      const res = await fetch(`${API_BASE_URL}/api/v1/reviews/`, {
         method: "POST",
         body: formData,
         credentials: "include",
@@ -113,7 +108,7 @@ export const AddReviewModal: React.FC<Props> = ({ onClose, onReviewAdded }) => {
       }
 
       onClose();
-      if (onReviewAdded) onReviewAdded(); 
+      if (onReviewAdded) onReviewAdded();
     } catch (err: unknown) {
       if (err instanceof Error) setError(err.message);
       else setError("Помилка при відправці відгуку");
@@ -191,9 +186,7 @@ export const AddReviewModal: React.FC<Props> = ({ onClose, onReviewAdded }) => {
             setServiceId(e.target.value === "" ? "" : Number(e.target.value))
           }
         >
-          <option value="" disabled>
-            Оберіть категорію
-          </option>
+          <option value="">Оберіть категорію</option>
           {services.map((s) => (
             <option key={s.id} value={s.id}>
               {s.name}
@@ -209,9 +202,7 @@ export const AddReviewModal: React.FC<Props> = ({ onClose, onReviewAdded }) => {
             setOccupationId(e.target.value === "" ? "" : Number(e.target.value))
           }
         >
-          <option value="" disabled>
-            Вид діяльності
-          </option>
+          <option value="">Вид діяльності</option>
           {occupations.map((o) => (
             <option key={o.id} value={o.id}>
               {o.name}
