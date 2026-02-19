@@ -1,5 +1,4 @@
 // src/Components/FeaturesSection/FeaturesSection.tsx
-import React from "react";
 import "./FeaturesSection.scss";
 
 export const FeaturesSection = () => {

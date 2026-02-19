@@ -4,9 +4,12 @@
     "react-masonry-css": "^1.0.16"
   },
   "devDependencies": {
-    "concurrently": "^8.0.0"
+    "concurrently": "^8.0.0",
+    "gh-pages": "^6.3.0"
   },
   "scripts": {
-    "dev": "concurrently \"cd backend && python manage.py runserver\" \"cd frontend && npm run dev\""
+    "dev": "concurrently \"cd backend && python manage.py runserver\" \"cd frontend && npm run dev\"",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   }
 }

@@ -12,7 +12,6 @@ import { ChairPage } from "./Page/ServicesPageCards/ChairPage/ChairPage";
 import { CarpetsPage } from "./Page/ServicesPageCards/CarpetsPage/CarpetsPage";
 import { SofaPage } from "./Page/ServicesPageCards/SofaPage/SofaPage";
 import { ServicePage } from "./Page/ServicePage/ServicePage";
-import { testBackendConnection } from "./utils/testBackend";
 
 function App() {
   useEffect(() => {

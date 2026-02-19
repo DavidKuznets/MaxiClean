@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import "./ReviewsPage.scss";
 import { FAQ } from "../../Components/Question/FAQ";
 import { AddReviewModal } from "./AddReviewModal";
