@@ -110,6 +110,30 @@
   }
 }
 
+
+.header__contact a,
+.mobile-menu__footer a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #0044cc; // синій колір для виділення
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s, transform 0.1s;
+
+  &:hover {
+    color: #002a99; // темніший синій при наведенні
+    cursor: pointer;
+    transform: scale(1.05); // легке збільшення для ефекту "клік"
+  }
+
+  img {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+
 /* ===== MOBILE MENU ===== */
 
 .mobile-menu {

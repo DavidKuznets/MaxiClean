@@ -13,7 +13,7 @@
     h1 {
       font-size: 36px;
       font-weight: 700;
-      margin-bottom: 16px;
+      margin: 0;
     }
 
     p {
@@ -91,6 +91,8 @@
     text-align: left;
     display: block;
     h2 {
+      margin: 0;
+      padding-bottom: 20px;
       font-size: 2rem;
       font-weight: 700;
       color: #0044cc;
@@ -187,14 +189,14 @@
 
 
 .ServicesPrices {
-  padding: 60px 0;
+  padding: 0;
   margin: 0 auto;
 
   h2 {
     font-size: 2rem;
     font-weight: 700;
     color: #0044cc;
-    margin-bottom: 40px;
+    margin: 0 0 40px;
     text-align: left;
   }
 

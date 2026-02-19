@@ -5,12 +5,14 @@ import { FAQ } from "../../Components/Question/FAQ";
 import { ServiceCards } from "../../Components/ServiceCards/ServiceCards";
 import "./HomePage.scss";
 
-// API URL configuration - змініть на потрібний сервер
+// API URL configuration
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 const CALLBACKS_ENDPOINT = `${API_BASE_URL}/api/v1/callbacks/`;
 
 export const HomePage = () => {
+  const [heroConsent, setHeroConsent] = useState(false);
   const [contactFile, setContactFile] = useState<File | null>(null);
+  const [consentChecked, setConsentChecked] = useState(false);
 
   const submitCallback = async (form: HTMLFormElement, photo?: File | null) => {
     const full_name = (form.elements.namedItem("full_name") as HTMLInputElement)
@@ -27,14 +29,6 @@ export const HomePage = () => {
     formData.append("addition", addition || "");
     if (photo) formData.append("photo", photo);
 
-    console.log("📤 Відправляємо на:", CALLBACKS_ENDPOINT);
-    console.log("📋 Дані форми:", {
-      full_name,
-      phone_number,
-      addition,
-      hasPhoto: !!photo,
-    });
-
     try {
       const res = await fetch(CALLBACKS_ENDPOINT, {
         method: "POST",
@@ -42,24 +36,19 @@ export const HomePage = () => {
         credentials: "include",
       });
 
-      console.log("✅ Відповідь від сервера:", res.status, res.statusText);
-
       if (!res.ok) {
-        const errorData = await res.json().catch(() => ({
-          detail: "Невідома помилка від сервера",
-        }));
-        console.error("❌ Помилка сервера:", errorData);
+        const errorData = await res
+          .json()
+          .catch(() => ({ detail: "Невідома помилка від сервера" }));
         throw new Error(
           `Помилка ${res.status}: ${errorData.detail || JSON.stringify(errorData)}`,
         );
       }
 
       const responseData = await res.json();
-      console.log("✅ Успішна відповідь:", responseData);
       return responseData;
     } catch (err) {
       if (err instanceof TypeError && err.message.includes("Failed to fetch")) {
-        console.error("❌ Помилка з'єднання:", err);
         throw new Error(
           `Помилка з'єднання з ${CALLBACKS_ENDPOINT}. Переконайтеся, що бекенд запущений.`,
         );
@@ -70,14 +59,17 @@ export const HomePage = () => {
 
   const handleHeroSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!heroConsent) {
+      alert("Будь ласка, дайте згоду на обробку персональних даних.");
+      return;
+    }
     const form = e.currentTarget;
-
     try {
       await submitCallback(form);
       alert("Заявку відправлено успішно!");
       form.reset();
+      setHeroConsent(false);
     } catch (err) {
-      console.error(err);
       alert(
         `Помилка відправки: ${err instanceof Error ? err.message : "Невідома помилка"}`,
       );
@@ -86,15 +78,19 @@ export const HomePage = () => {
 
   const handleContactSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const form = e.currentTarget;
+    if (!consentChecked) {
+      alert("Будь ласка, дайте згоду на обробку персональних даних.");
+      return;
+    }
 
+    const form = e.currentTarget;
     try {
       await submitCallback(form, contactFile);
       alert("Заявку відправлено успішно!");
       form.reset();
       setContactFile(null);
+      setConsentChecked(false);
     } catch (err) {
-      console.error(err);
       alert(
         `Помилка відправки: ${err instanceof Error ? err.message : "Невідома помилка"}`,
       );
@@ -137,7 +133,11 @@ export const HomePage = () => {
           </form>
 
           <label className="hero__checkbox">
-            <input type="checkbox" required />
+            <input
+              type="checkbox"
+              checked={heroConsent}
+              onChange={(e) => setHeroConsent(e.target.checked)}
+            />
             Даю згоду на обробку персональних даних
           </label>
         </div>
@@ -207,8 +207,13 @@ export const HomePage = () => {
           </form>
 
           <label className="contact-form__checkbox">
-            <input type="checkbox" required /> Даю згоду на обробку своїх
-            персональних даних
+            <input
+              type="checkbox"
+              name="consent"
+              checked={consentChecked}
+              onChange={(e) => setConsentChecked(e.target.checked)}
+            />
+            Даю згоду на обробку своїх персональних даних
           </label>
         </div>
       </section>

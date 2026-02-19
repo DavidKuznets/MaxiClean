@@ -8,17 +8,10 @@ interface Service {
   name: string;
 }
 
-interface Occupation {
-  id: number;
-  name: string;
-}
-
 interface Review {
   id: number;
   service: Service;
   full_name: string;
-  gender: string;
-  occupation: Occupation;
   avatar: string | null;
   rating: string;
   content: string;
@@ -32,10 +25,16 @@ export const ReviewsPage = () => {
   const [error, setError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [expandedId, setExpandedId] = useState<number | null>(null);
-  const [sortBy, setSortBy] = useState<"" | "rating" | "date" | "service">("");
+
   const [serviceFilter, setServiceFilter] = useState<
     "all" | "sofas" | "chairs" | "mattresses" | "carpets"
   >("all");
+
+  const [ratingFilter, setRatingFilter] = useState<
+    "" | "5" | "4" | "3" | "2" | "1"
+  >("");
+
+  const [dateSort, setDateSort] = useState<"" | "new" | "old">("");
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -47,11 +46,8 @@ export const ReviewsPage = () => {
         const items: Review[] = data.results ?? data;
         setReviews(items);
       } catch (err: unknown) {
-        if (err instanceof Error) {
-          setError(err.message);
-        } else {
-          setError("Failed to load reviews");
-        }
+        if (err instanceof Error) setError(err.message);
+        else setError("Failed to load reviews");
       } finally {
         setLoading(false);
       }
@@ -60,24 +56,39 @@ export const ReviewsPage = () => {
     fetchReviews();
   }, []);
 
+  const serviceMap = {
+    sofas: "Дивани",
+    chairs: "Стільці",
+    mattresses: "Матраци",
+    carpets: "Килими",
+  } as const;
+
   const filteredAndSortedReviews = [...reviews]
     .filter((r) => {
-      if (serviceFilter === "all") return true;
-      return r.service?.name === serviceMap[serviceFilter];
-    })
-    .sort((a, b) => {
-      if (sortBy === "rating") {
-        return Number(b.rating) - Number(a.rating);
+      if (
+        serviceFilter !== "all" &&
+        r.service?.name !== serviceMap[serviceFilter]
+      ) {
+        return false;
       }
 
-      if (sortBy === "date") {
+      if (ratingFilter && Number(r.rating) !== Number(ratingFilter)) {
+        return false;
+      }
+
+      return true;
+    })
+    .sort((a, b) => {
+      if (dateSort === "new") {
         return (
           new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
         );
       }
 
-      if (sortBy === "service") {
-        return a.service?.name.localeCompare(b.service?.name);
+      if (dateSort === "old") {
+        return (
+          new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+        );
       }
 
       return 0;
@@ -100,13 +111,6 @@ export const ReviewsPage = () => {
     });
   };
 
-  const serviceMap = {
-    sofas: "Дивани",
-    chairs: "Стільці",
-    mattresses: "Матраси",
-    carpets: "Килими",
-  } as const;
-
   return (
     <section className="reviews">
       {/* Загальний рейтинг */}
@@ -124,19 +128,9 @@ export const ReviewsPage = () => {
 
       {/* Фільтри */}
       <div className="reviews__filters">
+        {/* Сервіс */}
         <select
-          value={sortBy}
-          onChange={(e) =>
-            setSortBy(e.target.value as "" | "rating" | "date" | "service")
-          }
           className="reviews__service-style"
-        >
-          <option value="">Без сортування</option>
-          <option value="rating">За рейтингом</option>
-          <option value="date">За датою</option>
-        </select>
-
-        <select
           value={serviceFilter}
           onChange={(e) =>
             setServiceFilter(
@@ -148,13 +142,39 @@ export const ReviewsPage = () => {
                 | "carpets",
             )
           }
-          className="reviews__service-style"
         >
-          <option value="all">Всі сервіси</option>
+          <option value="all">Сервіс</option>
           <option value="sofas">Дивани</option>
           <option value="chairs">Стільці</option>
           <option value="mattresses">Матраци</option>
           <option value="carpets">Килими</option>
+        </select>
+
+        {/* Рейтинг */}
+        <select
+          className="reviews__service-style"
+          value={ratingFilter}
+          onChange={(e) =>
+            setRatingFilter(e.target.value as "" | "5" | "4" | "3" | "2" | "1")
+          }
+        >
+          <option value="">Рейтинг</option>
+          <option value="5">5★</option>
+          <option value="4">4★</option>
+          <option value="3">3★</option>
+          <option value="2">2★</option>
+          <option value="1">1★</option>
+        </select>
+
+        {/* Сортування по даті */}
+        <select
+          className="reviews__service-style"
+          value={dateSort}
+          onChange={(e) => setDateSort(e.target.value as "" | "new" | "old")}
+        >
+          <option value="">Дата</option>
+          <option value="new">Новіші</option>
+          <option value="old">Старіші</option>
         </select>
 
         <button className="primary" onClick={() => setIsModalOpen(true)}>
@@ -170,21 +190,12 @@ export const ReviewsPage = () => {
         {filteredAndSortedReviews.map((review) => (
           <div key={review.id} className="review-card">
             <div className="review-card__header">
-              {review.avatar ? (
-                <img
-                  src={review.avatar}
-                  alt={review.full_name}
-                  className="review-card__avatar"
-                />
-              ) : (
-                <div className="review-card__avatar--placeholder">
-                  {review.full_name.charAt(0)}
-                </div>
-              )}
+              <div className="review-card__avatar--placeholder">
+                {review.full_name.charAt(0)}
+              </div>
 
               <div className="review-card__meta">
                 <strong>{review.full_name}</strong>
-                <span>{formatDate(review.created_at)}</span>
               </div>
 
               <div className="review-card__rating">
@@ -200,6 +211,16 @@ export const ReviewsPage = () => {
               {review.content}
             </p>
 
+            {review.avatar && (
+              <div className="review-card__image-wrapper">
+                <img
+                  src={review.avatar}
+                  alt="review"
+                  className="review-card__image"
+                />
+              </div>
+            )}
+
             {review.content.length > 300 && (
               <button
                 className="read-more"
@@ -212,8 +233,10 @@ export const ReviewsPage = () => {
             )}
 
             <div className="review-card__footer">
-              <span className="service-name">{review.service?.name}</span>
-              <span className="occupation">{review.occupation?.name}</span>
+              <span className="service-name">
+                Сервіс: {review.service?.name}
+              </span>
+              <span>{formatDate(review.created_at)}</span>
             </div>
           </div>
         ))}

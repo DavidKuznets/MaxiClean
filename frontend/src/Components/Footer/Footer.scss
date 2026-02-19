@@ -5,6 +5,42 @@
   border-radius: 16px;
   margin-bottom: 20px;
 
+  &__link {
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  color: #1b1b1b;
+  position: relative;
+  padding-bottom: 5px;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #0050ff;
+    transition: width 0.3s ease;
+  }
+
+  &:hover::after,
+  &.active::after {
+    width: 100%;
+  }
+
+  &:hover,
+  &.active {
+    color: #0050ff;
+  }
+}
+
+&__border {
+  height: 1px;
+  background: #0042DB1A;
+  margin: 30px 0;
+}
+
   &__top {
     margin: 0 auto 20px auto;
     display: flex;
@@ -133,9 +169,13 @@
         height: 18px;
       }
 
-      &:hover {
-        text-decoration: underline;
-      }
+    &:hover,
+    &:active {
+      text-decoration: none;
+      color: #002a99;
+      cursor: pointer;
+      transform: scale(1.05);
+    }
     }
   }
 }

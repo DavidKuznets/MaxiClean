@@ -1,13 +1,20 @@
+import { useEffect } from "react";
 import "./Footer.scss";
-import { Link } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 
 export const Footer = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
   return (
     <footer className="footer">
       <div className="footer__top">
         <div className="footer__left">
           <div className="footer__info">
-            <p className="footer__city">м. Київ</p>
+            <p className="footer__city">м. Київ та область</p>
             <p className="footer__schedule">
               Графік роботи: Пн-Пт з 08:00 до 21:00
             </p>
@@ -19,27 +26,29 @@ export const Footer = () => {
         </div>
       </div>
 
+      <div className="footer__border"></div>
+
       <div className="footer__container">
         <div className="footer__logo">
           <img src="/Logo.svg" alt="logo-MaxiClean" />
         </div>
 
         <nav className="footer__nav">
-          <Link to="/" className="footer__link">
+          <NavLink to="/" className="footer__link">
             Головна сторінка
-          </Link>
-          <Link to="/services" className="footer__link">
+          </NavLink>
+          <NavLink to="/services" className="footer__link">
             Послуги
-          </Link>
-          <Link to="/about" className="footer__link">
+          </NavLink>
+          <NavLink to="/about" className="footer__link">
             Про нас
-          </Link>
-          <Link to="/reviews" className="footer__link">
+          </NavLink>
+          <NavLink to="/reviews" className="footer__link">
             Відгуки
-          </Link>
-          <Link to="/contacts" className="footer__link">
+          </NavLink>
+          <NavLink to="/contacts" className="footer__link">
             Контакти
-          </Link>
+          </NavLink>
         </nav>
 
         <div className="footer__contact">

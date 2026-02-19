@@ -11,25 +11,17 @@ interface Service {
   name: string;
 }
 
-interface Occupation {
-  id: number;
-  name: string;
-}
-
 export const AddReviewModal: React.FC<Props> = ({ onClose, onReviewAdded }) => {
   const API_BASE_URL = import.meta.env.VITE_API_URL || "";
+
   const [rating, setRating] = useState(0);
   const [content, setContent] = useState("");
   const [file, setFile] = useState<File | null>(null);
 
   const [services, setServices] = useState<Service[]>([]);
-  const [occupations, setOccupations] = useState<Occupation[]>([]);
-
   const [serviceId, setServiceId] = useState<number | "">("");
-  const [occupationId, setOccupationId] = useState<number | "">("");
 
   const [fullName, setFullName] = useState("");
-  const [gender, setGender] = useState<"male" | "female" | "">("");
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -40,21 +32,12 @@ export const AddReviewModal: React.FC<Props> = ({ onClose, onReviewAdded }) => {
         const servicesRes = await fetch(`${API_BASE_URL}/api/v1/services/`, {
           credentials: "include",
         });
+
         if (!servicesRes.ok)
           throw new Error(`Services HTTP ${servicesRes.status}`);
+
         const servicesJson = await servicesRes.json();
         setServices(servicesJson.results ?? servicesJson);
-
-        const occupationsRes = await fetch(
-          `${API_BASE_URL}/api/v1/occupations/`,
-          {
-            credentials: "include",
-          },
-        );
-        if (!occupationsRes.ok)
-          throw new Error(`Occupations HTTP ${occupationsRes.status}`);
-        const occupationsJson = await occupationsRes.json();
-        setOccupations(occupationsJson.results ?? occupationsJson);
       } catch (err) {
         console.error("API ERROR:", err);
         setError("Не вдалося завантажити дані");
@@ -69,12 +52,13 @@ export const AddReviewModal: React.FC<Props> = ({ onClose, onReviewAdded }) => {
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     };
+
     window.addEventListener("keydown", handleEsc);
     return () => window.removeEventListener("keydown", handleEsc);
   }, [onClose]);
 
   const handleSubmit = async () => {
-    if (!rating || !content || !fullName || !gender) {
+    if (!rating || !content || !fullName) {
       setError("Заповніть усі обовʼязкові поля");
       return;
     }
@@ -83,13 +67,12 @@ export const AddReviewModal: React.FC<Props> = ({ onClose, onReviewAdded }) => {
     setError(null);
 
     const formData = new FormData();
+
     if (serviceId !== "") formData.append("service", String(serviceId));
-    if (occupationId !== "")
-      formData.append("occupation", String(occupationId));
     formData.append("full_name", fullName);
-    formData.append("gender", gender);
     formData.append("rating", String(rating));
     formData.append("content", content);
+
     if (file) formData.append("avatar", file);
 
     try {
@@ -108,7 +91,7 @@ export const AddReviewModal: React.FC<Props> = ({ onClose, onReviewAdded }) => {
       }
 
       onClose();
-      if (onReviewAdded) onReviewAdded();
+      onReviewAdded?.();
     } catch (err: unknown) {
       if (err instanceof Error) setError(err.message);
       else setError("Помилка при відправці відгуку");
@@ -122,25 +105,13 @@ export const AddReviewModal: React.FC<Props> = ({ onClose, onReviewAdded }) => {
       <div className="modal" onClick={(e) => e.stopPropagation()}>
         <div className="modal__header">
           <p className="text modal__title">Написати відгук</p>
+
           <button
             className="modal__close"
             onClick={onClose}
             aria-label="Закрити"
           >
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M6 6L18 18M18 6L6 18"
-                stroke="#000D2C"
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
-            </svg>
+            ✕
           </button>
         </div>
 
@@ -165,19 +136,6 @@ export const AddReviewModal: React.FC<Props> = ({ onClose, onReviewAdded }) => {
           className="input"
         />
 
-        {/* Gender */}
-        <select
-          className="select_option"
-          value={gender}
-          onChange={(e) => setGender(e.target.value as "male" | "female")}
-        >
-          <option value="" disabled>
-            Стать
-          </option>
-          <option value="male">Чоловіча</option>
-          <option value="female">Жіноча</option>
-        </select>
-
         {/* Service */}
         <select
           className="select_option"
@@ -190,22 +148,6 @@ export const AddReviewModal: React.FC<Props> = ({ onClose, onReviewAdded }) => {
           {services.map((s) => (
             <option key={s.id} value={s.id}>
               {s.name}
-            </option>
-          ))}
-        </select>
-
-        {/* Occupation */}
-        <select
-          className="select_option"
-          value={occupationId}
-          onChange={(e) =>
-            setOccupationId(e.target.value === "" ? "" : Number(e.target.value))
-          }
-        >
-          <option value="">Вид діяльності</option>
-          {occupations.map((o) => (
-            <option key={o.id} value={o.id}>
-              {o.name}
             </option>
           ))}
         </select>
@@ -227,12 +169,14 @@ export const AddReviewModal: React.FC<Props> = ({ onClose, onReviewAdded }) => {
           />
           <p className="textUp">Перетягніть зображення сюди</p>
           <p className="textDown">або натисніть, щоб завантажити</p>
+
           <input
             type="file"
             hidden
             onChange={(e) => setFile(e.target.files?.[0] || null)}
           />
         </label>
+
         {file && <p className="file-name">{file.name}</p>}
         {error && <p className="error">{error}</p>}
 
@@ -242,11 +186,6 @@ export const AddReviewModal: React.FC<Props> = ({ onClose, onReviewAdded }) => {
           onClick={handleSubmit}
           disabled={loading}
         >
-          <img
-            src="/AddResponse.png"
-            alt="addResponseImage"
-            className="addResponseImage"
-          />
           {loading ? "Надсилання..." : "Додати відгук"}
         </button>
       </div>

@@ -1,9 +1,67 @@
-import React from "react";
+import React, { useState } from "react";
 import "./ContactsPage.scss";
 import { ContactsPageDetails } from "../../Components/ContactsPageDetails/ContactsPageDetails";
 import { FAQ } from "../../Components/Question/FAQ";
 
 export const ContactsPage = () => {
+  const [consentChecked, setConsentChecked] = useState(false);
+
+  const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+  const CALLBACKS_ENDPOINT = `${API_BASE_URL}/api/v1/callbacks/`;
+
+  const submitCallback = async (form: HTMLFormElement, photo?: File | null) => {
+    const full_name = (form.elements.namedItem("full_name") as HTMLInputElement)
+      .value;
+    const phone_number = (
+      form.elements.namedItem("phone_number") as HTMLInputElement
+    ).value;
+    const addition =
+      (form.elements.namedItem("addition") as HTMLInputElement)?.value || "";
+
+    const formData = new FormData();
+    formData.append("full_name", full_name);
+    formData.append("phone_number", phone_number);
+    formData.append("addition", addition);
+    if (photo) formData.append("photo", photo);
+
+    const res = await fetch(CALLBACKS_ENDPOINT, {
+      method: "POST",
+      body: formData,
+      credentials: "include",
+    });
+
+    if (!res.ok) {
+      const errorData = await res
+        .json()
+        .catch(() => ({ detail: "Невідома помилка" }));
+      throw new Error(`Помилка ${res.status}: ${errorData.detail}`);
+    }
+
+    return res.json();
+  };
+  const handleContactSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!consentChecked) {
+      alert("Будь ласка, дайте згоду на обробку персональних даних.");
+      return;
+    }
+
+    const form = e.currentTarget;
+
+    try {
+      await submitCallback(form);
+      alert("Заявку відправлено успішно!");
+      form.reset();
+      setConsentChecked(false); // скидаємо чекбокс
+    } catch (err) {
+      console.error(err);
+      alert(
+        `Помилка відправки: ${err instanceof Error ? err.message : "Невідома помилка"}`,
+      );
+    }
+  };
+
   return (
     <div className="contacts-page">
       <ContactsPageDetails />
@@ -19,10 +77,19 @@ export const ContactsPage = () => {
             запитання та розрахувати вартість.
           </p>
 
-          <form className="contacts-form">
-            <input type="text" placeholder="Ваше ім’я" />
-            <input type="tel" placeholder="Номер телефону" />
-
+          <form className="contacts-form" onSubmit={handleContactSubmit}>
+            <input
+              type="text"
+              name="full_name"
+              placeholder="Ваше ім’я"
+              required
+            />
+            <input
+              type="tel"
+              name="phone_number"
+              placeholder="Номер телефону"
+              required
+            />
             <button type="submit">
               <img src="/Phone.png" alt="phone-icon" />
               Передзвоніть мені
@@ -30,7 +97,12 @@ export const ContactsPage = () => {
           </form>
 
           <label className="contacts-consent">
-            <input type="checkbox" />
+            <input
+              type="checkbox"
+              name="consent"
+              checked={consentChecked}
+              onChange={(e) => setConsentChecked(e.target.checked)}
+            />
             Даю згоду на обробку своїх персональних даних
           </label>
         </div>
