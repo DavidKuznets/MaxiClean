@@ -10,6 +10,10 @@
     background: #0044cc; 
     border-radius: 16px;
 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
     h1 {
       font-size: 36px;
       font-weight: 700;
@@ -38,7 +42,9 @@
   &__form {
     display: flex;
     gap: 10px;
+    margin-top: auto;
     margin-bottom: 12px;
+    flex-wrap: wrap;
 
     input {
       padding: 12px;
@@ -63,9 +69,10 @@
       display: flex;
       align-items: center;
       gap: 8px;
+      white-space: nowrap;
 
       &:hover {
-        background: #003399;
+        background: #cccccc;
       }
     }
   }
@@ -337,5 +344,11 @@
       margin-top: 8px;
       font-size: 12px;
     }
+  }
+}
+
+@media (max-width: 1199px) {
+  .hero-services__image {
+    display: none;
   }
 }

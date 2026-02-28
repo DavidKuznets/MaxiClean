@@ -1,8 +1,66 @@
+import { useState } from "react";
 import phoneBlue from "../../../../public/Phone-blue.png";
 import { WorksSection } from "../../../Components/BeforeAfterSlider/WorksSection";
 import "../DefaultServicesStyle.scss";
 
 export const SofaPage = () => {
+  const [consentChecked, setConsentChecked] = useState(false);
+
+  const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+  const CALLBACKS_ENDPOINT = `${API_BASE_URL}/api/v1/callbacks/`;
+
+  const submitCallback = async (form: HTMLFormElement) => {
+    const full_name = (form.elements.namedItem("full_name") as HTMLInputElement)
+      .value;
+    const phone_number = (
+      form.elements.namedItem("phone_number") as HTMLInputElement
+    ).value;
+
+    const formData = new FormData();
+    formData.append("full_name", full_name);
+    formData.append("phone_number", phone_number);
+
+    const res = await fetch(CALLBACKS_ENDPOINT, {
+      method: "POST",
+      body: formData,
+      credentials: "include",
+    });
+
+    if (!res.ok) {
+      const errorData = await res
+        .json()
+        .catch(() => ({ detail: "Невідома помилка" }));
+      throw new Error(`Помилка ${res.status}: ${errorData.detail}`);
+    }
+
+    return res.json();
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!consentChecked) {
+      alert("Будь ласка, дайте згоду на обробку персональних даних.");
+      return;
+    }
+
+    const form = e.currentTarget;
+
+    try {
+      await submitCallback(form);
+      alert("Заявку відправлено успішно!");
+      form.reset();
+      setConsentChecked(false);
+    } catch (err) {
+      console.error(err);
+      alert(
+        `Помилка відправки: ${
+          err instanceof Error ? err.message : "Невідома помилка"
+        }`,
+      );
+    }
+  };
+
   return (
     <>
       <section className="hero-services">
@@ -13,17 +71,34 @@ export const SofaPage = () => {
             гідні — дбайливо, швидко та з гарантією результату.
           </p>
 
-          <form className="hero-services__form">
-            <input type="text" placeholder="Ваше ім’я" />
-            <input type="tel" placeholder="Номер телефону" />
+          <form className="hero-services__form" onSubmit={handleSubmit}>
+            <input
+              type="text"
+              name="full_name"
+              placeholder="Ваше ім’я"
+              required
+            />
+
+            <input
+              type="tel"
+              name="phone_number"
+              placeholder="Номер телефону"
+              required
+            />
+
             <button type="submit">
               <img src={phoneBlue} alt="phone-icon" /> Передзвоніть мені
             </button>
           </form>
 
           <label className="hero-services__checkbox">
-            <input type="checkbox" /> Даю згоду на обробку своїх персональних
-            даних
+            <input
+              type="checkbox"
+              name="consent"
+              checked={consentChecked}
+              onChange={(e) => setConsentChecked(e.target.checked)}
+            />
+            Даю згоду на обробку своїх персональних даних
           </label>
         </div>
 
