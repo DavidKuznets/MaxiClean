@@ -38,6 +38,9 @@ class ReviewBaseSerializer(serializers.ModelSerializer):
     service = ServiceCategoryBaseSerializer(read_only=True)
     occupation = OccupationBaseSerializer(read_only=True)
 
+    # Додаємо це, щоб контролювати вивід аватарки
+    avatar = serializers.SerializerMethodField()
+
     class Meta:
         model = Review
         fields = (
@@ -52,6 +55,13 @@ class ReviewBaseSerializer(serializers.ModelSerializer):
 			"created_at",
 			"status"
         )
+
+    # Цей метод спрацює для поля "avatar"
+    def get_avatar(self, obj):
+        if obj.avatar:
+            # .url повертає шлях зі слешем на початку: /media/avatars/...
+            return obj.avatar.url
+        return None
 
 
 class ReviewCreateSerializer(serializers.ModelSerializer):

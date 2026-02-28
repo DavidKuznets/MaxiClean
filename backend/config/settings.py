@@ -177,3 +177,10 @@ REST_FRAMEWORK = {
 # Telegram
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
+
+
+# Додайте це в кінець settings.py
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]

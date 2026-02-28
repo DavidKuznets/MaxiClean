@@ -368,7 +368,9 @@ class Review(models.Model):
     occupation = models.ForeignKey(
         Occupation,
         on_delete=models.PROTECT,
-        verbose_name="Вид діяльності"
+        verbose_name="Вид діяльності",
+        null=True,
+        blank=True
     )
     avatar = models.ImageField(
         upload_to=client_photo_path,
