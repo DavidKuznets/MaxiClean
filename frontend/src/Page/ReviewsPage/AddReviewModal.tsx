@@ -58,8 +58,23 @@ export const AddReviewModal: React.FC<Props> = ({ onClose, onReviewAdded }) => {
   }, [onClose]);
 
   const handleSubmit = async () => {
-    if (!rating || !content || !fullName) {
-      setError("Заповніть усі обовʼязкові поля");
+    if (!fullName.trim()) {
+      setError("Введіть ваше імʼя");
+      return;
+    }
+
+    if (!serviceId) {
+      setError("Оберіть сервіс");
+      return;
+    }
+
+    if (!rating) {
+      setError("Оберіть рейтинг");
+      return;
+    }
+
+    if (!content.trim()) {
+      setError("Напишіть текст відгуку");
       return;
     }
 
@@ -68,10 +83,10 @@ export const AddReviewModal: React.FC<Props> = ({ onClose, onReviewAdded }) => {
 
     const formData = new FormData();
 
-    if (serviceId !== "") formData.append("service", String(serviceId));
-    formData.append("full_name", fullName);
+    formData.append("service", String(serviceId));
+    formData.append("full_name", fullName.trim());
     formData.append("rating", String(rating));
-    formData.append("content", content);
+    formData.append("content", content.trim());
 
     if (file) formData.append("avatar", file);
 
@@ -83,23 +98,18 @@ export const AddReviewModal: React.FC<Props> = ({ onClose, onReviewAdded }) => {
       });
 
       if (!res.ok) {
-        const errData = await res.json().catch(() => null);
-        const msg = errData
-          ? JSON.stringify(errData)
-          : "Failed to submit review";
-        throw new Error(msg);
+        const data = await res.json().catch(() => null);
+        throw new Error(JSON.stringify(data || {}));
       }
 
       onClose();
       onReviewAdded?.();
-    } catch (err: unknown) {
-      if (err instanceof Error) setError(err.message);
-      else setError("Помилка при відправці відгуку");
+    } catch {
+      setError("Помилка відправки відгуку");
     } finally {
       setLoading(false);
     }
   };
-
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal" onClick={(e) => e.stopPropagation()}>
