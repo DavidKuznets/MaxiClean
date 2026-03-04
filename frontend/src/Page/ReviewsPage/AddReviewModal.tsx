@@ -11,7 +11,32 @@ interface Service {
   name: string;
 }
 
-export const AddReviewModal: React.FC<Props> = ({ onClose, onReviewAdded }) => {
+// ✅ ДОДАНО: функція отримання csrftoken
+function getCookie(name: string): string | null {
+  let cookieValue = null;
+
+  if (document.cookie && document.cookie !== "") {
+    const cookies = document.cookie.split(";");
+
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+
+      if (cookie.substring(0, name.length + 1) === name + "=") {
+        cookieValue = decodeURIComponent(
+          cookie.substring(name.length + 1)
+        );
+        break;
+      }
+    }
+  }
+
+  return cookieValue;
+}
+
+export const AddReviewModal: React.FC<Props> = ({
+  onClose,
+  onReviewAdded,
+}) => {
   const API_BASE_URL = import.meta.env.VITE_API_URL || "";
 
   const [rating, setRating] = useState(0);
@@ -29,12 +54,16 @@ export const AddReviewModal: React.FC<Props> = ({ onClose, onReviewAdded }) => {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const servicesRes = await fetch(`${API_BASE_URL}/api/v1/services/`, {
-          credentials: "include",
-        });
+        const servicesRes = await fetch(
+          `${API_BASE_URL}/api/v1/services/`,
+          {
+            credentials: "include",
+          }
+        );
 
-        if (!servicesRes.ok)
+        if (!servicesRes.ok) {
           throw new Error(`Services HTTP ${servicesRes.status}`);
+        }
 
         const servicesJson = await servicesRes.json();
         setServices(servicesJson.results ?? servicesJson);
@@ -45,7 +74,7 @@ export const AddReviewModal: React.FC<Props> = ({ onClose, onReviewAdded }) => {
     };
 
     loadData();
-  }, []);
+  }, [API_BASE_URL]);
 
   // Закриття по ESC
   useEffect(() => {
@@ -82,20 +111,28 @@ export const AddReviewModal: React.FC<Props> = ({ onClose, onReviewAdded }) => {
     setError(null);
 
     const formData = new FormData();
-
     formData.append("service", String(serviceId));
     formData.append("full_name", fullName.trim());
     formData.append("rating", String(rating));
     formData.append("content", content.trim());
 
-    if (file) formData.append("avatar", file);
+    if (file) {
+      formData.append("avatar", file);
+    }
 
     try {
-      const res = await fetch(`${API_BASE_URL}/api/v1/reviews/`, {
-        method: "POST",
-        body: formData,
-        credentials: "include",
-      });
+      const res = await fetch(
+        `${API_BASE_URL}/api/v1/reviews/`,
+        {
+          method: "POST",
+          headers: {
+            // ✅ ДОДАНО CSRF
+            "X-CSRFToken": getCookie("csrftoken") || "",
+          },
+          body: formData,
+          credentials: "include",
+        }
+      );
 
       if (!res.ok) {
         const data = await res.json().catch(() => null);
@@ -104,12 +141,14 @@ export const AddReviewModal: React.FC<Props> = ({ onClose, onReviewAdded }) => {
 
       onClose();
       onReviewAdded?.();
-    } catch {
+    } catch (err) {
+      console.error(err);
       setError("Помилка відправки відгуку");
     } finally {
       setLoading(false);
     }
   };
+
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal" onClick={(e) => e.stopPropagation()}>
@@ -125,10 +164,13 @@ export const AddReviewModal: React.FC<Props> = ({ onClose, onReviewAdded }) => {
           </button>
         </div>
 
-        {/* Rating */}
         <div className="stars">
           {[1, 2, 3, 4, 5].map((n) => (
-            <span key={n} onClick={() => setRating(n)} className="star">
+            <span
+              key={n}
+              onClick={() => setRating(n)}
+              className="star"
+            >
               <img
                 src={n <= rating ? "/ActiveStar.png" : "/Star.png"}
                 alt="Star"
@@ -137,7 +179,6 @@ export const AddReviewModal: React.FC<Props> = ({ onClose, onReviewAdded }) => {
           ))}
         </div>
 
-        {/* Full name */}
         <input
           type="text"
           placeholder="Ваше імʼя"
@@ -146,12 +187,15 @@ export const AddReviewModal: React.FC<Props> = ({ onClose, onReviewAdded }) => {
           className="input"
         />
 
-        {/* Service */}
         <select
           className="select_option"
           value={serviceId}
           onChange={(e) =>
-            setServiceId(e.target.value === "" ? "" : Number(e.target.value))
+            setServiceId(
+              e.target.value === ""
+                ? ""
+                : Number(e.target.value)
+            )
           }
         >
           <option value="">Оберіть категорію</option>
@@ -162,7 +206,6 @@ export const AddReviewModal: React.FC<Props> = ({ onClose, onReviewAdded }) => {
           ))}
         </select>
 
-        {/* Review content */}
         <textarea
           placeholder="Напишіть Ваш відгук..."
           value={content}
@@ -170,27 +213,31 @@ export const AddReviewModal: React.FC<Props> = ({ onClose, onReviewAdded }) => {
           className="textareaVidguk"
         />
 
-        {/* Upload */}
         <label className="upload">
           <img
             src="/ReviewModalImage.png"
             alt="image"
             className="imageReview"
           />
-          <p className="textUp">Перетягніть зображення сюди</p>
-          <p className="textDown">або натисніть, щоб завантажити</p>
+          <p className="textUp">
+            Перетягніть зображення сюди
+          </p>
+          <p className="textDown">
+            або натисніть, щоб завантажити
+          </p>
 
           <input
             type="file"
             hidden
-            onChange={(e) => setFile(e.target.files?.[0] || null)}
+            onChange={(e) =>
+              setFile(e.target.files?.[0] || null)
+            }
           />
         </label>
 
         {file && <p className="file-name">{file.name}</p>}
         {error && <p className="error">{error}</p>}
 
-        {/* Submit */}
         <button
           className="AddResponse"
           onClick={handleSubmit}

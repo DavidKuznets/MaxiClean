@@ -144,6 +144,40 @@ export const CarpetsPage = () => {
         <WorksSection />
       </section>
 
+      <section className="ServicesDryCleaners">
+        <div className="ServicesDryCleaners__header">
+          <h2>Коли потрібно проводити хімчистку?</h2>
+        </div>
+        <div className="ServicesDryCleaners__section">
+          <div className="ServicesDryCleaners__item">
+            <img src="/AfterStains.png" alt="deep-cleaning" />
+            <div className="ServicesDryCleaners__item__text">
+              <p className="title">Після появи плям</p>
+              <p>
+                Плями від їжі, напоїв, домашніх тварин потрібно видаляти якомога
+                швидше.
+              </p>
+            </div>
+          </div>
+          <div className="ServicesDryCleaners__item">
+            <img src="/regularCheck-Up.png" alt="chemistry" />
+            <div className="ServicesDryCleaners__item__text">
+              <p className="title">Регулярна профілактика</p>
+              <p>
+                Рекомендовано проводити 1-2 рази на рік для підтримки чистоти.
+              </p>
+            </div>
+          </div>
+          <div className="ServicesDryCleaners__item">
+            <img src="/allergy.png" alt="equipment" />
+            <div className="ServicesDryCleaners__item__text">
+              <p className="title">При алергіях та пилових кліщах</p>
+              <p>Для зниження алергенів та покращення здоров'я мешканців.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="ServicesSteps">
         <h2>6 етапів професійної хімчистки м'яких меблів</h2>
         <div className="ServicesSteps__list">

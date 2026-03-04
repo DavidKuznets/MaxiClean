@@ -1,4 +1,4 @@
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./ReviewsPage.scss";
 import { FAQ } from "../../Components/Question/FAQ";
 import { AddReviewModal } from "./AddReviewModal";
@@ -25,6 +25,7 @@ export const ReviewsPage = () => {
   const [error, setError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [expandedId, setExpandedId] = useState<number | null>(null);
+  const [ratingOpen, setRatingOpen] = useState(false);
 
   const [serviceFilter, setServiceFilter] = useState<
     "all" | "sofas" | "chairs" | "mattresses" | "carpets"
@@ -35,6 +36,8 @@ export const ReviewsPage = () => {
   >("");
 
   const [dateSort, setDateSort] = useState<"" | "new" | "old">("");
+  const [serviceOpen, setServiceOpen] = useState(false);
+  const [dateOpen, setDateOpen] = useState(false);
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -111,6 +114,30 @@ export const ReviewsPage = () => {
     });
   };
 
+  const getAvatarColor = (name: string) => {
+    const colors = [
+      "linear-gradient(135deg,#0044cc,#00c6ff)",
+      "linear-gradient(135deg,#ff6b6b,#ff8e53)",
+      "linear-gradient(135deg,#7f00ff,#e100ff)",
+      "linear-gradient(135deg,#11998e,#38ef7d)",
+      "linear-gradient(135deg,#f7971e,#ffd200)",
+      "linear-gradient(135deg,#00c9ff,#92fe9d)",
+      "linear-gradient(135deg,#ee0979,#ff6a00)",
+      "linear-gradient(135deg,#4facfe,#00f2fe)",
+      "linear-gradient(135deg,#667eea,#764ba2)",
+      "linear-gradient(135deg,#ff512f,#dd2476)",
+      "linear-gradient(135deg,#1d2b64,#f8cdda)",
+      "linear-gradient(135deg,#11998e,#0575e6)",
+      "linear-gradient(135deg,#fc5c7d,#6a82fb)",
+      "linear-gradient(135deg,#00b09b,#96c93d)",
+    ];
+
+    const index =
+      name.split("").reduce((a, c) => a + c.charCodeAt(0), 0) % colors.length;
+
+    return colors[index];
+  };
+
   return (
     <section className="reviews">
       {/* Загальний рейтинг */}
@@ -119,8 +146,17 @@ export const ReviewsPage = () => {
         <div className="reviews__rating-value">
           <span>{averageRating}</span>
           <div className="stars">
-            {"★".repeat(Math.round(Number(averageRating)))}
-            {"☆".repeat(5 - Math.round(Number(averageRating)))}
+            {[1, 2, 3, 4, 5].map((n) => (
+              <img
+                key={n}
+                src={
+                  n <= Math.round(Number(averageRating))
+                    ? "/ActiveStar.png"
+                    : "/Star.png"
+                }
+                alt="star"
+              />
+            ))}
           </div>
           <p>({reviews.length} відгуків)</p>
         </div>
@@ -129,55 +165,119 @@ export const ReviewsPage = () => {
       {/* Фільтри */}
       <div className="reviews__filters">
         {/* Сервіс */}
-        <select
-          className="reviews__service-style"
-          value={serviceFilter}
-          onChange={(e) =>
-            setServiceFilter(
-              e.target.value as
-                | "all"
-                | "sofas"
-                | "chairs"
-                | "mattresses"
-                | "carpets",
-            )
-          }
-        >
-          <option value="all">Сервіс</option>
-          <option value="sofas">Дивани</option>
-          <option value="chairs">Стільці</option>
-          <option value="mattresses">Матраци</option>
-          <option value="carpets">Килими</option>
-        </select>
+        <div className="dropdown-wrapper">
+          <button
+            className="dropdown-trigger"
+            onClick={() => setServiceOpen(!serviceOpen)}
+          >
+            {serviceFilter === "all" ? "Сервіс" : serviceMap[serviceFilter]}
+
+            <img src="/Checkmark.png" alt="" />
+          </button>
+
+          {serviceOpen && (
+            <div className="dropdown-menu">
+              {[
+                { value: "all", label: "Сервіс" },
+                { value: "sofas", label: "Дивани" },
+                { value: "chairs", label: "Стільці" },
+                { value: "mattresses", label: "Матраци" },
+                { value: "carpets", label: "Килими" },
+              ].map((item) => (
+                <div
+                  key={item.value}
+                  className="dropdown-item"
+                  onClick={() => {
+                    setServiceFilter(item.value as never);
+                    setServiceOpen(false);
+                  }}
+                >
+                  {item.label}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
 
         {/* Рейтинг */}
-        <select
-          className="reviews__service-style"
-          value={ratingFilter}
-          onChange={(e) =>
-            setRatingFilter(e.target.value as "" | "5" | "4" | "3" | "2" | "1")
-          }
-        >
-          <option value="">Рейтинг</option>
-          <option value="5">5★</option>
-          <option value="4">4★</option>
-          <option value="3">3★</option>
-          <option value="2">2★</option>
-          <option value="1">1★</option>
-        </select>
+        <div className="dropdown-wrapper">
+          <button
+            className="dropdown-trigger"
+            onClick={() => setRatingOpen(!ratingOpen)}
+          >
+            {ratingFilter ? `${ratingFilter} ★` : "Рейтинг"}
+
+            <img src="/Checkmark.png" alt="" />
+          </button>
+
+          {ratingOpen && (
+            <div className="dropdown-menu">
+              {["", "5", "4", "3", "2", "1"].map((value) => {
+                const labels: Record<string, string> = {
+                  "": "Рейтинг",
+                  "5": "5 — Відмінно",
+                  "4": "4 — Добре",
+                  "3": "3 — Нормально",
+                  "2": "2 — Слабко",
+                  "1": "1 — Погано",
+                };
+
+                return (
+                  <div
+                    key={value}
+                    className="dropdown-item"
+                    onClick={() => {
+                      setRatingFilter(value as never);
+                      setRatingOpen(false);
+                    }}
+                  >
+                    {labels[value]}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
 
         {/* Сортування по даті */}
-        <select
-          className="reviews__service-style"
-          value={dateSort}
-          onChange={(e) => setDateSort(e.target.value as "" | "new" | "old")}
-        >
-          <option value="">Дата</option>
-          <option value="new">Новіші</option>
-          <option value="old">Старіші</option>
-        </select>
+        <div className="dropdown-wrapper">
+          <button
+            className="dropdown-trigger"
+            onClick={() => setDateOpen(!dateOpen)}
+          >
+            {dateSort === ""
+              ? "Дата"
+              : dateSort === "new"
+                ? "Новіші"
+                : "Старіші"}
+
+            <img src="/Checkmark.png" alt="" />
+          </button>
+
+          {dateOpen && (
+            <div className="dropdown-menu">
+              {[
+                { value: "", label: "Дата" },
+                { value: "new", label: "Новіші" },
+                { value: "old", label: "Старіші" },
+              ].map((item) => (
+                <div
+                  key={item.value}
+                  className="dropdown-item"
+                  onClick={() => {
+                    setDateSort(item.value as never);
+                    setDateOpen(false);
+                  }}
+                >
+                  {item.label}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
 
         <button className="primary" onClick={() => setIsModalOpen(true)}>
+          <img src="/plus.png" alt="Add Review" />
           Додати відгук
         </button>
       </div>
@@ -190,7 +290,12 @@ export const ReviewsPage = () => {
         {filteredAndSortedReviews.map((review) => (
           <div key={review.id} className="review-card">
             <div className="review-card__header">
-              <div className="review-card__avatar--placeholder">
+              <div
+                className="review-card__avatar--placeholder"
+                style={{
+                  background: getAvatarColor(review.full_name),
+                }}
+              >
                 {review.full_name.charAt(0)}
               </div>
 
@@ -199,7 +304,17 @@ export const ReviewsPage = () => {
               </div>
 
               <div className="review-card__rating">
-                {"★".repeat(Number(review.rating))}
+                {[1, 2, 3, 4, 5].map((n) => (
+                  <img
+                    key={n}
+                    src={
+                      n <= Number(review.rating)
+                        ? "/ActiveStar.png"
+                        : "/Star.png"
+                    }
+                    alt="star"
+                  />
+                ))}
               </div>
             </div>
 
