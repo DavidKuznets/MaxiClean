@@ -1,5 +1,6 @@
 from rest_framework import viewsets, mixins
 from rest_framework.permissions import AllowAny
+from django_filters.rest_framework import DjangoFilterBackend
 
 from .models import (
     Review,
@@ -67,6 +68,8 @@ class ServiceWorkViewSet(
 ):
     queryset = ServiceWork.objects.filter(is_active=True)
     serializer_class = ServiceWorkListSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ["service_category"]
 
 
 class QuestionViewSet(
