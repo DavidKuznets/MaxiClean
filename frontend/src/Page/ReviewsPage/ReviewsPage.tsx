@@ -20,6 +20,8 @@ interface Review {
 }
 
 export const ReviewsPage = () => {
+  const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -43,7 +45,7 @@ export const ReviewsPage = () => {
     const fetchReviews = async () => {
       setLoading(true);
       try {
-        const res = await fetch("/api/v1/reviews/");
+        const res = await fetch(`${API_BASE_URL}/api/v1/reviews/`);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
         const items: Review[] = data.results ?? data;
@@ -329,7 +331,11 @@ export const ReviewsPage = () => {
             {review.avatar && (
               <div className="review-card__image-wrapper">
                 <img
-                  src={review.avatar}
+                  src={
+                    review.avatar.startsWith("http")
+                      ? review.avatar
+                      : `${API_BASE_URL}${review.avatar}`
+                  }
                   alt="review"
                   className="review-card__image"
                 />

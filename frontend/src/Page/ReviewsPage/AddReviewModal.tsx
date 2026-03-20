@@ -22,9 +22,7 @@ function getCookie(name: string): string | null {
       const cookie = cookies[i].trim();
 
       if (cookie.substring(0, name.length + 1) === name + "=") {
-        cookieValue = decodeURIComponent(
-          cookie.substring(name.length + 1)
-        );
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
         break;
       }
     }
@@ -33,10 +31,7 @@ function getCookie(name: string): string | null {
   return cookieValue;
 }
 
-export const AddReviewModal: React.FC<Props> = ({
-  onClose,
-  onReviewAdded,
-}) => {
+export const AddReviewModal: React.FC<Props> = ({ onClose, onReviewAdded }) => {
   const API_BASE_URL = import.meta.env.VITE_API_URL || "";
 
   const [rating, setRating] = useState(0);
@@ -54,12 +49,9 @@ export const AddReviewModal: React.FC<Props> = ({
   useEffect(() => {
     const loadData = async () => {
       try {
-        const servicesRes = await fetch(
-          `${API_BASE_URL}/api/v1/services/`,
-          {
-            credentials: "include",
-          }
-        );
+        const servicesRes = await fetch(`${API_BASE_URL}/api/v1/services/`, {
+          credentials: "include",
+        });
 
         if (!servicesRes.ok) {
           throw new Error(`Services HTTP ${servicesRes.status}`);
@@ -121,18 +113,15 @@ export const AddReviewModal: React.FC<Props> = ({
     }
 
     try {
-      const res = await fetch(
-        `${API_BASE_URL}/api/v1/reviews/`,
-        {
-          method: "POST",
-          headers: {
-            // ✅ ДОДАНО CSRF
-            "X-CSRFToken": getCookie("csrftoken") || "",
-          },
-          body: formData,
-          credentials: "include",
-        }
-      );
+      const res = await fetch(`${API_BASE_URL}/api/v1/reviews/`, {
+        method: "POST",
+        headers: {
+          // ✅ ДОДАНО CSRF
+          "X-CSRFToken": getCookie("csrftoken") || "",
+        },
+        body: formData,
+        credentials: "include",
+      });
 
       if (!res.ok) {
         const data = await res.json().catch(() => null);
@@ -166,11 +155,7 @@ export const AddReviewModal: React.FC<Props> = ({
 
         <div className="stars">
           {[1, 2, 3, 4, 5].map((n) => (
-            <span
-              key={n}
-              onClick={() => setRating(n)}
-              className="star"
-            >
+            <span key={n} onClick={() => setRating(n)} className="star">
               <img
                 src={n <= rating ? "/ActiveStar.png" : "/Star.png"}
                 alt="Star"
@@ -191,11 +176,7 @@ export const AddReviewModal: React.FC<Props> = ({
           className="select_option"
           value={serviceId}
           onChange={(e) =>
-            setServiceId(
-              e.target.value === ""
-                ? ""
-                : Number(e.target.value)
-            )
+            setServiceId(e.target.value === "" ? "" : Number(e.target.value))
           }
         >
           <option value="">Оберіть категорію</option>
@@ -219,19 +200,13 @@ export const AddReviewModal: React.FC<Props> = ({
             alt="image"
             className="imageReview"
           />
-          <p className="textUp">
-            Перетягніть зображення сюди
-          </p>
-          <p className="textDown">
-            або натисніть, щоб завантажити
-          </p>
+          <p className="textUp">Перетягніть зображення сюди</p>
+          <p className="textDown">або натисніть, щоб завантажити</p>
 
           <input
             type="file"
             hidden
-            onChange={(e) =>
-              setFile(e.target.files?.[0] || null)
-            }
+            onChange={(e) => setFile(e.target.files?.[0] || null)}
           />
         </label>
 
