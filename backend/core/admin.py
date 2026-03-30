@@ -207,6 +207,15 @@ class ReviewAdmin(admin.ModelAdmin):
 	search_fields = ("content", "full_name", )
 	list_editable = ("status", )
 	list_display_links = ("full_name", )
+	readonly_fields = ("avatar_display_large", "formatted_created_date_readonly")
+	fieldsets = (
+		("Інформація про клієнта", {
+			"fields": ("full_name", "gender", "occupation", "avatar", "avatar_display_large")
+		}),
+		("Відгук", {
+			"fields": ("service", "rating", "content", "status", "formatted_created_date_readonly")
+		}),
+	)
 
 	def save_model(self, request, obj, form, change):
 		# тут ми явно вимикаємо notify
@@ -229,9 +238,27 @@ class ReviewAdmin(admin.ModelAdmin):
 		return timezone.localtime(obj.created_at).strftime("%d-%m-%y, %H:%M")
 	formatted_created_date.short_description = "Дата відгуку"
 
+	## Велике відображення фото в формі редагування
+	def avatar_display_large(self, obj):
+		if obj.avatar:
+			return format_html(
+				'<img src="{}" width="150" height="150" style="border-radius: 8px; object-fit: cover;" />',
+				obj.avatar.url
+			)
+		return "Фото не завантажено"
+	avatar_display_large.short_description = "Поточне фото"
+
+	## Readonly дата для форми
+	def formatted_created_date_readonly(self, obj):
+		return timezone.localtime(obj.created_at).strftime("%d-%m-%y, %H:%M")
+	formatted_created_date_readonly.short_description = "Дата створення"
+
 	## 3аголовок у таблиці photo
 	def client_avatar_display(self, obj):
 		if obj.avatar:
-			return format_html('<a href="{}" target="_blank">{}</a>', obj.avatar.url, "Фото")
+			return format_html(
+				'<a href="{}" target="_blank"><img src="{}" width="40" height="40" style="border-radius: 4px; object-fit: cover;" /></a>',
+				obj.avatar.url, obj.avatar.url
+			)
 		return "-"  # посилання на Зображення
 	client_avatar_display.short_description = "Фото"

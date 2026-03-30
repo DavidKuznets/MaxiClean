@@ -193,7 +193,13 @@
   }
 }
 
-
+.ServicesPrices .price-card img {
+  width: 100%;         // займає всю ширину картки
+  height: 180px;       // фіксована висота
+  object-fit: cover;   // обрізає зайве, щоб не спотворювати
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
 
 .ServicesPrices {
   padding: 0;
@@ -233,12 +239,7 @@
       margin-bottom: 6px;
     }
 
-    img {
-      max-width: 100%;
-      height: auto;
-      margin-bottom: 12px;
-      border-radius: 8px;
-    }
+
 
     p {
       font-size: 16px;
