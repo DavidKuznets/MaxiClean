@@ -48,16 +48,24 @@ export const WorksCategory: React.FC<WorksCategoryProps> = ({ category }) => {
         {works.map((work) => (
           <div key={work.id} className="price-card">
             <img src={work.work_image} alt={work.name} />
+
             <p className="subtitle">
               {work.service_category?.name || "Хімчистка"}
             </p>
+
             <p>{work.name}</p>
+
+            {work.description && (
+              <p className="description">{work.description}</p>
+            )}
+
             <span>
               <em>Від</em> {work.price} ₴
             </span>
           </div>
         ))}
       </div>
+         <h2>УВАГА, сушка меблів + 40% до вартості хімчистки</h2>
     </section>
   );
 };

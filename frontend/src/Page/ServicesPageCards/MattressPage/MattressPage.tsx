@@ -2,6 +2,7 @@ import { useState } from "react";
 import phoneBlue from "../../../../public/Phone-blue.png";
 import { WorksSection } from "../../../Components/BeforeAfterSlider/WorksSection";
 import "../DefaultServicesStyle.scss";
+import { WorksCategory } from "../WorksCategory";
 
 export const MattressPage = () => {
   const [consentChecked, setConsentChecked] = useState(false);
@@ -216,111 +217,7 @@ export const MattressPage = () => {
         </div>
       </section>
 
-      <section className="ServicesPrices">
-        <h2>Ціни на послуги</h2>
-        <div className="ServicesPrices__grid">
-          <div className="price-card">
-            <img src="/Price&Services-1.png" alt="Маленький диван" />
-            <p className="subtitle">Хімчистка</p>
-
-            <p>Маленький диван</p>
-            <span>
-              <em>Від</em> 1000 ₴
-            </span>
-          </div>
-          <div className="price-card">
-            <img src="/Price&Services-2.png" alt="Малий диван" />
-            <p className="subtitle">Хімчистка</p>
-
-            <p>Малий диван</p>
-            <span>
-              <em>Від</em> 1200 ₴
-            </span>
-          </div>
-          <div className="price-card">
-            <img src="/Price&Services-3.png" alt="Великий диван" />
-            <p className="subtitle">Хімчистка</p>
-
-            <p>Великий диван</p>
-            <span>
-              <em>Від</em> 1600 ₴
-            </span>
-          </div>
-          <div className="price-card">
-            <img src="/Price&Services-4.png" alt="Кутовий диван малий" />
-            <p className="subtitle">Хімчистка</p>
-
-            <p>Кутовий диван малий</p>
-            <span>
-              <em>Від</em> 2000 ₴
-            </span>
-          </div>
-          <div className="price-card">
-            <img src="/Price&Services-5.png" alt="Кутовий диван великий" />
-            <p className="subtitle">Хімчистка</p>
-
-            <p>Кутовий диван великий</p>
-            <span>
-              <em>Від</em> 2500 ₴
-            </span>
-          </div>
-          <div className="price-card">
-            <img
-              src="/Price&Services-6.png"
-              alt="Кутовий диван з подовженням"
-            />
-            <p className="subtitle">Хімчистка</p>
-
-            <p>Кутовий диван з подовженням</p>
-            <span>
-              <em>Від</em> 3000 ₴
-            </span>
-          </div>
-          <div className="price-card">
-            <img src="/Price&Services-7.png" alt="Шкіряний диван" />
-            <p className="subtitle">Хімчистка</p>
-
-            <p>Шкіряний диван</p>
-            <span>
-              <em>Від</em> 2000 ₴
-            </span>
-          </div>
-          <div className="price-card">
-            <img src="/Price&Services-8.png" alt="Крісло" />
-            <p className="subtitle">Хімчистка</p>
-
-            <p>Крісло</p>
-            <span>
-              <em>Від</em> 500 ₴
-            </span>
-          </div>
-          <div className="price-card">
-            <img src="/Price&Services-9.png" alt="Пуф" />
-            <p className="subtitle">Хімчистка</p>
-
-            <p>Пуф</p>
-            <span>
-              <em>Від</em> 150 ₴
-            </span>
-          </div>
-          <div className="price-card">
-            <img src="/Price&Services-10.png" alt="Стілець" />
-            <p className="subtitle">Хімчистка</p>
-            <p>Стілець</p>
-            <span>
-              <em>Від</em> 150 ₴
-            </span>
-          </div>
-          <div className="price-card">
-            <img src="/Price&Services-11.png" alt="Барний стілець" />
-            <p className="subtitle">Хімчистка</p>
-            <p>Барний стілець</p>
-            <span>
-              <em>Від</em> 200 ₴
-            </span>
-          </div>
-        </div>
-      </section>
+     <WorksCategory category="Матраци" />
     </>
   );
 };
