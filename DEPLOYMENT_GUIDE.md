@@ -25,6 +25,7 @@ gcloud config set app/region us-central
 
 ```
 Django==4.2.0
+
 djangorestframework==3.14.0
 django-cors-headers==4.0.0
 python-decouple==3.8
@@ -32,7 +33,7 @@ gunicorn==21.2.0
 whitenoise==6.4.0
 psycopg2-binary==2.9.6
 google-cloud-storage==2.10.0
-google-cloud-sql-connector==1.4.3
+google-cloud-sql-connector==1.4.3     
 ```
 
 Запустіть:
