@@ -17,6 +17,7 @@
     font-weight: 700;
     margin-bottom: 12px;
     color: #007bff;
+    text-align: center;
   }
 
   &__text {
@@ -26,26 +27,31 @@
   }
 
   &__buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
   }
 
   &__btn {
-    padding: 8px 16px;
-    border: 2px solid #007bff;
-    background: transparent;
-    color: #007bff;
-    border-radius: 24px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: 0.3s;
+  padding: 10px 20px;
+  border: 2px solid #007bff;
+  background: transparent;
+  color: #007bff;
+  border-radius: 24px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s;
 
-    &.active,
-    &:hover {
+  white-space: nowrap;
+
+    &.active {
       background: #007bff;
       color: #fff;
+    }
+
+    &:hover {
+      opacity: 0.8;
     }
   }
 

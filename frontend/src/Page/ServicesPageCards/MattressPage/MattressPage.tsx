@@ -1,5 +1,7 @@
 import { useState } from "react";
 import phoneBlue from "../../../../public/Phone-blue.png";
+import { Breadcrumb } from "../../../Components/Breadcrumb/Breadcrumb";
+import { ensureCsrfToken } from "../../../utils/csrf";
 import { WorksSection } from "../../../Components/BeforeAfterSlider/WorksSection";
 import "../DefaultServicesStyle.scss";
 import { WorksCategory } from "../WorksCategory";
@@ -21,8 +23,12 @@ export const MattressPage = () => {
     formData.append("full_name", full_name);
     formData.append("phone_number", phone_number);
 
+    const csrfToken = await ensureCsrfToken(API_BASE_URL);
     const res = await fetch(CALLBACKS_ENDPOINT, {
       method: "POST",
+      headers: {
+        "X-CSRFToken": csrfToken,
+      },
       body: formData,
       credentials: "include",
     });
@@ -64,6 +70,7 @@ export const MattressPage = () => {
 
   return (
     <>
+      <Breadcrumb current="Матраци" />
       <section className="hero-services">
         <div className="hero-services__content">
           <h1>Хімчистка MaxiClean</h1>
@@ -141,8 +148,37 @@ export const MattressPage = () => {
         </div>
       </section>
 
-      <section>
-        <WorksSection />
+      <section className="ServicesDryCleaners">
+        <div className="ServicesDryCleaners__header">
+          <h2>Коли потрібно проводити хімчистку?</h2>
+        </div>
+        <div className="ServicesDryCleaners__section">
+          <div className="ServicesDryCleaners__item">
+            <img src="/AfterStains.png" alt="deep-cleaning" />
+            <div className="ServicesDryCleaners__item__text">
+              <p className="title">Після появи плям</p>
+              <p>
+                Плями від їжі, напоїв, домашніх тварин потрібно видаляти швидко.
+              </p>
+            </div>
+          </div>
+          <div className="ServicesDryCleaners__item">
+            <img src="/regularCheck-Up.png" alt="chemistry" />
+            <div className="ServicesDryCleaners__item__text">
+              <p className="title">Регулярна профілактика</p>
+              <p>
+                Рекомендовано проводити 1-2 рази на рік для підтримки чистоти.
+              </p>
+            </div>
+          </div>
+          <div className="ServicesDryCleaners__item">
+            <img src="/allergy.png" alt="equipment" />
+            <div className="ServicesDryCleaners__item__text">
+              <p className="title">При алергіях та пилових кліщах</p>
+              <p>Для зниження алергенів та покращення здоров'я мешканців.</p>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section className="ServicesSteps">
@@ -217,7 +253,14 @@ export const MattressPage = () => {
         </div>
       </section>
 
-     <WorksCategory category="Матраци" />
+      <WorksCategory category="Матраци" />
+
+      <section>
+        <h2 className="ServicesPosluga_h2">
+          Послуга - сушка, вже включена до вартості хімчистки
+        </h2>
+        <WorksSection />
+      </section>
     </>
   );
 };

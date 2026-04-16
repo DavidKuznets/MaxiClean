@@ -111,7 +111,7 @@
 }
 
 .submit-button {
-  background-color: #fff; // трохи сіруватий фон
+  background-color: #fff;
   color: #0044cc;
   border: none;
   border-radius: 20px;
@@ -123,11 +123,11 @@
   transition: all 0.2s ease;
 
   &:hover {
-    background-color: #ccc; // трохи темніше при наведенні
+    background-color: #ccc;
   }
 
   &:active {
-    background-color: #bbb; // ефект натискання
+    background-color: #bbb; 
   }
 
   img {
@@ -138,16 +138,13 @@
 
 
 .about-us-text {
-  max-width: 900px;
-  margin: 60px auto;
-  padding: 0 20px;
   text-align: left;
 
   h2 {
     font-size: 32px;
     font-weight: 700;
     margin-bottom: 24px;
-    color: #0044cc; // синій заголовок
+    color: #0044cc; 
     text-align: center;
   }
 
@@ -155,7 +152,9 @@
     font-size: 18px;
     line-height: 1.7;
     margin-bottom: 20px;
-    color: #555; // трохи сіруватий текст
+    color: #555;
+    width: 100%;
+    width: 100%;
   }
 }
 

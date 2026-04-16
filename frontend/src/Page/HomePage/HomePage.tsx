@@ -3,6 +3,7 @@ import { WorksSection } from "../../Components/BeforeAfterSlider/WorksSection";
 import { FeaturesSection } from "../../Components/FeaturesSection/FeaturesSection";
 import { FAQ } from "../../Components/Question/FAQ";
 import { ServiceCards } from "../../Components/ServiceCards/ServiceCards";
+import { ensureCsrfToken } from "../../utils/csrf";
 import "./HomePage.scss";
 
 // API URL configuration
@@ -30,8 +31,12 @@ export const HomePage = () => {
     if (photo) formData.append("photo", photo);
 
     try {
+      const csrfToken = await ensureCsrfToken(API_BASE_URL);
       const res = await fetch(CALLBACKS_ENDPOINT, {
         method: "POST",
+        headers: {
+          "X-CSRFToken": csrfToken,
+        },
         body: formData,
         credentials: "include",
       });
@@ -163,25 +168,6 @@ export const HomePage = () => {
             запитання та розрахувати вартість.
           </p>
 
-          <label className="contact-form__photo-upload">
-            <img
-              src="/ReviewModalImage.png"
-              alt="image"
-              className="contact-form__photo"
-            />
-            <p className="textUp__photo">Перетягніть зображення сюди</p>
-            <p className="textDown__photo">або натисніть, щоб завантажити</p>
-            <input
-              type="file"
-              accept="image/*"
-              hidden
-              onChange={(e) => setContactFile(e.target.files?.[0] || null)}
-            />
-          </label>
-          {contactFile && (
-            <p className="contact-form__file-name">{contactFile.name}</p>
-          )}
-
           <form className="contact-form__form" onSubmit={handleContactSubmit}>
             <input
               type="text"
@@ -205,15 +191,26 @@ export const HomePage = () => {
               Передзвоніть мені
             </button>
           </form>
+          <label className="contact-form__photo-upload">
+            {contactFile ? (
+              <div className="contact-form__preview">
+                <img src={URL.createObjectURL(contactFile)} alt="preview" />
+                <div className="contact-form__overlay">Змінити фото</div>
+              </div>
+            ) : (
+              <div className="contact-form__upload-placeholder">
+                <img src="/ReviewModalImage.png" alt="" />
+                <p className="textUp__photo">Додати фото</p>
+                <p className="textDown__photo">PNG, JPG до 10MB</p>
+              </div>
+            )}
 
-          <label className="contact-form__checkbox">
             <input
-              type="checkbox"
-              name="consent"
-              checked={consentChecked}
-              onChange={(e) => setConsentChecked(e.target.checked)}
+              type="file"
+              accept="image/*"
+              hidden
+              onChange={(e) => setContactFile(e.target.files?.[0] || null)}
             />
-            Даю згоду на обробку своїх персональних даних
           </label>
         </div>
       </section>

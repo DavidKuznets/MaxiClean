@@ -1,5 +1,7 @@
 import { useState } from "react";
 import phoneBlue from "../../../../public/Phone-blue.png";
+import { Breadcrumb } from "../../../Components/Breadcrumb/Breadcrumb";
+import { ensureCsrfToken } from "../../../utils/csrf";
 import { WorksSection } from "../../../Components/BeforeAfterSlider/WorksSection";
 import "../DefaultServicesStyle.scss";
 import { WorksCategory } from "../WorksCategory";
@@ -21,8 +23,12 @@ export const ChairPage = () => {
     formData.append("full_name", full_name);
     formData.append("phone_number", phone_number);
 
+    const csrfToken = await ensureCsrfToken(API_BASE_URL);
     const res = await fetch(CALLBACKS_ENDPOINT, {
       method: "POST",
+      headers: {
+        "X-CSRFToken": csrfToken,
+      },
       body: formData,
       credentials: "include",
     });
@@ -64,6 +70,7 @@ export const ChairPage = () => {
 
   return (
     <>
+      <Breadcrumb current="Стільці" />
       <section className="hero-services">
         <div className="hero-services__content">
           <h1>Хімчистка MaxiClean</h1>

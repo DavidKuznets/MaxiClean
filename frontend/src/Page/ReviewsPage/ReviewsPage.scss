@@ -1,6 +1,5 @@
 .reviews {
-  padding: 40px 20px;
-  max-width: 1200px;
+  max-width: 1500px;
   margin: 0 auto;
 }
 
@@ -247,6 +246,7 @@
   border-radius: 50%;
   object-fit: cover;
   background: #f2f2f2;
+  flex-shrink: 0;
 }
 
 .review-card__avatar--placeholder {
@@ -259,6 +259,7 @@
   align-items: center;
   justify-content: center;
   font-weight: 700;
+  flex-shrink: 0;
 }
 
 .review-card__meta {
@@ -314,13 +315,46 @@
   margin-top: auto;
 }
 
-/* ===== Mobile ===== */
-@media (max-width: 600px) {
+@media (max-width: 900px) {
+  .reviews__grid {
+    column-count: unset;        // ❌ вимикаємо masonry
+    display: grid;              // ✅ нормальний layout
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .review-card {
+    margin-bottom: 0;           // бо тепер gap керує
+  }
+}
+
+@media (max-width: 700px) {
+  .reviews__grid {
+    grid-template-columns: 1fr; // 🔥 1 картка в ряд
+  }
+}
+
+@media (max-width: 880px) {
   .reviews__filters {
-    button.primary {
-      margin-left: 0;
-      width: 100%;
-    }
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .dropdown-wrapper {
+    flex: 1 1 calc(50% - 10px);
+    min-width: unset;
+  }
+
+  .dropdown-trigger {
+    width: 100%;
+  }
+
+  .reviews__filters .primary {
+    flex: 1 1 100%; 
+    max-width: 320px;
+    margin: 10px auto 0;
+
+    justify-content: center;
   }
 }
 

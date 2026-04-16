@@ -1,4 +1,4 @@
-import './ContactsPageDetails.scss'
+import "./ContactsPageDetails.scss";
 import {
   FaPhoneAlt,
   FaMapMarkerAlt,
@@ -11,14 +11,15 @@ export const ContactsPageDetails = () => {
   return (
     <div className="contacts">
       <div className="contacts__container">
-
         <div className="contacts__item">
           <span className="contacts__icon">
             <FaPhoneAlt />
           </span>
           <div>
             <div className="contacts__label">Телефон</div>
-            <div className="contacts__value"><b>(073) 388-38-98</b></div>
+            <div className="contacts__value">
+              <b>(073) 388-38-98</b>
+            </div>
           </div>
         </div>
 
@@ -28,7 +29,9 @@ export const ContactsPageDetails = () => {
           </span>
           <div>
             <div className="contacts__label">Адреса</div>
-            <div className="contacts__value"><b>м. Київ та Київська область</b></div>
+            <div className="contacts__value">
+              <b>м. Київ та Київська область</b>
+            </div>
           </div>
         </div>
 
@@ -38,20 +41,31 @@ export const ContactsPageDetails = () => {
           </span>
           <div>
             <div className="contacts__label">Графік роботи</div>
-            <div className="contacts__value"><b>Пн–Пт з 08:00 до 21:00</b></div>
+            <div className="contacts__value">
+              <b>Пн–Пт з 08:00 до 20:00</b>
+            </div>
           </div>
         </div>
 
         <div className="contacts__socials">
-          <a href="#" className="contacts__social">
+          <a
+            href="https://www.facebook.com/maxiclean.time"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="contacts__social"
+          >
             <FaFacebookF />
           </a>
-          <a href="#" className="contacts__social">
+          <a
+            href="https://www.instagram.com/maxicleantime?igsh=MXB0ZGZia2VyNWdhag=="
+            target="_blank"
+            rel="noopener noreferrer"
+            className="contacts__social"
+          >
             <FaInstagram />
           </a>
         </div>
-
       </div>
     </div>
-  )
+  );
 };

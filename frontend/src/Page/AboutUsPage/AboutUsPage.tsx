@@ -1,6 +1,7 @@
 import { WorksSection } from "../../Components/BeforeAfterSlider/WorksSection";
 import { FeaturesSection } from "../../Components/FeaturesSection/FeaturesSection";
 import { FAQ } from "../../Components/Question/FAQ";
+import { ensureCsrfToken } from "../../utils/csrf";
 import "./AboutUsPage.scss";
 
 export const AboutUsPage = () => {
@@ -20,9 +21,15 @@ export const AboutUsPage = () => {
     const formData = new FormData(form);
 
     try {
-      const res = await fetch("http://127.0.0.1:8000/api/v1/callbacks/", {
+      const apiUrl = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+      const csrfToken = await ensureCsrfToken(apiUrl);
+      const res = await fetch(`${apiUrl}/api/v1/callbacks/`, {
         method: "POST",
+        headers: {
+          "X-CSRFToken": csrfToken,
+        },
         body: formData,
+        credentials: "include",
       });
 
       if (!res.ok) throw new Error("Помилка відправки форми");

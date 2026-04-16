@@ -1,3 +1,5 @@
+from django.http import JsonResponse
+from django.middleware.csrf import get_token
 from rest_framework import viewsets, mixins
 from rest_framework.permissions import AllowAny
 from django_filters.rest_framework import DjangoFilterBackend
@@ -98,3 +100,8 @@ class CallbackRequestViewSet(
     queryset = CallbackRequest.objects.all()
     serializer_class = CallbackRequestSerializer
     permission_classes = [AllowAny]
+
+
+def csrf_token(request):
+    token = get_token(request)
+    return JsonResponse({"csrfToken": token})

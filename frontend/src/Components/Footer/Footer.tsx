@@ -16,13 +16,25 @@ export const Footer = () => {
           <div className="footer__info">
             <p className="footer__city">м. Київ та область</p>
             <p className="footer__schedule">
-              Графік роботи: Пн-Пт з 08:00 до 21:00
+              Графік роботи: Пн-Пт з 08:00 до 20:00
             </p>
           </div>
         </div>
         <div className="footer__logoSite">
-          <img src="/instagram.png" alt="instagram" />
-          <img src="/facebook.png" alt="facebook" />
+          <a
+            href="https://www.instagram.com/maxicleantime?igsh=MXB0ZGZia2VyNWdhag=="
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img src="/instagram.png" alt="instagram" />
+          </a>
+          <a
+            href="https://www.facebook.com/maxiclean.time"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img src="/facebook.png" alt="facebook" />
+          </a>
         </div>
       </div>
 

@@ -4,6 +4,7 @@ margin: 0;
 
 .contacts-info--with-margin {
   margin-top: 60px;
+  margin-bottom: 80px;
 }
 
 /* ===========================
@@ -86,9 +87,79 @@ margin: 0;
   cursor: pointer;
 }
 
-.contacts-form button img {
+.contacts-form  img {
   width: 16px;
   height: 16px;
+}
+
+.form-img {
+  width: 16px;
+  height: 16px;
+}
+
+.contacts-upload {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 22px;
+  margin-bottom: 16px;
+  border: 1px solid rgba(0, 66, 219, 0.18);
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(0, 66, 219, 0.08) 0%, rgba(255, 255, 255, 0.95) 100%);
+  box-shadow: 0 20px 60px rgba(0, 66, 219, 0.08);
+  color: #0042DB;
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+
+  input {
+    display: none;
+  }
+}
+
+.contacts-upload:hover {
+  transform: translateY(-2px);
+  border-color: rgba(0, 66, 219, 0.3);
+  box-shadow: 0 28px 80px rgba(0, 66, 219, 0.12);
+}
+
+.form-img {
+  width: 52px;
+  height: 52px;
+  border-radius: 18px;
+  object-fit: contain;
+  border: 1px solid rgba(0, 66, 219, 0.18);
+  background: rgba(255, 255, 255, 0.8);
+  padding: 10px;
+}
+
+.textUp__photo,
+.textDown__photo {
+  margin: 0;
+}
+
+.textUp__photo {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #002c99;
+}
+
+.textDown__photo {
+  font-size: 13px;
+  color: rgba(0, 66, 219, 0.78);
+}
+
+.contacts-upload__file {
+  display: inline-flex;
+  align-self: flex-start;
+  margin-top: 4px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(0, 66, 219, 0.12);
+  color: #002c99;
+  font-size: 13px;
+  font-weight: 700;
+  word-break: break-word;
 }
 
 /* ===========================
@@ -238,4 +309,3 @@ margin: 0;
     justify-content: center;
   }
 }
-

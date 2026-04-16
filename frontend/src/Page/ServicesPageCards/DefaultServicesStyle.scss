@@ -201,17 +201,26 @@
   margin-bottom: 12px;
 }
 
+  .ServicesPosluga_h2 {
+    font-size: 1,5rem;
+    font-weight: 700;
+    color: #0044cc;
+    text-align: center;
+    margin: 0;
+    padding-top: 15px;
+  }
+
 .ServicesPrices {
   padding: 0;
   margin: 0 auto;
 
-  h2 {
-    font-size: 2rem;
+  .ServicesPrices_h2 {
+    font-size: 1,5rem;
     font-weight: 700;
     color: #0044cc;
-    text-align: left;
+    text-align: center;
     margin: 0;
-    padding-top: 40px;
+    padding-bottom: 25px;
   }
 
   &__grid {
@@ -361,9 +370,9 @@
 }
 
 @media (max-width: 1500px) {
-  .ServicesPrices__grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
+  // .ServicesPrices__grid {
+  //   grid-template-columns: repeat(3, 1fr);
+  // }
 }
 
 @media (max-width: 1100px) {

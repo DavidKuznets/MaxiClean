@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import "./ContactsPage.scss";
 import { ContactsPageDetails } from "../../Components/ContactsPageDetails/ContactsPageDetails";
 import { FAQ } from "../../Components/Question/FAQ";
+import { ensureCsrfToken } from "../../utils/csrf";
 
 export const ContactsPage = () => {
   const [consentChecked, setConsentChecked] = useState(false);
+  const [photo, setPhoto] = useState<File | null>(null);
 
   const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
   const CALLBACKS_ENDPOINT = `${API_BASE_URL}/api/v1/callbacks/`;
@@ -24,8 +26,12 @@ export const ContactsPage = () => {
     formData.append("addition", addition);
     if (photo) formData.append("photo", photo);
 
+    const csrfToken = await ensureCsrfToken(API_BASE_URL);
     const res = await fetch(CALLBACKS_ENDPOINT, {
       method: "POST",
+      headers: {
+        "X-CSRFToken": csrfToken,
+      },
       body: formData,
       credentials: "include",
     });
@@ -50,10 +56,11 @@ export const ContactsPage = () => {
     const form = e.currentTarget;
 
     try {
-      await submitCallback(form);
+      await submitCallback(form, photo);
       alert("Заявку відправлено успішно!");
       form.reset();
-      setConsentChecked(false); // скидаємо чекбокс
+      setConsentChecked(false);
+      setPhoto(null);
     } catch (err) {
       console.error(err);
       alert(
@@ -95,6 +102,20 @@ export const ContactsPage = () => {
               Передзвоніть мені
             </button>
           </form>
+
+          <label className="contacts-upload">
+            <input
+              type="file"
+              accept="image/png,image/jpeg,image/webp"
+              onChange={(e) => setPhoto(e.target.files?.[0] || null)}
+            />
+            <img className="form-img" src="/ReviewModalImage.png" alt="" />
+            <p className="textUp__photo">Додати фото</p>
+            <p className="textDown__photo">PNG, JPG до 10MB</p>
+            {photo && (
+              <span className="contacts-upload__file">{photo.name}</span>
+            )}
+          </label>
 
           <label className="contacts-consent">
             <input

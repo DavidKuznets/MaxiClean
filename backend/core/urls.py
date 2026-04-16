@@ -8,7 +8,8 @@ from .views import (
 	ServiceWorkViewSet,
 	QuestionViewSet,
 	OurStaffViewSet,
-	CallbackRequestViewSet
+	CallbackRequestViewSet,
+	csrf_token,
 )
 
 router = routers.DefaultRouter()
@@ -21,7 +22,7 @@ router.register("questions", QuestionViewSet)
 router.register("staff", OurStaffViewSet)
 router.register("callbacks", CallbackRequestViewSet)
 
-
 urlpatterns = [
 	path("", include(router.urls)),
+	path("csrf/", csrf_token, name="csrf-token"),
 ]

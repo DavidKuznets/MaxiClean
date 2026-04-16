@@ -1,7 +1,10 @@
 import { useState } from "react";
 import phoneBlue from "../../../../public/Phone-blue.png";
+import { Breadcrumb } from "../../../Components/Breadcrumb/Breadcrumb";
+import { ensureCsrfToken } from "../../../utils/csrf";
 import "../DefaultServicesStyle.scss";
 import { WorksCategory } from "../WorksCategory";
+import { WorksSection } from "../../../Components/BeforeAfterSlider/WorksSection";
 
 export const CarpetsPage: React.FC = () => {
   const [consentChecked, setConsentChecked] = useState(false);
@@ -20,8 +23,12 @@ export const CarpetsPage: React.FC = () => {
     formData.append("full_name", full_name);
     formData.append("phone_number", phone_number);
 
+    const csrfToken = await ensureCsrfToken(API_BASE_URL);
     const res = await fetch(CALLBACKS_ENDPOINT, {
       method: "POST",
+      headers: {
+        "X-CSRFToken": csrfToken,
+      },
       body: formData,
       credentials: "include",
     });
@@ -60,6 +67,7 @@ export const CarpetsPage: React.FC = () => {
 
   return (
     <>
+      <Breadcrumb current="Килимові покриття" />
       {/* Hero */}
       <section className="hero-services">
         <div className="hero-services__content">
@@ -168,7 +176,81 @@ export const CarpetsPage: React.FC = () => {
           </div>
         </div>
       </section>
-       <WorksCategory category="Килими" />
+      <section className="ServicesSteps">
+        <h2>6 етапів професійної хімчистки м'яких меблів</h2>
+        <div className="ServicesSteps__list">
+          <div className="step">
+            <div className="step__header">
+              <span>1</span>
+              <p className="step__title">Огляд та аналіз</p>
+            </div>
+            <p className="step__desc">
+              Наші спеціалісти оцінюють стан меблів, визначають тип тканини та
+              рівень забруднення. Це дозволяє підібрати оптимальні засоби та
+              методи очищення.
+            </p>
+          </div>
+
+          <div className="step">
+            <div className="step__header">
+              <span>2</span>
+              <p className="step__title">Попереднє сухе очищення</p>
+            </div>
+            <p className="step__desc">
+              Видаляємо пил, крихти та сухі забруднення за допомогою
+              професійного пилососа — готуємо меблі до глибшої обробки.
+            </p>
+          </div>
+
+          <div className="step">
+            <div className="step__header">
+              <span>3</span>
+              <p className="step__title">Обробка складних плям</p>
+            </div>
+            <p className="step__desc">
+              Застосовуємо спеціалізовані засоби для делікатного та ефективного
+              видалення плям від їжі, напоїв, жирних та інших забруднень.
+            </p>
+          </div>
+
+          <div className="step">
+            <div className="step__header">
+              <span>4</span>
+              <p className="step__title">Глибоке очищення</p>
+            </div>
+            <p className="step__desc">
+              Потужним екстрактором виводимо глибокі забруднення, пилові кліщі,
+              алергени та залишки плям із усіх шарів оббивки.
+            </p>
+          </div>
+
+          <div className="step">
+            <div className="step__header">
+              <span>5</span>
+              <p className="step__title">Нейтралізація запахів</p>
+            </div>
+            <p className="step__desc">
+              Використовуємо спеціальні засоби, які усувають причини неприємних
+              запахів, замість їх маскування. Ваші меблі пахнуть свіжістю.
+            </p>
+          </div>
+
+          <div className="step">
+            <div className="step__header">
+              <span>6</span>
+              <p className="step__title">Ополіскування та сушка</p>
+            </div>
+            <p className="step__desc">
+              Ретельно видаляємо залишки засобів і зайву вологу, що скорочує час
+              висихання і запобігає появі розводів або плісняви.
+            </p>
+          </div>
+        </div>
+      </section>
+      <WorksCategory category="Килими" />
+      <section>
+        <WorksSection />
+      </section>
     </>
   );
 };

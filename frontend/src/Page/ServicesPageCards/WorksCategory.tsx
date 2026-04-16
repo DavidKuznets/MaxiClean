@@ -42,7 +42,7 @@ export const WorksCategory: React.FC<WorksCategoryProps> = ({ category }) => {
 
   return (
     <section className="ServicesPrices">
-      <h2>Ціни на послуги</h2>
+      <h2 className="ServicesPrices_h2">Ціни на послуги</h2>
 
       <div className="ServicesPrices__grid">
         {works.map((work) => (
@@ -65,7 +65,6 @@ export const WorksCategory: React.FC<WorksCategoryProps> = ({ category }) => {
           </div>
         ))}
       </div>
-         <h2>УВАГА, сушка меблів + 40% до вартості хімчистки</h2>
     </section>
   );
 };

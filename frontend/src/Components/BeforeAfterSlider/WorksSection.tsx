@@ -6,8 +6,8 @@ import { useLocation } from "react-router-dom";
 
 const works = {
   Матраци: {
-    before: "/before-1.jpg",
-    after: "/after-1.jpg",
+    before: "/before-8.jpg",
+    after: "/after-8.jpg",
   },
   "Килимові покриття": {
     before: "/before-6.png",

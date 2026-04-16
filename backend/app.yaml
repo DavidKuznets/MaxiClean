@@ -1,0 +1,35 @@
+runtime: python39
+
+env: standard
+
+entrypoint: gunicorn config.wsgi:application --bind 0.0.0.0:8080
+
+env_variables:
+  DEBUG: "False"
+  ALLOWED_HOSTS: "maxiclean.time,www.maxiclean.time"
+  CSRF_TRUSTED_ORIGINS: "https://maxiclean.time,https://www.maxiclean.time"
+
+handlers:
+  - url: /static
+    static_dir: staticfiles/
+  - url: /media
+    static_dir: media/
+  - url: /.*
+    script: auto
+    secure: always
+    redirect_http_response_code: 301
+
+automatic_scaling:
+  min_instances: 1
+  max_instances: 5
+  min_cpu_utilization: 0.5
+
+health_check:
+  enable_health_check: true
+  check_interval_sec: 30
+  timeout_sec: 4
+  unhealthy_threshold: 2
+  healthy_threshold: 2
+  host: localhost
+  port: 8080
+  path: /admin/

@@ -53,8 +53,33 @@
     }
   }
 
+@media (max-width: 1400px) and (min-width: 900px) {
+  .features {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .features__grid {
+    display: flex;          
+    justify-content: center; 
+    gap: 30px;
+    flex-wrap: nowrap;   
+  }
+
+  .feature-card {
+    width: 120px;
+    height: 120px;
+    flex-shrink: 0;       
+  }
+
+  .features__image {
+    display: none;
+  }
+}
+
   // Адаптив
-  @media (max-width: 1399px) {
+  @media (max-width: 899px) {
     flex-direction: column;
 
     &__grid {
@@ -78,5 +103,30 @@
     &__image img {
       display: none;
     }
+  }
+}
+
+@media (max-width: 1400px) and (min-width: 900px) {
+  .features {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .features__grid {
+    display: flex;          
+    justify-content: center; 
+    gap: 30px;
+    flex-wrap: nowrap;   
+  }
+
+  .feature-card {
+    width: 120px;
+    height: 120px;
+    flex-shrink: 0;       
+  }
+
+  .features__image {
+    display: none;
   }
 }
